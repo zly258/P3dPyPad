@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage
+    SchemaVersion="1.0"
+    AutodeskProduct="AutoCAD"
+    Name="Plant 3D 参数化构件工具集"
+    Description="AutoCAD Plant 3D 参数化构件单件测试与批量测试插件"
+    AppVersion="1.0.0"
+    ProductType="Application"
+    ProductCode="{B6E2A1C4-8F0D-4C3A-9E21-7A5D4C2B10E8}"
+    Author="P3dPyPad">
+  <CompanyDetails Name="P3dPyPad" />
+  <Components Description="参数化构件测试工具集">
+    <RuntimeRequirements
+        OS="Win64"
+        Platform="Plant3D"
+        SeriesMin="R22.0"
+        SeriesMax="R26.0" />
+    <ComponentEntry
+        AppName="P3dPyPad"
+        Version="1.0.0"
+        ModuleName="./Contents/P3dPyPad.dll"
+        AppDescription="Plant 3D 参数化构件单件调试、批量测试与自动化出图工具"
+        LoadOnAutoCADStartup="True"
+        LoadOnCommandInvocation="True">
+      <Commands GroupName="参数化构件">
+        <Command Global="PYPAD" Local="PYPAD" />
+        <Command Global="PYBATCH" Local="PYBATCH" />
+        <Command Global="PYBATCH_RUN" Local="PYBATCH_RUN" />
+        <Command Global="PYLANG" Local="PYLANG" />
+        <Command Global="PYABOUT" Local="PYABOUT" />
+      </Commands>
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>

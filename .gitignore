@@ -1,0 +1,63 @@
+# ---- .NET ----
+bin/
+obj/
+build/
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+packages/
+TestResults/
+
+# ---- Python ----
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# ---- 打包与绘图产物 ----
+installer/output/*
+!installer/output/P3dPyPad-Setup-*.exe
+!installer/output/P3dPyPad-Plugin-Setup-*.exe
+test_output/
+cad_renders/
+**/cad_renders/
+*.dwg
+*.dwl
+*.dwl2
+*.bak
+*.flag
+*.dxf
+*.pdf
+a_*.py
+tmp*
+temp/
+*.tmp
+# PyInstaller 规格文件由 installer/build_occ_exe.py 每次重新生成（含本机绝对路径）
+installer/*.spec
+*.zip
+
+# ---- 编辑器 / 临时文件 ----
+.zcode/
+cad_renders/
+_raw/
+*.png
+!docs/images/*.png
+!plant3d_occ/gui/app_icon.png
+!plant3d_occ/gui/icons/*.png
+# WPF 离屏渲染工具（tools/render）的截图与诊断输出
+.render-out*/
+
+# 外形验收脚本的输出（可随时重跑 tools/verify_shapes.py 再生成）
+.verify-shapes.json
+.verify-shapes.log
+
+# 系统构件反编译的暂存输出（核对后再决定是否并入 pyscripts/system_defaults）
+.staged-system-defaults/
+.staged.log
+.shapes2.log
+.shapes2.json
+.staged-shapes.json
+.staged-shapes.log

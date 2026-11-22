@@ -1,0 +1,81 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    程序集名与根命名空间保持英文 P3dPyPad（Autodesk 加载、pack:// 资源 URI
+    与安装包路径都依赖它），对外显示名走 Directory.Build.props 里的中文常量。
+  -->
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Library</OutputType>
+    <AssemblyName>P3dPyPad</AssemblyName>
+    <RootNamespace>P3dPyPad</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Version>1.0.0</Version>
+
+    <AssemblyTitle>$(ProductDisplayName)</AssemblyTitle>
+    <Product>$(ProductDisplayName)</Product>
+    <Description>$(ProductDescription)</Description>
+    <Company>P3dPyPad</Company>
+    <Copyright>Copyright © 2026</Copyright>
+    <NeutralLanguage>zh-Hans</NeutralLanguage>
+
+    <NoWarn>$(NoWarn);MSB3270</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\installer\PackageContents.xml" Link="PackageContents.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+    <!-- AutoCAD 核心基础托管程序集 (免复杂 CAD 专有依赖) -->
+    <Reference Include="accoremgd">
+      <HintPath>$(CadLibPath)\accoremgd.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="acdbmgd">
+      <HintPath>$(CadLibPath)\acdbmgd.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="acmgd">
+      <HintPath>$(CadLibPath)\acmgd.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- AutoCAD 原生 Ribbon 界面接口 (由 AutoCAD 进程直接提供) -->
+    <Reference Include="AdWindows">
+      <HintPath>$(CadLibPath)\AdWindows.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- 自动部署到 AutoCAD ApplicationPlugins 目录，实现免 NETLOAD 启动自加载 -->
+  <Target Name="DeployToApplicationPlugins" AfterTargets="Build" Condition="'$(SkipBundleDeploy)' != 'true'">
+    <PropertyGroup>
+      <BundleDir>$(ProgramData)\Autodesk\ApplicationPlugins\P3dPyPad.bundle</BundleDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <BundleRootFiles Include="$(MSBuildProjectDirectory)\..\..\installer\PackageContents.xml" />
+      <BundleRootFiles Include="$(MSBuildProjectDirectory)\..\..\installer\app_icon.ico" />
+      <BundleContentsFiles Include="$(TargetDir)$(TargetName).*" />
+      <BundleContentsFiles Include="$(TargetDir)ICSharpCode.AvalonEdit.dll" />
+      <BundleResourceFiles Include="$(TargetDir)Resources\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(BundleRootFiles)" DestinationFolder="$(BundleDir)" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Copy SourceFiles="@(BundleContentsFiles)" DestinationFolder="$(BundleDir)\Contents" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Copy SourceFiles="@(BundleResourceFiles)" DestinationFolder="$(BundleDir)\Contents\Resources\%(RecursiveDir)" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Message Importance="High" Text="[P3dPyPad] 已自动部署 Bundle 插件到: $(BundleDir) (AutoCAD 启动将自动加载)" />
+  </Target>
+
+</Project>

@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    WPF 界面离屏渲染工具。
+    目的：不启动 AutoCAD，也能把 P3dPyPad 的每个窗口按真实尺寸渲染成 PNG，
+    用于人工与自动化的「控件遮挡 / 截断 / 弹层被裁」检查。
+
+    用法：
+      dotnet run (project) tools/render (config) Debug (arg) out .render-out
+      dotnet run (project) tools/render (config) Debug (arg) out .render-out (arg) scale 1.5
+
+    产物：
+      <out>/<window>.png              窗口整体截图
+      <out>/<window>.dropdown.png     逐个 ComboBox 展开后的截图（验证弹层不被裁）
+      <out>/report.json               每个窗口的可视树诊断结果
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>7.3</LangVersion>
+    <AssemblyName>RenderWpfViews</AssemblyName>
+    <RootNamespace>P3dPyPad.RenderTools</RootNamespace>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- 本工具只做渲染，不需要 AutoCAD 在进程内初始化。 -->
+    <PlatformTarget>x64</PlatformTarget>
+    <NoWarn>$(NoWarn);MSB3270</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 被测插件本体 -->
+    <Reference Include="P3dPyPad">
+      <HintPath>$(MSBuildThisFileDirectory)..\..\build\bin\Debug\P3dPyPad.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>$(MSBuildThisFileDirectory)..\..\build\bin\Debug\ICSharpCode.AvalonEdit.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 窗口代码后置引用了 AutoCAD 托管类型，加载程序集时需要能解析到。
+         这些 DLL 不能随工具分发，只在构建输出目录里就近复制一份供运行时解析。 -->
+    <Reference Include="accoremgd">
+      <HintPath>$(CadLibPath)\accoremgd.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="acdbmgd">
+      <HintPath>$(CadLibPath)\acdbmgd.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="acmgd">
+      <HintPath>$(CadLibPath)\acmgd.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="AdWindows">
+      <HintPath>$(CadLibPath)\AdWindows.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

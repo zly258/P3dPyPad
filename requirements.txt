@@ -1,0 +1,14 @@
+# AutoCAD Plant 3D OpenCASCADE (OCC) 离线仿真与 3D 渲染引擎依赖清单
+
+# 核心 3D 几何内核 (推荐使用 Conda 安装以确保原生 OpenCASCADE C++ 绑定兼容)
+# conda install -c conda-forge pythonocc-core
+pythonocc-core>=7.7.0
+
+# 现代化桌面 GUI 框架
+PySide6>=6.5.0
+
+# 2D/3D 多视图离屏绘图与标注
+matplotlib>=3.7.0
+
+# 图像合成与工程四视图拼接
+Pillow>=9.5.0
