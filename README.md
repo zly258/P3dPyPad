@@ -9,11 +9,12 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="License: GPL v3" /></a>
   <img src="https://img.shields.io/badge/AutoCAD_Plant_3D-2019~2026-brightgreen.svg" alt="Plant 3D Compatibility" />
   <img src="https://img.shields.io/badge/.NET_Framework-4.7.2~4.8-purple.svg" alt=".NET Framework" />
   <img src="https://img.shields.io/badge/Python-3.10%20%7C%20OCC%207.7+-yellow.svg" alt="Python & PyOCC" />
   <a href="https://github.com/zly258"><img src="https://img.shields.io/badge/Author-zly258-orange.svg" alt="Author GitHub" /></a>
+  <a href="https://ifdian.net/order/create?user_id=3db8e630e6dc11f1b37452540025c377"><img src="https://img.shields.io/badge/Sponsor-%E7%88%B1%E5%8F%91%E7%94%B5-946ce6.svg" alt="Sponsor on Afdian" /></a>
 </p>
 
 一套专为 **AutoCAD Plant 3D (2019 ~ 2026)** 深度定制的高性能、工程级**参数化构件设计、实时热更新调试、全自动批量测试与 PyOCC 离线仿真工作台**。
@@ -163,7 +164,7 @@ P3dPyPad/
 │   ├── Core/                        # 脚本解析器、热更新运行器与双语切换
 │   └── Views/                       # 单件测试器、批量测试器与关于窗口
 ├── tests/                           # 单元测试与拓扑回归测试套件 (100% 通过)
-├── LICENSE                          # MIT 开源许可证
+├── LICENSE                          # GNU GPL v3 开源许可证
 ├── README.md                        # 项目官方中文文档
 └── README_EN.md                     # 项目官方英文文档 (English)
 ```
@@ -241,7 +242,8 @@ s.setLinearDimension("L", (0.0, 0.0, -r_flange), (L, 0.0, -r_flange))
 
 ## 🤝 开源协议与交流共建
 
-- **开源协议**：本项目基于 [MIT License](LICENSE) 许可开源发布，允许自由使用、修改及商用。
+- **开源协议**：本项目基于 [GNU GPL v3 (GPL-3.0)](LICENSE) 开源协议发布，允许免费使用、学习与修改；任何基于本项目的二次开发或分发衍生作品须同样以 GPL v3 协议开源。
+- **打赏支持**：如果本项目对你的工作与学习有帮助，欢迎通过 [爱发电 (Afdian)](https://ifdian.net/order/create?user_id=3db8e630e6dc11f1b37452540025c377) 赞助支持作者持续维护！
 - **作者与主页**：[zly258 (zhangly1403)](https://github.com/zly258)
 - **致谢**：感谢 Google DeepMind Gemini 4 在全流程开发、几何算法实现与代码重构中提供的强劲辅助。
 - 欢迎提交 Issue 与 Pull Request，共同推动工厂设计三维参数化构件生态的标准化与现代化！

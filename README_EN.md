@@ -9,16 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="License: GPL v3" /></a>
   <img src="https://img.shields.io/badge/AutoCAD_Plant_3D-2019~2026-brightgreen.svg" alt="Plant 3D Compatibility" />
   <img src="https://img.shields.io/badge/.NET_Framework-4.7.2~4.8-purple.svg" alt=".NET Framework" />
   <img src="https://img.shields.io/badge/Python-3.10%20%7C%20OCC%207.7+-yellow.svg" alt="Python & PyOCC" />
   <a href="https://github.com/zly258"><img src="https://img.shields.io/badge/Author-zly258-orange.svg" alt="Author GitHub" /></a>
+  <a href="https://ifdian.net/order/create?user_id=3db8e630e6dc11f1b37452540025c377"><img src="https://img.shields.io/badge/Sponsor-Afdian-946ce6.svg" alt="Sponsor on Afdian" /></a>
 </p>
 
 A high-performance, engineering-grade toolkit for **AutoCAD Plant 3D (2019 ~ 2026)**, integrating **parametric component design, real-time hot reload debugging, automated batch verification, and a standalone PyOCC offline simulation workbench**.
 
-Architected and developed with end-to-end assistance from **Google Gemini 4** under test-driven development (TDD). Integrates **334+ industrial-grade parametric component scripts** and released as open source under the MIT License. Contributions and discussions from piping designers and CAD developers worldwide are warmly welcome!
+Architected and developed with end-to-end assistance from **Google Gemini 4** under test-driven development (TDD). Integrates **334+ industrial-grade parametric component scripts** and released as open source under the GNU GPL v3 License. Contributions and discussions from piping designers and CAD developers worldwide are warmly welcome!
 
 ---
 
@@ -163,7 +164,7 @@ P3dPyPad/
 │   ├── Core/                        # Script parser, hot-reload runner & i18n
 │   └── Views/                       # Script pad, batch tester & about dialogs
 ├── tests/                           # Unit tests & topological regression suites
-├── LICENSE                          # MIT License
+├── LICENSE                          # GNU GPL v3 License
 ├── README.md                        # Official documentation (Chinese)
 └── README_EN.md                     # Official documentation (English)
 ```
@@ -241,7 +242,8 @@ s.setLinearDimension("L", (0.0, 0.0, -r_flange), (L, 0.0, -r_flange))
 
 ## 🤝 Open Source License & Community
 
-- **License**: Released under the [MIT License](LICENSE), permitting free commercial use, modification, and distribution.
+- **License**: Released under the [GNU GPL v3 (GPL-3.0)](LICENSE) license — free to use, study, and modify; any derivative works distributed based on this project must also be open-sourced under GPL v3.
+- **Sponsor / Donate**: If this project helps your workflow, feel free to support the author via [Afdian](https://ifdian.net/order/create?user_id=3db8e630e6dc11f1b37452540025c377).
 - **Author & GitHub**: [zly258 (zhangly1403)](https://github.com/zly258)
 - **Acknowledgments**: Gratefully acknowledging Google DeepMind Gemini 4 for its pivotal role throughout architecture design, geometric algorithms, and code generation.
 - Issues and Pull Requests are warmly encouraged as we work together to advance and standardize the plant design parametric modeling ecosystem!
