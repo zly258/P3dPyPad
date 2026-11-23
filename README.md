@@ -5,6 +5,10 @@
 </p>
 
 <p align="center">
+  <a href="README.md"><b>简体中文</b></a> | <a href="README_EN.md"><b>English</b></a>
+</p>
+
+<p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
   <img src="https://img.shields.io/badge/AutoCAD_Plant_3D-2019~2026-brightgreen.svg" alt="Plant 3D Compatibility" />
   <img src="https://img.shields.io/badge/.NET_Framework-4.7.2~4.8-purple.svg" alt=".NET Framework" />
@@ -160,7 +164,8 @@ P3dPyPad/
 │   └── Views/                       # 单件测试器、批量测试器与关于窗口
 ├── tests/                           # 单元测试与拓扑回归测试套件 (100% 通过)
 ├── LICENSE                          # MIT 开源许可证
-└── README.md                        # 项目官方中文文档
+├── README.md                        # 项目官方中文文档
+└── README_EN.md                     # 项目官方英文文档 (English)
 ```
 
 ---
