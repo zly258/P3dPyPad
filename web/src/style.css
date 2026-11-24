@@ -1,0 +1,817 @@
+/* -*- coding: utf-8 -*- */
+/**
+ * P3dPyPad Web - WPF UI Style (工程级浅色明亮界面规范 - Crisp Engineering Light Theme)
+ * 严格对齐 wpf-ui-style 设计系统与工业桌面 CAD 规范：
+ * - 默认中等密度 (ControlHeight: 30px / Small: 26px)
+ * - 全浅色明朗主题 (Light Theme)，无压抑暗色，字体与边框高对比度清晰锐利
+ * - 纯正工程正交视口，零网格，零惯性，停手即止
+ * - 纯文本设计，严格零图标、零 emoji
+ * - 状态契约明确 (修改背景必须显式指定前景与边框，禁用态禁止使用 Opacity)
+ * - 布局安全防截断 (标签弹性最小宽度，长文本自带 ToolTip)
+ */
+
+:root {
+  /* ================= 1. 字体阶梯 (Typography - Google Fonts) ================= */
+  --wpf-font-sans: "Roboto", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --wpf-font-mono: "Roboto Mono", "Cascadia Code", Consolas, monospace;
+
+  --wpf-font-size-display: 14px;
+  --wpf-font-size-title: 13px;
+  --wpf-font-size-body: 12px;
+  --wpf-font-size-caption: 11.5px;
+  --wpf-font-size-micro: 10px;
+
+  /* ================= 2. 尺寸与间距令牌 (Density: Medium Default) ================= */
+  --wpf-control-height: 30px;        /* 标准控件高 (按钮/输入框/下拉) */
+  --wpf-control-height-sm: 26px;     /* 紧凑工具栏控件高 */
+  --wpf-control-height-xs: 24px;     /* 行内/参数微型输入控件高 */
+  --wpf-row-height: 28px;            /* 数据表行高 */
+  --wpf-header-height: 30px;         /* 表格/栏目标头高 */
+
+  --wpf-btn-padding: 0 12px;         /* 标准按钮左右内边距 */
+  --wpf-btn-padding-sm: 0 10px;      /* 小型按钮左右内边距 */
+  --wpf-input-padding: 0 8px;        /* 标准输入框左右内边距 */
+  --wpf-input-padding-sm: 0 6px;     /* 小型输入框左右内边距 */
+
+  --wpf-radius: 3px;                 /* 硬朗统一工程圆角 */
+
+  /* ================= 3. 浅色色彩系统令牌 (Crisp Engineering Light Theme) ================= */
+  --wpf-bg-app: #f1f5f9;             /* 应用程序浅底色 (Slate-100) */
+  --wpf-bg-panel: #ffffff;           /* 侧边栏/属性栏底色 (纯白) */
+  --wpf-bg-surface: #f8fafc;         /* 标题栏、工具栏、卡片头 (Slate-50) */
+  --wpf-bg-surface-hover: #e2e8f0;   /* 悬浮底色 (Slate-200) */
+  --wpf-bg-input: #ffffff;           /* 输入框、代码编辑器底色 (纯白) */
+  --wpf-bg-canvas: #f8fafc;          /* CAD 3D 正交视口工程背景 (极浅净灰白) */
+
+  --wpf-border: #cbd5e1;             /* 主边框色 (Slate-300) */
+  --wpf-border-subtle: #e2e8f0;      /* 细分隔线 (Slate-200) */
+  --wpf-border-hover: #94a3b8;       /* 悬停边框 (Slate-400) */
+  --wpf-border-focus: #2563eb;       /* 聚焦边框 (Engineering Blue) */
+
+  --wpf-text-primary: #0f172a;       /* 主文本深黑灰 (Slate-900) */
+  --wpf-text-secondary: #475569;     /* 次级说明/参数标签 (Slate-600) */
+  --wpf-text-disabled: #94a3b8;      /* 禁用文本色 */
+  --wpf-text-code: #0f172a;          /* 代码文本颜色 */
+
+  /* 语义动作色 */
+  --wpf-primary: #16a34a;            /* 运行 F5 (绿色) */
+  --wpf-primary-hover: #15803d;
+  --wpf-primary-active: #166534;
+
+  --wpf-accent: #2563eb;             /* 轴测预览/导出 (工程蓝) */
+  --wpf-accent-hover: #1d4ed8;
+  --wpf-accent-active: #1e40af;
+
+  --wpf-danger: #dc2626;             /* 错误/停止 */
+  --wpf-danger-hover: #b91c1c;
+
+  --wpf-btn-secondary-bg: #ffffff;
+  --wpf-btn-secondary-border: #cbd5e1;
+  --wpf-btn-secondary-hover-bg: #f1f5f9;
+}
+
+/* ================= 基础重置 ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--wpf-bg-app);
+  color: var(--wpf-text-primary);
+  font-family: var(--wpf-font-sans);
+  font-size: var(--wpf-font-size-body);
+  line-height: 1.5;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 滚动条细致工程样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--wpf-bg-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: var(--wpf-radius);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ================= 顶部标题栏 (App Bar) ================= */
+.md-app-bar {
+  height: 44px;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--wpf-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  z-index: 20;
+}
+
+.md-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.md-brand-title {
+  font-size: var(--wpf-font-size-display);
+  font-weight: 700;
+  color: var(--wpf-text-primary);
+  letter-spacing: 0.2px;
+}
+
+.md-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.md-chip {
+  height: 22px;
+  line-height: 20px;
+  padding: 0 8px;
+  background-color: var(--wpf-bg-surface);
+  color: var(--wpf-text-secondary);
+  border: 1px solid var(--wpf-border);
+  border-radius: var(--wpf-radius);
+  font-size: var(--wpf-font-size-caption);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.md-chip-accent {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+  font-weight: 600;
+}
+
+/* ================= 主工作区布局 (Workspace) ================= */
+.md-workspace {
+  height: calc(100% - 44px - 24px);
+  display: flex;
+  width: 100%;
+}
+
+/* 左侧：代码与参数面板 */
+.md-side-panel {
+  width: 480px;
+  min-width: 380px;
+  max-width: 620px;
+  height: 100%;
+  background-color: var(--wpf-bg-panel);
+  border-right: 1px solid var(--wpf-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.md-panel-header {
+  padding: 8px 12px;
+  background-color: var(--wpf-bg-surface);
+  border-bottom: 1px solid var(--wpf-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ================= 标准控件 (Buttons & Inputs) ================= */
+.md-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--wpf-control-height);
+  padding: var(--wpf-btn-padding);
+  border-radius: var(--wpf-radius);
+  font-family: var(--wpf-font-sans);
+  font-size: var(--wpf-font-size-body);
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+
+/* 单一主按钮：运行 (F5) */
+.md-button-primary {
+  background-color: var(--wpf-primary);
+  border-color: #15803d;
+  color: #ffffff;
+}
+
+.md-button-primary:hover {
+  background-color: var(--wpf-primary-hover);
+  border-color: #166534;
+  color: #ffffff;
+}
+
+.md-button-primary:active {
+  background-color: var(--wpf-primary-active);
+  color: #ffffff;
+}
+
+.md-button-primary.loading {
+  background-color: #15803d;
+  color: #ffffff;
+  border-color: #166534;
+  pointer-events: none;
+}
+
+/* 强调操作按钮：生成预览图 / 下载 */
+.md-button-accent {
+  height: var(--wpf-control-height-sm);
+  padding: var(--wpf-btn-padding-sm);
+  background-color: var(--wpf-accent);
+  border-color: #1d4ed8;
+  color: #ffffff;
+  font-size: var(--wpf-font-size-caption);
+  font-weight: 500;
+}
+
+.md-button-accent:hover {
+  background-color: var(--wpf-accent-hover);
+  border-color: #1e40af;
+  color: #ffffff;
+}
+
+.md-button-accent:active {
+  background-color: var(--wpf-accent-active);
+  color: #ffffff;
+}
+
+/* 次要轮廓按钮：重置代码 / 取消 / 关闭 */
+.md-button-outlined {
+  background-color: var(--wpf-btn-secondary-bg);
+  border-color: var(--wpf-btn-secondary-border);
+  color: var(--wpf-text-primary);
+}
+
+.md-button-outlined:hover {
+  background-color: var(--wpf-btn-secondary-hover-bg);
+  border-color: var(--wpf-border-hover);
+  color: var(--wpf-text-primary);
+}
+
+.md-button-outlined:active {
+  background-color: #e2e8f0;
+  color: var(--wpf-text-secondary);
+}
+
+/* 输入框规范 */
+.md-text-field {
+  height: var(--wpf-control-height);
+  padding: var(--wpf-input-padding);
+  background-color: var(--wpf-bg-input);
+  border: 1px solid var(--wpf-border);
+  border-radius: var(--wpf-radius);
+  color: var(--wpf-text-primary);
+  font-family: var(--wpf-font-mono);
+  font-size: var(--wpf-font-size-body);
+  outline: none;
+  user-select: text;
+  transition: border-color 0.12s ease;
+}
+
+.md-text-field:hover {
+  border-color: var(--wpf-border-hover);
+}
+
+.md-text-field:focus {
+  border-color: var(--wpf-border-focus);
+}
+
+/* 下拉菜单规范 */
+.md-select {
+  height: var(--wpf-control-height);
+  padding: var(--wpf-input-padding);
+  background-color: var(--wpf-bg-input);
+  color: var(--wpf-text-primary);
+  border: 1px solid var(--wpf-border);
+  border-radius: var(--wpf-radius);
+  font-size: var(--wpf-font-size-body);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.12s ease;
+}
+
+.md-select:hover {
+  border-color: var(--wpf-border-hover);
+}
+
+.md-select:focus {
+  border-color: var(--wpf-border-focus);
+}
+
+.md-select optgroup {
+  background-color: var(--wpf-bg-surface);
+  color: var(--wpf-text-secondary);
+  font-weight: 600;
+  font-style: normal;
+}
+
+.md-select option {
+  background-color: #ffffff;
+  color: var(--wpf-text-primary);
+}
+
+/* ================= 代码编辑器区 ================= */
+.md-editor-box {
+  flex: 1.2;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--wpf-border);
+}
+
+.md-section-label {
+  height: var(--wpf-header-height);
+  line-height: var(--wpf-header-height);
+  padding: 0 12px;
+  font-size: var(--wpf-font-size-caption);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--wpf-text-secondary);
+  background-color: var(--wpf-bg-surface);
+  border-bottom: 1px solid var(--wpf-border);
+}
+
+.md-code-input {
+  flex: 1;
+  width: 100%;
+  background-color: #ffffff;
+  color: var(--wpf-text-code);
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 10px 12px;
+  font-family: var(--wpf-font-mono);
+  font-size: var(--wpf-font-size-body);
+  line-height: 1.5;
+  white-space: pre;
+  tab-size: 4;
+  user-select: text;
+}
+
+/* ================= 动态规格参数网格 (Safe Form Layout) ================= */
+.md-params-box {
+  flex: 0.8;
+  min-height: 140px;
+  max-height: 260px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--wpf-bg-panel);
+}
+
+.md-param-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.md-param-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  height: var(--wpf-row-height);
+  padding: 0 4px;
+}
+
+.md-param-name {
+  width: 90px;
+  min-width: 80px;
+  max-width: 130px;
+  font-size: var(--wpf-font-size-body);
+  color: var(--wpf-text-secondary);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.md-param-item .md-text-field {
+  height: var(--wpf-control-height-xs);
+  padding: var(--wpf-input-padding-sm);
+  font-size: var(--wpf-font-size-body);
+  border-radius: 2px;
+}
+
+.md-empty-tip {
+  color: var(--wpf-text-disabled);
+  text-align: center;
+  padding: 20px 0;
+  font-size: var(--wpf-font-size-body);
+}
+
+/* ================= 右侧：三维视口区 (Viewport) ================= */
+.md-viewport-panel {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: var(--wpf-bg-canvas);
+}
+
+/* 视口顶部工具栏 */
+.md-viewport-toolbar {
+  height: 38px;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--wpf-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  z-index: 10;
+}
+
+.md-toolbar-cluster {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 分段控制按钮组 (Segmented Buttons - 纯文本) */
+.md-segmented-group {
+  display: inline-flex;
+  border: 1px solid var(--wpf-border);
+  border-radius: var(--wpf-radius);
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.md-segmented-item {
+  height: var(--wpf-control-height-sm);
+  line-height: var(--wpf-control-height-sm);
+  background-color: #ffffff;
+  color: var(--wpf-text-secondary);
+  border: none;
+  border-right: 1px solid var(--wpf-border);
+  padding: 0 11px;
+  font-size: var(--wpf-font-size-caption);
+  font-family: var(--wpf-font-sans);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.md-segmented-item:last-child {
+  border-right: none;
+}
+
+.md-segmented-item:hover {
+  background-color: var(--wpf-bg-surface-hover);
+  color: var(--wpf-text-primary);
+}
+
+.md-segmented-item.active {
+  background-color: var(--wpf-accent);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* 工具栏小型下拉 */
+.md-select-sm {
+  height: var(--wpf-control-height-sm);
+  background-color: #ffffff;
+  border: 1px solid var(--wpf-border);
+  border-radius: var(--wpf-radius);
+  color: var(--wpf-text-primary);
+  padding: 0 8px;
+  font-size: var(--wpf-font-size-caption);
+  outline: none;
+  cursor: pointer;
+}
+
+.md-select-sm:hover {
+  border-color: var(--wpf-border-hover);
+}
+
+.md-select-sm:focus {
+  border-color: var(--wpf-border-focus);
+}
+
+/* 三维视口画布容器 */
+.md-canvas-container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--wpf-bg-canvas);
+}
+
+/* 视口加载遮罩 (CAD Loading Overlay) */
+.md-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(248, 250, 252, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  transition: opacity 0.15s ease;
+}
+
+.md-loading-overlay.hidden {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.md-loading-box {
+  background-color: #ffffff;
+  border: 1px solid var(--wpf-border);
+  border-radius: var(--wpf-radius);
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.md-loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(37, 99, 235, 0.2);
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: wpf-spin 0.75s linear infinite;
+}
+
+@keyframes wpf-spin {
+  to { transform: rotate(360deg); }
+}
+
+.md-loading-text {
+  font-size: var(--wpf-font-size-body);
+  color: var(--wpf-text-primary);
+  font-family: var(--wpf-font-sans);
+  font-weight: 500;
+}
+
+/* ================= 视口底部日志控制台 (Log Panel) ================= */
+.md-log-panel {
+  height: 120px;
+  background-color: #ffffff;
+  border-top: 1px solid var(--wpf-border);
+  display: flex;
+  flex-direction: column;
+  transition: height 0.15s ease;
+  z-index: 10;
+  position: relative;
+}
+
+.md-log-panel.collapsed {
+  height: 28px;
+}
+
+.md-log-header {
+  height: 28px;
+  min-height: 28px;
+  background-color: var(--wpf-bg-surface);
+  border-bottom: 1px solid var(--wpf-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  user-select: none;
+}
+
+.md-log-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--wpf-font-size-caption);
+  font-weight: 600;
+  color: var(--wpf-text-primary);
+}
+
+.md-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.md-badge-info {
+  background-color: #e0f2fe;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+}
+
+.md-badge-success {
+  background-color: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.md-badge-error {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.md-log-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.md-btn-xs {
+  height: 20px;
+  padding: 0 6px;
+  background-color: #ffffff;
+  border: 1px solid var(--wpf-border);
+  border-radius: var(--wpf-radius);
+  color: var(--wpf-text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+}
+
+.md-btn-xs:hover {
+  background-color: var(--wpf-bg-surface-hover);
+  color: var(--wpf-text-primary);
+  border-color: var(--wpf-border-hover);
+}
+
+.md-log-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 10px;
+  font-family: var(--wpf-font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  background-color: #ffffff;
+}
+
+.md-log-panel.collapsed .md-log-content {
+  display: none;
+}
+
+.md-log-entry {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  word-break: break-all;
+}
+
+.md-log-time {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.md-log-tag {
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.md-log-tag.info { color: #0284c7; }
+.md-log-tag.ok { color: #16a34a; }
+.md-log-tag.warn { color: #d97706; }
+.md-log-tag.err { color: #dc2626; }
+
+.md-log-msg {
+  color: #334155;
+  flex: 1;
+}
+
+.md-log-msg.highlight {
+  color: #0f172a;
+  font-weight: 500;
+}
+
+/* ================= 底部状态条 (Status Bar) ================= */
+.md-status-bar {
+  height: 24px;
+  background-color: #ffffff;
+  border-top: 1px solid var(--wpf-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-size: var(--wpf-font-size-caption);
+  color: var(--wpf-text-secondary);
+  z-index: 20;
+}
+
+.md-log-text {
+  font-family: var(--wpf-font-mono);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--wpf-text-primary);
+}
+
+.md-log-text.error {
+  color: #dc2626;
+}
+
+/* ================= 预览弹窗 (WPF Dialog Light Style) ================= */
+.md-dialog-scrim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+}
+
+.md-dialog-scrim.hidden {
+  display: none;
+}
+
+.md-dialog-container {
+  width: 840px;
+  max-width: 92vw;
+  max-height: 88vh;
+  background-color: #ffffff;
+  border: 1px solid var(--wpf-border);
+  border-radius: 4px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.md-dialog-header {
+  height: 42px;
+  padding: 0 14px;
+  background-color: var(--wpf-bg-surface);
+  border-bottom: 1px solid var(--wpf-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.md-dialog-title {
+  font-size: var(--wpf-font-size-title);
+  font-weight: 600;
+  color: var(--wpf-text-primary);
+}
+
+.md-dialog-body {
+  flex: 1;
+  padding: 16px;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.md-snapshot-img {
+  max-width: 100%;
+  max-height: 58vh;
+  border: 1px solid var(--wpf-border);
+  background-color: #ffffff;
+  border-radius: var(--wpf-radius);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.md-dialog-footer {
+  height: 46px;
+  padding: 0 14px;
+  background-color: var(--wpf-bg-surface);
+  border-top: 1px solid var(--wpf-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.md-dialog-meta {
+  font-size: var(--wpf-font-size-caption);
+  color: var(--wpf-text-secondary);
+  font-family: var(--wpf-font-mono);
+}
+
+.md-dialog-actions {
+  display: flex;
+  gap: 8px;
+}

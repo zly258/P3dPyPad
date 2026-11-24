@@ -1,0 +1,22 @@
+{
+  "name": "p3dpypad-web",
+  "version": "1.0.0",
+  "description": "AutoCAD Plant 3D PyOCC 离线仿真与三维预览工作台 (基于 OpenCASCADE.js / libcascade)",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "sync": "node sync_pyscripts.js"
+  },
+  "keywords": [
+    "autocad-plant3d",
+    "opencascade",
+    "occt",
+    "webassembly",
+    "threejs",
+    "cad"
+  ],
+  "author": "zly258",
+  "license": "GPL-3.0"
+}

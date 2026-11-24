@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant 3D PyOCC 仿真工作台</title>
+  
+  <!-- Google Fonts 谷歌字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="./src/style.css">
+
+  <!-- ES Module 本地依赖导入映射表 -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./public/libs/three.module.js",
+      "three/addons/": "./public/libs/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- 顶部标题栏 (极简紧凑设计，无冗余文字，无图标) -->
+  <header class="md-app-bar">
+    <div class="md-brand">
+      <div class="md-brand-title">Plant 3D PyOCC 仿真工作台</div>
+      <span class="md-chip md-chip-accent">OpenCASCADE 8.0.1 WASM</span>
+    </div>
+  </header>
+
+  <!-- 工作区主布局 -->
+  <main class="md-workspace">
+    <!-- 左侧：参数化构件代码与属性控制面板 -->
+    <aside class="md-side-panel">
+      <!-- 构件预设选择与快捷操作栏 -->
+      <div class="md-panel-header" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display: flex; gap: 8px;">
+          <input id="script-search" type="text" class="md-text-field" placeholder="搜索构件 (如 弯头 / 阀门 / CD)..." style="flex: 1;" title="输入构件位号或中文关键字即时过滤" />
+          <button id="btn-run" class="md-button md-button-primary" title="执行脚本建模 (快捷键 F5 或 Ctrl+Enter)">
+            运行 (F5)
+          </button>
+          <button id="btn-reset" class="md-button md-button-outlined" title="重置代码">
+            重置
+          </button>
+        </div>
+        <select id="preset-select" class="md-select" style="width: 100%;" title="选择 pyscripts 构件脚本">
+          <!-- 动态注入 pyscripts 全部分类选项 -->
+        </select>
+      </div>
+
+      <!-- Python 代码编辑器 -->
+      <div class="md-editor-box">
+        <div class="md-section-label">Python 源码</div>
+        <textarea id="code-editor" class="md-code-input" spellcheck="false" placeholder="在此粘贴 AutoCAD Plant 3D 构件 Python 脚本代码..."></textarea>
+      </div>
+
+      <!-- 动态解析尺寸参数网格 -->
+      <div class="md-params-box">
+        <div class="md-section-label">尺寸参数</div>
+        <div id="param-container" class="md-param-list">
+          <!-- 动态解析渲染参数行 -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- 右侧：Three.js 三维视口与预览图生成区 -->
+    <section class="md-viewport-panel">
+      <!-- 视口顶部工具栏 (纯文本分段按钮组，零图标) -->
+      <div class="md-viewport-toolbar">
+        <div class="md-toolbar-cluster">
+          <div class="md-segmented-group">
+            <button id="btn-iso" class="md-segmented-item active" title="正交等轴测视角">轴测</button>
+            <button id="btn-top" class="md-segmented-item" title="正交俯视图">俯视</button>
+            <button id="btn-front" class="md-segmented-item" title="正交正视图">正视</button>
+            <button id="btn-side" class="md-segmented-item" title="正交侧视图">侧视</button>
+            <button id="btn-fit" class="md-segmented-item" title="视口居中缩放">居中</button>
+          </div>
+        </div>
+
+        <div class="md-toolbar-cluster">
+          <select id="render-mode-select" class="md-select-sm" title="切换渲染模式">
+            <option value="shaded_edges" selected>着色边线</option>
+            <option value="shaded">实体着色</option>
+            <option value="wireframe">线框模式</option>
+          </select>
+
+          <select id="color-select" class="md-select-sm" title="构件材质颜色">
+            <option value="#388bfd" selected>工程蓝</option>
+            <option value="#64748b">工业灰</option>
+            <option value="#0d9488">钢青色</option>
+            <option value="#ea580c">机械橙</option>
+            <option value="#16a34a">设备绿</option>
+          </select>
+
+          <!-- 生成预览图按钮 -->
+          <button id="btn-snapshot" class="md-button md-button-accent" title="一键生成高精度轴测预览图 (PNG)">
+            生成预览图
+          </button>
+        </div>
+      </div>
+
+      <!-- WebGL 渲染容器 -->
+      <div id="viewport-container" class="md-canvas-container">
+        <!-- 视口加载遮罩 (CAD Loading Overlay) -->
+        <div id="viewport-loading" class="md-loading-overlay hidden">
+          <div class="md-loading-box">
+            <div class="md-loading-spinner"></div>
+            <div id="loading-text" class="md-loading-text">正在进行 OpenCASCADE 实体造型...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 视口底部：运行日志控制台 (多行可滚动，实时诊断) -->
+      <div id="log-panel" class="md-log-panel">
+        <div class="md-log-header">
+          <div class="md-log-title">
+            <span>运行日志</span>
+            <span id="log-status-badge" class="md-badge md-badge-info">就绪</span>
+          </div>
+          <div class="md-log-actions">
+            <button id="btn-clear-log" class="md-btn-xs" title="清空全部日志">清空日志</button>
+            <button id="btn-toggle-log" class="md-btn-xs" title="折叠或展开日志面板">收起</button>
+          </div>
+        </div>
+        <div id="log-list" class="md-log-content">
+          <!-- 动态实时日志条目 -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 底部极简状态栏 -->
+  <footer class="md-status-bar">
+    <div id="status-quick" class="md-log-text">准备就绪</div>
+    <div>AutoCAD Plant 3D Web Toolkit</div>
+  </footer>
+
+  <!-- 构件预览图展示与导出弹窗 (支持标准轴测图与轴测尺寸图双出图切换) -->
+  <div id="snapshot-modal" class="md-dialog-scrim hidden">
+    <div class="md-dialog-container">
+      <div class="md-dialog-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="md-dialog-title">三维出图预览</div>
+          <div class="md-segmented-group">
+            <button id="tab-preview-clean" class="md-segmented-item active" title="纯实体着色轴测出图 (无标注)">标准轴测图</button>
+            <button id="tab-preview-annotated" class="md-segmented-item" title="带工程尺寸标注的轴测图">轴测尺寸图</button>
+          </div>
+        </div>
+        <button id="btn-close-modal" class="md-button md-button-outlined" style="padding: 3px 8px; font-size: 11px;">关闭</button>
+      </div>
+      <div class="md-dialog-body">
+        <img id="snapshot-img" class="md-snapshot-img" alt="3D Preview Snapshot">
+      </div>
+      <div class="md-dialog-footer">
+        <div id="snapshot-info" class="md-dialog-meta">格式: PNG</div>
+        <div class="md-dialog-actions">
+          <button id="btn-dialog-close" class="md-button md-button-outlined">关闭</button>
+          <button id="btn-download-snapshot" class="md-button md-button-primary">下载当前图</button>
+          <button id="btn-download-all" class="md-button md-button-accent">下载两张 (标准+标注)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主应用控制器脚本 -->
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

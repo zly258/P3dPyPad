@@ -1,0 +1,4448 @@
+[
+  {
+    "id": "custom_scripts/01_pipe_fittings/ELBOW_90.py",
+    "filename": "ELBOW_90.py",
+    "name": "ELBOW_90",
+    "title": "ELBOW_90 (90度对焊弯头)",
+    "category": "01 管道管件 (Pipe Fittings)",
+    "path": "public/pyscripts/custom_scripts/01_pipe_fittings/ELBOW_90.py",
+    "description": "90度长半径无缝对焊弯头（带标准对焊坡口与全贯通内流道）"
+  },
+  {
+    "id": "custom_scripts/01_pipe_fittings/REDUCER_CONCENTRIC.py",
+    "filename": "REDUCER_CONCENTRIC.py",
+    "name": "REDUCER_CONCENTRIC",
+    "title": "REDUCER_CONCENTRIC",
+    "category": "01 管道管件 (Pipe Fittings)",
+    "path": "public/pyscripts/custom_scripts/01_pipe_fittings/REDUCER_CONCENTRIC.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/01_pipe_fittings/TEE_EQUAL.py",
+    "filename": "TEE_EQUAL.py",
+    "name": "TEE_EQUAL",
+    "title": "TEE_EQUAL",
+    "category": "01 管道管件 (Pipe Fittings)",
+    "path": "public/pyscripts/custom_scripts/01_pipe_fittings/TEE_EQUAL.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/02_flanges_gaskets/FLANGE_WN.py",
+    "filename": "FLANGE_WN.py",
+    "name": "FLANGE_WN",
+    "title": "FLANGE_WN (带颈对焊法兰 WN)",
+    "category": "02 法兰垫片 (Flanges & Gaskets)",
+    "path": "public/pyscripts/custom_scripts/02_flanges_gaskets/FLANGE_WN.py",
+    "description": "带颈对焊法兰（WN/RF，突面密封，锥形高颈过渡，全贯通内孔）"
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_ANGLE_CONTROL.py",
+    "filename": "VALVE_ANGLE_CONTROL.py",
+    "name": "VALVE_ANGLE_CONTROL",
+    "title": "VALVE_ANGLE_CONTROL (气动薄膜高压角式调节阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_ANGLE_CONTROL.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_BALL.py",
+    "filename": "VALVE_BALL.py",
+    "name": "VALVE_BALL",
+    "title": "VALVE_BALL",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_BALL.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_BALL_3WAY.py",
+    "filename": "VALVE_BALL_3WAY.py",
+    "name": "VALVE_BALL_3WAY",
+    "title": "VALVE_BALL_3WAY",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_BALL_3WAY.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_BELLOWS_GLOBE.py",
+    "filename": "VALVE_BELLOWS_GLOBE.py",
+    "name": "VALVE_BELLOWS_GLOBE",
+    "title": "VALVE_BELLOWS_GLOBE (波纹管密封零泄漏截止阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_BELLOWS_GLOBE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_BREATHER.py",
+    "filename": "VALVE_BREATHER.py",
+    "name": "VALVE_BREATHER",
+    "title": "VALVE_BREATHER",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_BREATHER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_BUTTERFLY.py",
+    "filename": "VALVE_BUTTERFLY.py",
+    "name": "VALVE_BUTTERFLY",
+    "title": "VALVE_BUTTERFLY",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_BUTTERFLY.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_CHECK_LIFT.py",
+    "filename": "VALVE_CHECK_LIFT.py",
+    "name": "VALVE_CHECK_LIFT",
+    "title": "VALVE_CHECK_LIFT",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_CHECK_LIFT.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_CHECK_SWING.py",
+    "filename": "VALVE_CHECK_SWING.py",
+    "name": "VALVE_CHECK_SWING",
+    "title": "VALVE_CHECK_SWING",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_CHECK_SWING.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_CHECK_WAFER_DUAL.py",
+    "filename": "VALVE_CHECK_WAFER_DUAL.py",
+    "name": "VALVE_CHECK_WAFER_DUAL",
+    "title": "VALVE_CHECK_WAFER_DUAL",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_CHECK_WAFER_DUAL.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_CONTROL_PNEUMATIC.py",
+    "filename": "VALVE_CONTROL_PNEUMATIC.py",
+    "name": "VALVE_CONTROL_PNEUMATIC",
+    "title": "VALVE_CONTROL_PNEUMATIC",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_CONTROL_PNEUMATIC.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_DIAPHRAGM.py",
+    "filename": "VALVE_DIAPHRAGM.py",
+    "name": "VALVE_DIAPHRAGM",
+    "title": "VALVE_DIAPHRAGM (堰式衬氟法兰隔膜阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_DIAPHRAGM.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_ECCENTRIC_ROTARY.py",
+    "filename": "VALVE_ECCENTRIC_ROTARY.py",
+    "name": "VALVE_ECCENTRIC_ROTARY",
+    "title": "VALVE_ECCENTRIC_ROTARY (气动偏心旋转调节阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_ECCENTRIC_ROTARY.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_FLUSH_BOTTOM.py",
+    "filename": "VALVE_FLUSH_BOTTOM.py",
+    "name": "VALVE_FLUSH_BOTTOM",
+    "title": "VALVE_FLUSH_BOTTOM (反应釜底45度放料阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_FLUSH_BOTTOM.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_GATE.py",
+    "filename": "VALVE_GATE.py",
+    "name": "VALVE_GATE",
+    "title": "VALVE_GATE (明杆楔式闸阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_GATE.py",
+    "description": "工业级法兰连接明杆楔式闸阀总成（Z41H 带螺栓中法兰、双柱支架与手轮）"
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_GLOBE.py",
+    "filename": "VALVE_GLOBE.py",
+    "name": "VALVE_GLOBE",
+    "title": "VALVE_GLOBE",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_GLOBE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_JACKETED_BALL.py",
+    "filename": "VALVE_JACKETED_BALL.py",
+    "name": "VALVE_JACKETED_BALL",
+    "title": "VALVE_JACKETED_BALL (蒸汽保温夹套法兰球阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_JACKETED_BALL.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_KNIFE_GATE.py",
+    "filename": "VALVE_KNIFE_GATE.py",
+    "name": "VALVE_KNIFE_GATE",
+    "title": "VALVE_KNIFE_GATE (薄型浆液刀型闸阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_KNIFE_GATE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_NEEDLE.py",
+    "filename": "VALVE_NEEDLE.py",
+    "name": "VALVE_NEEDLE",
+    "title": "VALVE_NEEDLE",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_NEEDLE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_PINCH.py",
+    "filename": "VALVE_PINCH.py",
+    "name": "VALVE_PINCH",
+    "title": "VALVE_PINCH (化工耐磨胶管夹管阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_PINCH.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_PLUG.py",
+    "filename": "VALVE_PLUG.py",
+    "name": "VALVE_PLUG",
+    "title": "VALVE_PLUG",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_PLUG.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_SAFETY_RELIEF.py",
+    "filename": "VALVE_SAFETY_RELIEF.py",
+    "name": "VALVE_SAFETY_RELIEF",
+    "title": "VALVE_SAFETY_RELIEF",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_SAFETY_RELIEF.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_SAMPLING.py",
+    "filename": "VALVE_SAMPLING.py",
+    "name": "VALVE_SAMPLING",
+    "title": "VALVE_SAMPLING (化工密闭在线取样阀总成)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_SAMPLING.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_STEAM_TRAP.py",
+    "filename": "VALVE_STEAM_TRAP.py",
+    "name": "VALVE_STEAM_TRAP",
+    "title": "VALVE_STEAM_TRAP (倒吊桶浮球式蒸汽疏水阀)",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_STEAM_TRAP.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_STRAINER_BASKET.py",
+    "filename": "VALVE_STRAINER_BASKET.py",
+    "name": "VALVE_STRAINER_BASKET",
+    "title": "VALVE_STRAINER_BASKET",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_STRAINER_BASKET.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/03_valves/VALVE_STRAINER_Y.py",
+    "filename": "VALVE_STRAINER_Y.py",
+    "name": "VALVE_STRAINER_Y",
+    "title": "VALVE_STRAINER_Y",
+    "category": "03 阀门类 (Valves)",
+    "path": "public/pyscripts/custom_scripts/03_valves/VALVE_STRAINER_Y.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_AIR_FILTER_REGULATOR.py",
+    "filename": "INSTRUMENT_AIR_FILTER_REGULATOR.py",
+    "name": "INSTRUMENT_AIR_FILTER_REGULATOR",
+    "title": "INSTRUMENT_AIR_FILTER_REGULATOR (气动仪表风过滤减压阀组)",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_AIR_FILTER_REGULATOR.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_BIMETAL_THERMOMETER.py",
+    "filename": "INSTRUMENT_BIMETAL_THERMOMETER.py",
+    "name": "INSTRUMENT_BIMETAL_THERMOMETER",
+    "title": "INSTRUMENT_BIMETAL_THERMOMETER",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_BIMETAL_THERMOMETER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_CORIOLIS_FLOWMETER.py",
+    "filename": "INSTRUMENT_CORIOLIS_FLOWMETER.py",
+    "name": "INSTRUMENT_CORIOLIS_FLOWMETER",
+    "title": "INSTRUMENT_CORIOLIS_FLOWMETER",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_CORIOLIS_FLOWMETER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_DIFF_PRESSURE_XMTR.py",
+    "filename": "INSTRUMENT_DIFF_PRESSURE_XMTR.py",
+    "name": "INSTRUMENT_DIFF_PRESSURE_XMTR",
+    "title": "INSTRUMENT_DIFF_PRESSURE_XMTR",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_DIFF_PRESSURE_XMTR.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_FLAME_ARRESTER.py",
+    "filename": "INSTRUMENT_FLAME_ARRESTER.py",
+    "name": "INSTRUMENT_FLAME_ARRESTER",
+    "title": "INSTRUMENT_FLAME_ARRESTER",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_FLAME_ARRESTER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_GUIDED_WAVE_RADAR.py",
+    "filename": "INSTRUMENT_GUIDED_WAVE_RADAR.py",
+    "name": "INSTRUMENT_GUIDED_WAVE_RADAR",
+    "title": "INSTRUMENT_GUIDED_WAVE_RADAR (导波雷达液位变送器)",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_GUIDED_WAVE_RADAR.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_MAG_FLOWMETER.py",
+    "filename": "INSTRUMENT_MAG_FLOWMETER.py",
+    "name": "INSTRUMENT_MAG_FLOWMETER",
+    "title": "INSTRUMENT_MAG_FLOWMETER",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_MAG_FLOWMETER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_MAG_LEVEL_GAUGE.py",
+    "filename": "INSTRUMENT_MAG_LEVEL_GAUGE.py",
+    "name": "INSTRUMENT_MAG_LEVEL_GAUGE",
+    "title": "INSTRUMENT_MAG_LEVEL_GAUGE",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_MAG_LEVEL_GAUGE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_ORIFICE_FLANGE.py",
+    "filename": "INSTRUMENT_ORIFICE_FLANGE.py",
+    "name": "INSTRUMENT_ORIFICE_FLANGE",
+    "title": "INSTRUMENT_ORIFICE_FLANGE",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_ORIFICE_FLANGE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_PH_ANALYZER.py",
+    "filename": "INSTRUMENT_PH_ANALYZER.py",
+    "name": "INSTRUMENT_PH_ANALYZER",
+    "title": "INSTRUMENT_PH_ANALYZER (在线pH电导率水质分析仪)",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_PH_ANALYZER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_PRESSURE_GAUGE.py",
+    "filename": "INSTRUMENT_PRESSURE_GAUGE.py",
+    "name": "INSTRUMENT_PRESSURE_GAUGE",
+    "title": "INSTRUMENT_PRESSURE_GAUGE (化工隔膜耐震压力表)",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_PRESSURE_GAUGE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_RADAR_LEVEL.py",
+    "filename": "INSTRUMENT_RADAR_LEVEL.py",
+    "name": "INSTRUMENT_RADAR_LEVEL",
+    "title": "INSTRUMENT_RADAR_LEVEL",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_RADAR_LEVEL.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_ROTAMETER.py",
+    "filename": "INSTRUMENT_ROTAMETER.py",
+    "name": "INSTRUMENT_ROTAMETER",
+    "title": "INSTRUMENT_ROTAMETER (立式金属管浮子流量计)",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_ROTAMETER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_SIGHT_GLASS.py",
+    "filename": "INSTRUMENT_SIGHT_GLASS.py",
+    "name": "INSTRUMENT_SIGHT_GLASS",
+    "title": "INSTRUMENT_SIGHT_GLASS (化工管道直通双面视镜)",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_SIGHT_GLASS.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_TEMP_TRANSMITTER.py",
+    "filename": "INSTRUMENT_TEMP_TRANSMITTER.py",
+    "name": "INSTRUMENT_TEMP_TRANSMITTER",
+    "title": "INSTRUMENT_TEMP_TRANSMITTER",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_TEMP_TRANSMITTER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_TUNING_FORK_SWITCH.py",
+    "filename": "INSTRUMENT_TUNING_FORK_SWITCH.py",
+    "name": "INSTRUMENT_TUNING_FORK_SWITCH",
+    "title": "INSTRUMENT_TUNING_FORK_SWITCH (防爆音叉液位开关)",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_TUNING_FORK_SWITCH.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_TURBINE_FLOWMETER.py",
+    "filename": "INSTRUMENT_TURBINE_FLOWMETER.py",
+    "name": "INSTRUMENT_TURBINE_FLOWMETER",
+    "title": "INSTRUMENT_TURBINE_FLOWMETER (法兰式精密液体涡轮流量计)",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_TURBINE_FLOWMETER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_ULTRASONIC_FLOWMETER.py",
+    "filename": "INSTRUMENT_ULTRASONIC_FLOWMETER.py",
+    "name": "INSTRUMENT_ULTRASONIC_FLOWMETER",
+    "title": "INSTRUMENT_ULTRASONIC_FLOWMETER (四声道管段式超声波流量计)",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_ULTRASONIC_FLOWMETER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/04_instruments/INSTRUMENT_VORTEX_FLOWMETER.py",
+    "filename": "INSTRUMENT_VORTEX_FLOWMETER.py",
+    "name": "INSTRUMENT_VORTEX_FLOWMETER",
+    "title": "INSTRUMENT_VORTEX_FLOWMETER",
+    "category": "04 仪表构件 (Instruments)",
+    "path": "public/pyscripts/custom_scripts/04_instruments/INSTRUMENT_VORTEX_FLOWMETER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_ANCHOR_CHAIR.py",
+    "filename": "SUPPORT_ANCHOR_CHAIR.py",
+    "name": "SUPPORT_ANCHOR_CHAIR",
+    "title": "SUPPORT_ANCHOR_CHAIR (双U型螺栓带肋固定管座)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_ANCHOR_CHAIR.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_AXIAL_STOP.py",
+    "filename": "SUPPORT_AXIAL_STOP.py",
+    "name": "SUPPORT_AXIAL_STOP",
+    "title": "SUPPORT_AXIAL_STOP (双向轴向止推固定管托)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_AXIAL_STOP.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_BEAM_BOLTED_HANGER.py",
+    "filename": "SUPPORT_BEAM_BOLTED_HANGER.py",
+    "name": "SUPPORT_BEAM_BOLTED_HANGER",
+    "title": "SUPPORT_BEAM_BOLTED_HANGER (双耳管夹吊杆吊架)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_BEAM_BOLTED_HANGER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_CANTILEVER_BRACKET.py",
+    "filename": "SUPPORT_CANTILEVER_BRACKET.py",
+    "name": "SUPPORT_CANTILEVER_BRACKET",
+    "title": "SUPPORT_CANTILEVER_BRACKET (三角斜撑悬臂托架)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_CANTILEVER_BRACKET.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_COLD_INSULATED_SHOE.py",
+    "filename": "SUPPORT_COLD_INSULATED_SHOE.py",
+    "name": "SUPPORT_COLD_INSULATED_SHOE",
+    "title": "SUPPORT_COLD_INSULATED_SHOE (深冷PIR高密度保冷管托)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_COLD_INSULATED_SHOE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_CONSTANT_SPRING.py",
+    "filename": "SUPPORT_CONSTANT_SPRING.py",
+    "name": "SUPPORT_CONSTANT_SPRING",
+    "title": "SUPPORT_CONSTANT_SPRING (平卧式恒力弹簧支吊架)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_CONSTANT_SPRING.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_CRADLE_SADDLE.py",
+    "filename": "SUPPORT_CRADLE_SADDLE.py",
+    "name": "SUPPORT_CRADLE_SADDLE",
+    "title": "SUPPORT_CRADLE_SADDLE (大口径双腹板重型鞍式管托)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_CRADLE_SADDLE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_EAR_LUG.py",
+    "filename": "SUPPORT_EAR_LUG.py",
+    "name": "SUPPORT_EAR_LUG",
+    "title": "SUPPORT_EAR_LUG",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_EAR_LUG.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_ELBOW_TRUNNION.py",
+    "filename": "SUPPORT_ELBOW_TRUNNION.py",
+    "name": "SUPPORT_ELBOW_TRUNNION",
+    "title": "SUPPORT_ELBOW_TRUNNION (弯头竖直耳轴支座)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_ELBOW_TRUNNION.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_GUIDED_SHOE.py",
+    "filename": "SUPPORT_GUIDED_SHOE.py",
+    "name": "SUPPORT_GUIDED_SHOE",
+    "title": "SUPPORT_GUIDED_SHOE",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_GUIDED_SHOE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_HYDRAULIC_SNUBBER.py",
+    "filename": "SUPPORT_HYDRAULIC_SNUBBER.py",
+    "name": "SUPPORT_HYDRAULIC_SNUBBER",
+    "title": "SUPPORT_HYDRAULIC_SNUBBER (动载管道液压阻尼器总成)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_HYDRAULIC_SNUBBER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_INSULATED_HANGER.py",
+    "filename": "SUPPORT_INSULATED_HANGER.py",
+    "name": "SUPPORT_INSULATED_HANGER",
+    "title": "SUPPORT_INSULATED_HANGER (深冷保冷外包钢箍管道吊架)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_INSULATED_HANGER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_PIPE_CLAMP.py",
+    "filename": "SUPPORT_PIPE_CLAMP.py",
+    "name": "SUPPORT_PIPE_CLAMP",
+    "title": "SUPPORT_PIPE_CLAMP (管卡滑动管托)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_PIPE_CLAMP.py",
+    "description": "标准管道管卡焊接滑动管托总成（HG/T 21629 带双耳紧固螺栓、加劲肋与底座）"
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_PIPE_RACK_TEE.py",
+    "filename": "SUPPORT_PIPE_RACK_TEE.py",
+    "name": "SUPPORT_PIPE_RACK_TEE",
+    "title": "SUPPORT_PIPE_RACK_TEE (H型钢单柱T型地面管廊架)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_PIPE_RACK_TEE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_PORTAL_FRAME.py",
+    "filename": "SUPPORT_PORTAL_FRAME.py",
+    "name": "SUPPORT_PORTAL_FRAME",
+    "title": "SUPPORT_PORTAL_FRAME (双立柱地面生根龙门管架)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_PORTAL_FRAME.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_RISER_SPRING_STAND.py",
+    "filename": "SUPPORT_RISER_SPRING_STAND.py",
+    "name": "SUPPORT_RISER_SPRING_STAND",
+    "title": "SUPPORT_RISER_SPRING_STAND (双可变弹簧鞍式支承座架)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_RISER_SPRING_STAND.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_ROLLER_STAND.py",
+    "filename": "SUPPORT_ROLLER_STAND.py",
+    "name": "SUPPORT_ROLLER_STAND",
+    "title": "SUPPORT_ROLLER_STAND (化工单滚轮管道支座)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_ROLLER_STAND.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_SLIDING_SHOE.py",
+    "filename": "SUPPORT_SLIDING_SHOE.py",
+    "name": "SUPPORT_SLIDING_SHOE",
+    "title": "SUPPORT_SLIDING_SHOE",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_SLIDING_SHOE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_SPRING_BASE.py",
+    "filename": "SUPPORT_SPRING_BASE.py",
+    "name": "SUPPORT_SPRING_BASE",
+    "title": "SUPPORT_SPRING_BASE (座式可变弹簧支座)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_SPRING_BASE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_SPRING_HANGER.py",
+    "filename": "SUPPORT_SPRING_HANGER.py",
+    "name": "SUPPORT_SPRING_HANGER",
+    "title": "SUPPORT_SPRING_HANGER",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_SPRING_HANGER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_SWAY_BRACE.py",
+    "filename": "SUPPORT_SWAY_BRACE.py",
+    "name": "SUPPORT_SWAY_BRACE",
+    "title": "SUPPORT_SWAY_BRACE (双向预紧弹簧减振拉撑杆)",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_SWAY_BRACE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_TRUNNION_BASE.py",
+    "filename": "SUPPORT_TRUNNION_BASE.py",
+    "name": "SUPPORT_TRUNNION_BASE",
+    "title": "SUPPORT_TRUNNION_BASE",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_TRUNNION_BASE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/05_supports/SUPPORT_UBOLT_CLAMP.py",
+    "filename": "SUPPORT_UBOLT_CLAMP.py",
+    "name": "SUPPORT_UBOLT_CLAMP",
+    "title": "SUPPORT_UBOLT_CLAMP",
+    "category": "05 定制支吊架 (Custom Supports)",
+    "path": "public/pyscripts/custom_scripts/05_supports/SUPPORT_UBOLT_CLAMP.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_AIR_COOLED_EXCHANGER.py",
+    "filename": "EQUIPMENT_AIR_COOLED_EXCHANGER.py",
+    "name": "EQUIPMENT_AIR_COOLED_EXCHANGER",
+    "title": "EQUIPMENT_AIR_COOLED_EXCHANGER (鼓风式翅片管空冷器)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_AIR_COOLED_EXCHANGER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_BAG_FILTER_HOUSING.py",
+    "filename": "EQUIPMENT_BAG_FILTER_HOUSING.py",
+    "name": "EQUIPMENT_BAG_FILTER_HOUSING",
+    "title": "EQUIPMENT_BAG_FILTER_HOUSING (立式多袋式精密过滤器)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_BAG_FILTER_HOUSING.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_CENTRIFUGAL_PUMP.py",
+    "filename": "EQUIPMENT_CENTRIFUGAL_PUMP.py",
+    "name": "EQUIPMENT_CENTRIFUGAL_PUMP",
+    "title": "EQUIPMENT_CENTRIFUGAL_PUMP",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_CENTRIFUGAL_PUMP.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_CONICAL_STORAGE_TANK.py",
+    "filename": "EQUIPMENT_CONICAL_STORAGE_TANK.py",
+    "name": "EQUIPMENT_CONICAL_STORAGE_TANK",
+    "title": "EQUIPMENT_CONICAL_STORAGE_TANK (立式平底锥顶常压储罐)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_CONICAL_STORAGE_TANK.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_CYCLONE_SEPARATOR.py",
+    "filename": "EQUIPMENT_CYCLONE_SEPARATOR.py",
+    "name": "EQUIPMENT_CYCLONE_SEPARATOR",
+    "title": "EQUIPMENT_CYCLONE_SEPARATOR (立式切向进气旋风分离器)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_CYCLONE_SEPARATOR.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_DECANTER_CENTRIFUGE.py",
+    "filename": "EQUIPMENT_DECANTER_CENTRIFUGE.py",
+    "name": "EQUIPMENT_DECANTER_CENTRIFUGE",
+    "title": "EQUIPMENT_DECANTER_CENTRIFUGE (卧式螺旋卸料沉降离心机)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_DECANTER_CENTRIFUGE.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_DIAPHRAGM_COMPRESSOR.py",
+    "filename": "EQUIPMENT_DIAPHRAGM_COMPRESSOR.py",
+    "name": "EQUIPMENT_DIAPHRAGM_COMPRESSOR",
+    "title": "EQUIPMENT_DIAPHRAGM_COMPRESSOR (化工高压隔膜压缩机撬块)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_DIAPHRAGM_COMPRESSOR.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_DISTILLATION_COLUMN.py",
+    "filename": "EQUIPMENT_DISTILLATION_COLUMN.py",
+    "name": "EQUIPMENT_DISTILLATION_COLUMN",
+    "title": "EQUIPMENT_DISTILLATION_COLUMN (化工板式填料精馏塔器)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_DISTILLATION_COLUMN.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_FALLING_FILM_EVAPORATOR.py",
+    "filename": "EQUIPMENT_FALLING_FILM_EVAPORATOR.py",
+    "name": "EQUIPMENT_FALLING_FILM_EVAPORATOR",
+    "title": "EQUIPMENT_FALLING_FILM_EVAPORATOR (立式降膜蒸发器带分离器)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_FALLING_FILM_EVAPORATOR.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_HORIZONTAL_DRUM.py",
+    "filename": "EQUIPMENT_HORIZONTAL_DRUM.py",
+    "name": "EQUIPMENT_HORIZONTAL_DRUM",
+    "title": "EQUIPMENT_HORIZONTAL_DRUM",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_HORIZONTAL_DRUM.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_JACKETED_REACTOR.py",
+    "filename": "EQUIPMENT_JACKETED_REACTOR.py",
+    "name": "EQUIPMENT_JACKETED_REACTOR",
+    "title": "EQUIPMENT_JACKETED_REACTOR",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_JACKETED_REACTOR.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_KETTLE_REBOILER.py",
+    "filename": "EQUIPMENT_KETTLE_REBOILER.py",
+    "name": "EQUIPMENT_KETTLE_REBOILER",
+    "title": "EQUIPMENT_KETTLE_REBOILER (AKT型釜式重沸器)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_KETTLE_REBOILER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_LIQUID_RING_VACUUM_PUMP.py",
+    "filename": "EQUIPMENT_LIQUID_RING_VACUUM_PUMP.py",
+    "name": "EQUIPMENT_LIQUID_RING_VACUUM_PUMP",
+    "title": "EQUIPMENT_LIQUID_RING_VACUUM_PUMP (水环式真空泵机组)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_LIQUID_RING_VACUUM_PUMP.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_METERING_PUMP.py",
+    "filename": "EQUIPMENT_METERING_PUMP.py",
+    "name": "EQUIPMENT_METERING_PUMP",
+    "title": "EQUIPMENT_METERING_PUMP (液压隔膜计量加药泵组)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_METERING_PUMP.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_PLATE_HEAT_EXCHANGER.py",
+    "filename": "EQUIPMENT_PLATE_HEAT_EXCHANGER.py",
+    "name": "EQUIPMENT_PLATE_HEAT_EXCHANGER",
+    "title": "EQUIPMENT_PLATE_HEAT_EXCHANGER (可拆式板式换热器)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_PLATE_HEAT_EXCHANGER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_SCRUBBER_TOWER.py",
+    "filename": "EQUIPMENT_SCRUBBER_TOWER.py",
+    "name": "EQUIPMENT_SCRUBBER_TOWER",
+    "title": "EQUIPMENT_SCRUBBER_TOWER (化工尾气喷淋洗涤吸收塔)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_SCRUBBER_TOWER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_SHELL_TUBE_EXCHANGER.py",
+    "filename": "EQUIPMENT_SHELL_TUBE_EXCHANGER.py",
+    "name": "EQUIPMENT_SHELL_TUBE_EXCHANGER",
+    "title": "EQUIPMENT_SHELL_TUBE_EXCHANGER",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_SHELL_TUBE_EXCHANGER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_SPHERICAL_TANK.py",
+    "filename": "EQUIPMENT_SPHERICAL_TANK.py",
+    "name": "EQUIPMENT_SPHERICAL_TANK",
+    "title": "EQUIPMENT_SPHERICAL_TANK (赤道正切柱式球形储罐)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_SPHERICAL_TANK.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_STATIC_MIXER.py",
+    "filename": "EQUIPMENT_STATIC_MIXER.py",
+    "name": "EQUIPMENT_STATIC_MIXER",
+    "title": "EQUIPMENT_STATIC_MIXER (管道法兰式静态混合器)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_STATIC_MIXER.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_TWIN_SCREW_PUMP.py",
+    "filename": "EQUIPMENT_TWIN_SCREW_PUMP.py",
+    "name": "EQUIPMENT_TWIN_SCREW_PUMP",
+    "title": "EQUIPMENT_TWIN_SCREW_PUMP (化工卧式双螺杆容积泵组)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_TWIN_SCREW_PUMP.py",
+    "description": ""
+  },
+  {
+    "id": "custom_scripts/06_equipment/EQUIPMENT_VERTICAL_VESSEL.py",
+    "filename": "EQUIPMENT_VERTICAL_VESSEL.py",
+    "name": "EQUIPMENT_VERTICAL_VESSEL",
+    "title": "EQUIPMENT_VERTICAL_VESSEL (立式裙座化工工艺容器)",
+    "category": "06 工艺设备 (Equipment)",
+    "path": "public/pyscripts/custom_scripts/06_equipment/EQUIPMENT_VERTICAL_VESSEL.py",
+    "description": ""
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_101.py",
+    "filename": "ZD_101.py",
+    "name": "ZD_101",
+    "title": "ZD_101 (101双孔管夹)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_101.py",
+    "description": "CD-ZD2010 101 双孔管夹（水平管无保温双孔抱箍）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_102.py",
+    "filename": "ZD_102.py",
+    "name": "ZD_102",
+    "title": "ZD_102 (102三孔管夹)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_102.py",
+    "description": "CD-ZD2010 102 三孔管夹（水平管三孔承重抱箍）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_103.py",
+    "filename": "ZD_103.py",
+    "name": "ZD_103",
+    "title": "ZD_103 (103C形螺杆管夹)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_103.py",
+    "description": "CD-ZD2010 103 C形螺杆管夹"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_104.py",
+    "filename": "ZD_104.py",
+    "name": "ZD_104",
+    "title": "ZD_104 (104C形钢带管夹)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_104.py",
+    "description": "CD-ZD2010 104 C形钢带管夹"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_105.py",
+    "filename": "ZD_105.py",
+    "name": "ZD_105",
+    "title": "ZD_105 (105立管管夹)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_105.py",
+    "description": "CD-ZD2010 105 立管管夹（垂直管承重抱箍）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_106.py",
+    "filename": "ZD_106.py",
+    "name": "ZD_106",
+    "title": "ZD_106 (106立管管担)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_106.py",
+    "description": "CD-ZD2010 106 立管管担"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_109.py",
+    "filename": "ZD_109.py",
+    "name": "ZD_109",
+    "title": "ZD_109 (109夹式管座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_109.py",
+    "description": "CD-ZD2010 109 夹式管座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_111.py",
+    "filename": "ZD_111.py",
+    "name": "ZD_111",
+    "title": "ZD_111 (111夹式滑动支座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_111.py",
+    "description": "CD-ZD2010 111 夹式滑动支座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_113.py",
+    "filename": "ZD_113.py",
+    "name": "ZD_113",
+    "title": "ZD_113 (113夹式导向支座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_113.py",
+    "description": "CD-ZD2010 113 夹式导向支座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_114.py",
+    "filename": "ZD_114.py",
+    "name": "ZD_114",
+    "title": "ZD_114 (114单径向限位支座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_114.py",
+    "description": "CD-ZD2010 114 单径向限位支座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_115.py",
+    "filename": "ZD_115.py",
+    "name": "ZD_115",
+    "title": "ZD_115 (115双径向限位支座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_115.py",
+    "description": "CD-ZD2010 115 双径向限位支座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_117.py",
+    "filename": "ZD_117.py",
+    "name": "ZD_117",
+    "title": "ZD_117 (117导向支架套筒)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_117.py",
+    "description": "CD-ZD2010 117 导向支架套筒"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_118.py",
+    "filename": "ZD_118.py",
+    "name": "ZD_118",
+    "title": "ZD_118 (118管卡)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_118.py",
+    "description": "CD-ZD2010 118/119 U形圆钢螺栓管卡（配双螺母与垫圈）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_130.py",
+    "filename": "ZD_130.py",
+    "name": "ZD_130",
+    "title": "ZD_130 (130管夹横担)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_130.py",
+    "description": "CD-ZD2010 130 管夹横担"
+  },
+  {
+    "id": "supports/cd_zd2010/vol1_non_integral_pipes/ZD_131.py",
+    "filename": "ZD_131.py",
+    "name": "ZD_131",
+    "title": "ZD_131 (131管卡横担)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol1_non_integral_pipes/ZD_131.py",
+    "description": "CD-ZD2010 131 管卡横担"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_201.py",
+    "filename": "ZD_201.py",
+    "name": "ZD_201",
+    "title": "ZD_201 (201焊接吊板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_201.py",
+    "description": "CD-ZD2010 201 焊接吊板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_202.py",
+    "filename": "ZD_202.py",
+    "name": "ZD_202",
+    "title": "ZD_202 (202加强焊接吊板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_202.py",
+    "description": "CD-ZD2010 202 加强焊接吊板（带弧形马鞍补强垫板）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_207.py",
+    "filename": "ZD_207.py",
+    "name": "ZD_207",
+    "title": "ZD_207 (207立管焊接吊板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_207.py",
+    "description": "CD-ZD2010 207 立管焊接吊板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_208.py",
+    "filename": "ZD_208.py",
+    "name": "ZD_208",
+    "title": "ZD_208 (208焊接管座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_208.py",
+    "description": "CD-ZD2010 208 焊接管座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_209.py",
+    "filename": "ZD_209.py",
+    "name": "ZD_209",
+    "title": "ZD_209 (209加强焊接管座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_209.py",
+    "description": "CD-ZD2010 209 加强焊接管座（U形双腹板箱式管座）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_210.py",
+    "filename": "ZD_210.py",
+    "name": "ZD_210",
+    "title": "ZD_210 (210焊接固定支座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_210.py",
+    "description": "CD-ZD2010 210 焊接固定支座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_211.py",
+    "filename": "ZD_211.py",
+    "name": "ZD_211",
+    "title": "ZD_211 (211垂直管道支架翼板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_211.py",
+    "description": "CD-ZD2010 211 垂直管道支架翼板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_212.py",
+    "filename": "ZD_212.py",
+    "name": "ZD_212",
+    "title": "ZD_212 (212循环水管道支座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_212.py",
+    "description": "CD-ZD2010 212 循环水管道支座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_213.py",
+    "filename": "ZD_213.py",
+    "name": "ZD_213",
+    "title": "ZD_213 (213热压弯头支座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_213.py",
+    "description": "CD-ZD2010 213/216 弯头支座（90°弯头+竖直圆管支腿+底板加劲肋）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_223.py",
+    "filename": "ZD_223.py",
+    "name": "ZD_223",
+    "title": "ZD_223 (223立管焊接支座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_223.py",
+    "description": "CD-ZD2010 223 立管焊接支座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_224.py",
+    "filename": "ZD_224.py",
+    "name": "ZD_224",
+    "title": "ZD_224 (224立管焊接吊座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_224.py",
+    "description": "CD-ZD2010 224 立管焊接吊（支）座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol2_integral_pipes/ZD_225.py",
+    "filename": "ZD_225.py",
+    "name": "ZD_225",
+    "title": "ZD_225 (225加强立管吊座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol2_integral_pipes/ZD_225.py",
+    "description": "CD-ZD2010 225 加强立管焊接吊（支）座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol3_intermediate_connectors/ZD_305.py",
+    "filename": "ZD_305.py",
+    "name": "ZD_305",
+    "title": "ZD_305 (305拉杆)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol3_intermediate_connectors/ZD_305.py",
+    "description": "CD-ZD2010 305~308 螺纹拉杆"
+  },
+  {
+    "id": "supports/cd_zd2010/vol3_intermediate_connectors/ZD_313.py",
+    "filename": "ZD_313.py",
+    "name": "ZD_313",
+    "title": "ZD_313 (313双孔连接板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol3_intermediate_connectors/ZD_313.py",
+    "description": "CD-ZD2010 313 双孔连接板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol3_intermediate_connectors/ZD_314.py",
+    "filename": "ZD_314.py",
+    "name": "ZD_314",
+    "title": "ZD_314 (314三孔连接板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol3_intermediate_connectors/ZD_314.py",
+    "description": "CD-ZD2010 314 三孔连接板（圆角三角形三孔板）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol3_intermediate_connectors/ZD_315.py",
+    "filename": "ZD_315.py",
+    "name": "ZD_315",
+    "title": "ZD_315 (315恒吊用三孔连接板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol3_intermediate_connectors/ZD_315.py",
+    "description": "CD-ZD2010 315 恒吊用三孔连接板（顶部U形双耳夹板+销轴）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_401.py",
+    "filename": "ZD_401.py",
+    "name": "ZD_401",
+    "title": "ZD_401 (401单槽钢吊杆座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_401.py",
+    "description": "CD-ZD2010 401 单槽钢吊杆座"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_402.py",
+    "filename": "ZD_402.py",
+    "name": "ZD_402",
+    "title": "ZD_402 (402焊缝加强板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_402.py",
+    "description": "CD-ZD2010 402 焊缝加强板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_403.py",
+    "filename": "ZD_403.py",
+    "name": "ZD_403",
+    "title": "ZD_403 (403H型钢补强板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_403.py",
+    "description": "CD-ZD2010 403/405 H型钢及工字钢补强板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_404.py",
+    "filename": "ZD_404.py",
+    "name": "ZD_404",
+    "title": "ZD_404 (404槽钢补强板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_404.py",
+    "description": "CD-ZD2010 404 槽钢补强板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_407.py",
+    "filename": "ZD_407.py",
+    "name": "ZD_407",
+    "title": "ZD_407 (407单孔垫板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_407.py",
+    "description": "CD-ZD2010 407 单孔垫板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_408.py",
+    "filename": "ZD_408.py",
+    "name": "ZD_408",
+    "title": "ZD_408 (408单耳吊板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_408.py",
+    "description": "CD-ZD2010 408 单耳吊板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_409.py",
+    "filename": "ZD_409.py",
+    "name": "ZD_409",
+    "title": "ZD_409 (409双耳吊板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_409.py",
+    "description": "CD-ZD2010 409 双耳吊板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_413.py",
+    "filename": "ZD_413.py",
+    "name": "ZD_413",
+    "title": "ZD_413 (413槽钢加强板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_413.py",
+    "description": "CD-ZD2010 413 槽钢加强板（双槽钢顶跨接加强板）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_414.py",
+    "filename": "ZD_414.py",
+    "name": "ZD_414",
+    "title": "ZD_414 (414自调平座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_414.py",
+    "description": "CD-ZD2010 414 自调平座（方形顶板+圆柱凸台球铰座）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_415.py",
+    "filename": "ZD_415.py",
+    "name": "ZD_415",
+    "title": "ZD_415 (415滑动底板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_415.py",
+    "description": "CD-ZD2010 415 滑动底板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_416.py",
+    "filename": "ZD_416.py",
+    "name": "ZD_416",
+    "title": "ZD_416 (416导向底板I型)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_416.py",
+    "description": "CD-ZD2010 416 导向底板（Ⅰ型）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_417.py",
+    "filename": "ZD_417.py",
+    "name": "ZD_417",
+    "title": "ZD_417 (417导向底板II型)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_417.py",
+    "description": "CD-ZD2010 417 导向底板（Ⅱ型，带外侧三角形加劲肋）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_421.py",
+    "filename": "ZD_421.py",
+    "name": "ZD_421",
+    "title": "ZD_421 (421单向轴承吊板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_421.py",
+    "description": "CD-ZD2010 421 单向滚动轴承吊板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol4_structural_connectors/ZD_422.py",
+    "filename": "ZD_422.py",
+    "name": "ZD_422",
+    "title": "ZD_422 (422双向轴承吊板)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol4_structural_connectors/ZD_422.py",
+    "description": "CD-ZD2010 422 双向滚动轴承吊板"
+  },
+  {
+    "id": "supports/cd_zd2010/vol5_variable_springs/ZD_511.py",
+    "filename": "ZD_511.py",
+    "name": "ZD_511",
+    "title": "ZD_511 (511吊杆变力弹簧)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol5_variable_springs/ZD_511.py",
+    "description": "CD-ZD2010 511 吊杆连接变力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol5_variable_springs/ZD_521.py",
+    "filename": "ZD_521.py",
+    "name": "ZD_521",
+    "title": "ZD_521 (521单吊板变力弹簧)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol5_variable_springs/ZD_521.py",
+    "description": "CD-ZD2010 521 单吊板连接变力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol5_variable_springs/ZD_531.py",
+    "filename": "ZD_531.py",
+    "name": "ZD_531",
+    "title": "ZD_531 (531双吊板变力弹簧)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol5_variable_springs/ZD_531.py",
+    "description": "CD-ZD2010 531 双吊板连接变力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol5_variable_springs/ZD_541.py",
+    "filename": "ZD_541.py",
+    "name": "ZD_541",
+    "title": "ZD_541 (541支撑式变力弹簧)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol5_variable_springs/ZD_541.py",
+    "description": "CD-ZD2010 541 吊杆调节支撑式变力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol5_variable_springs/ZD_561.py",
+    "filename": "ZD_561.py",
+    "name": "ZD_561",
+    "title": "ZD_561 (561支架式变力弹簧)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol5_variable_springs/ZD_561.py",
+    "description": "CD-ZD2010 561 支架式变力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6A.py",
+    "filename": "ZD_6A.py",
+    "name": "ZD_6A",
+    "title": "ZD_6A (6A平卧双拉杆恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6A.py",
+    "description": "CD-ZD2010 6A 平卧双拉杆连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6B.py",
+    "filename": "ZD_6B.py",
+    "name": "ZD_6B",
+    "title": "ZD_6B (6B平卧单吊板恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6B.py",
+    "description": "CD-ZD2010 6B 平卧单吊板连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6C.py",
+    "filename": "ZD_6C.py",
+    "name": "ZD_6C",
+    "title": "ZD_6C (6C平卧双吊板恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6C.py",
+    "description": "CD-ZD2010 6C 平卧双吊板连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6D.py",
+    "filename": "ZD_6D.py",
+    "name": "ZD_6D",
+    "title": "ZD_6D (6D平卧顶面恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6D.py",
+    "description": "CD-ZD2010 6D 平卧顶面连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6E.py",
+    "filename": "ZD_6E.py",
+    "name": "ZD_6E",
+    "title": "ZD_6E (6E平卧底座恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6E.py",
+    "description": "CD-ZD2010 6E 平卧底座连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6P.py",
+    "filename": "ZD_6P.py",
+    "name": "ZD_6P",
+    "title": "ZD_6P (6P直立双拉杆恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6P.py",
+    "description": "CD-ZD2010 6P 直立双拉杆连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6Q.py",
+    "filename": "ZD_6Q.py",
+    "name": "ZD_6Q",
+    "title": "ZD_6Q (6Q直立单吊板恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6Q.py",
+    "description": "CD-ZD2010 6Q 直立单吊板连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6R.py",
+    "filename": "ZD_6R.py",
+    "name": "ZD_6R",
+    "title": "ZD_6R (6R直立双吊板恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6R.py",
+    "description": "CD-ZD2010 6R 直立双吊板连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6S.py",
+    "filename": "ZD_6S.py",
+    "name": "ZD_6S",
+    "title": "ZD_6S (6S直立底座恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6S.py",
+    "description": "CD-ZD2010 6S 直立底座连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6T.py",
+    "filename": "ZD_6T.py",
+    "name": "ZD_6T",
+    "title": "ZD_6T (6T直立并联恒吊)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6T.py",
+    "description": "CD-ZD2010 6T 直立并联连接恒力弹簧组件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol6_constant_springs/ZD_6V.py",
+    "filename": "ZD_6V.py",
+    "name": "ZD_6V",
+    "title": "ZD_6V (6V下支式恒力弹簧)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol6_constant_springs/ZD_6V.py",
+    "description": "CD-ZD2010 6V 下支式恒力弹簧组件（顶撑式恒吊）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol7_dynamic_load/ZD_700.py",
+    "filename": "ZD_700.py",
+    "name": "ZD_700",
+    "title": "ZD_700 (700液压阻尼器)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol7_dynamic_load/ZD_700.py",
+    "description": "CD-ZD2010 700~702 液压阻尼器"
+  },
+  {
+    "id": "supports/cd_zd2010/vol7_dynamic_load/ZD_711.py",
+    "filename": "ZD_711.py",
+    "name": "ZD_711",
+    "title": "ZD_711 (711阻尼器加长件)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol7_dynamic_load/ZD_711.py",
+    "description": "CD-ZD2010 711 液压阻尼器辅助加长件"
+  },
+  {
+    "id": "supports/cd_zd2010/vol7_dynamic_load/ZD_720.py",
+    "filename": "ZD_720.py",
+    "name": "ZD_720",
+    "title": "ZD_720 (720弹簧减振器)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol7_dynamic_load/ZD_720.py",
+    "description": "CD-ZD2010 720~721 弹簧减振器"
+  },
+  {
+    "id": "supports/cd_zd2010/vol7_dynamic_load/ZD_740.py",
+    "filename": "ZD_740.py",
+    "name": "ZD_740",
+    "title": "ZD_740 (740拉撑杆)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol7_dynamic_load/ZD_740.py",
+    "description": "CD-ZD2010 740 拉撑杆（刚性防晃撑杆）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol7_dynamic_load/ZD_750.py",
+    "filename": "ZD_750.py",
+    "name": "ZD_750",
+    "title": "ZD_750 (750动载销座)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol7_dynamic_load/ZD_750.py",
+    "description": "CD-ZD2010 750 销座（动载铰接座）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol7_dynamic_load/ZD_790.py",
+    "filename": "ZD_790.py",
+    "name": "ZD_790",
+    "title": "ZD_790 (790C形动载管夹)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol7_dynamic_load/ZD_790.py",
+    "description": "CD-ZD2010 790 C形螺杆动载管夹"
+  },
+  {
+    "id": "supports/cd_zd2010/vol7_dynamic_load/ZD_791.py",
+    "filename": "ZD_791.py",
+    "name": "ZD_791",
+    "title": "ZD_791 (791钢带动载管夹)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol7_dynamic_load/ZD_791.py",
+    "description": "CD-ZD2010 791 C形钢带动载管夹"
+  },
+  {
+    "id": "supports/cd_zd2010/vol7_dynamic_load/ZD_792.py",
+    "filename": "ZD_792.py",
+    "name": "ZD_792",
+    "title": "ZD_792 (792横担动载管夹)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol7_dynamic_load/ZD_792.py",
+    "description": "CD-ZD2010 792 横担式动载管夹"
+  },
+  {
+    "id": "supports/cd_zd2010/vol7_dynamic_load/ZD_795.py",
+    "filename": "ZD_795.py",
+    "name": "ZD_795",
+    "title": "ZD_795 (795轴向动载管夹)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol7_dynamic_load/ZD_795.py",
+    "description": "CD-ZD2010 795 轴向动载管夹（防轴向水击冲击）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_80000.py",
+    "filename": "ZD_80000.py",
+    "name": "ZD_80000",
+    "title": "ZD_80000 (80000单槽钢悬臂梁)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_80000.py",
+    "description": "CD-ZD2010 80000 混凝土梁端悬臂梁（单槽钢）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_80001.py",
+    "filename": "ZD_80001.py",
+    "name": "ZD_80001",
+    "title": "ZD_80001 (80001双槽钢悬臂梁)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_80001.py",
+    "description": "CD-ZD2010 80001 混凝土梁端悬臂梁（双槽钢）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_80002.py",
+    "filename": "ZD_80002.py",
+    "name": "ZD_80002",
+    "title": "ZD_80002 (80002工字钢悬臂梁)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_80002.py",
+    "description": "CD-ZD2010 80002 混凝土梁端悬臂梁（工字钢）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_80631.py",
+    "filename": "ZD_80631.py",
+    "name": "ZD_80631",
+    "title": "ZD_80631 (80631包箍梁底悬臂梁)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_80631.py",
+    "description": "CD-ZD2010 80631 包箍梁底悬臂吊（双槽钢）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_81003.py",
+    "filename": "ZD_81003.py",
+    "name": "ZD_81003",
+    "title": "ZD_81003 (81003无斜撑悬臂支架)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_81003.py",
+    "description": "CD-ZD2010 81003 混凝土梁端悬臂支架（无斜撑）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_81004.py",
+    "filename": "ZD_81004.py",
+    "name": "ZD_81004",
+    "title": "ZD_81004 (81004带斜撑悬臂支架)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_81004.py",
+    "description": "CD-ZD2010 81004 混凝土梁端悬臂支架（带斜撑）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_81723.py",
+    "filename": "ZD_81723.py",
+    "name": "ZD_81723",
+    "title": "ZD_81723 (81723包箍柱侧悬臂支架)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_81723.py",
+    "description": "CD-ZD2010 81723 包箍柱侧悬臂支架（无斜撑）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_82340.py",
+    "filename": "ZD_82340.py",
+    "name": "ZD_82340",
+    "title": "ZD_82340 (82340单槽钢简支梁)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_82340.py",
+    "description": "CD-ZD2010 82340 双混凝土梁端—端简支梁（单槽钢）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_82341.py",
+    "filename": "ZD_82341.py",
+    "name": "ZD_82341",
+    "title": "ZD_82341 (82341双槽钢简支梁)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_82341.py",
+    "description": "CD-ZD2010 82341 双混凝土梁端—端简支梁（双槽钢）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_82342.py",
+    "filename": "ZD_82342.py",
+    "name": "ZD_82342",
+    "title": "ZD_82342 (82342工字钢简支梁)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_82342.py",
+    "description": "CD-ZD2010 82342 双混凝土梁端—端简支梁（工字钢）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_83041.py",
+    "filename": "ZD_83041.py",
+    "name": "ZD_83041",
+    "title": "ZD_83041 (83041双槽钢正三角架)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_83041.py",
+    "description": "CD-ZD2010 83041 混凝土梁端—端正三角架（双槽钢）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_84041.py",
+    "filename": "ZD_84041.py",
+    "name": "ZD_84041",
+    "title": "ZD_84041 (84041双槽钢倒三角架)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_84041.py",
+    "description": "CD-ZD2010 84041 混凝土梁端—端倒三角架（双槽钢）"
+  },
+  {
+    "id": "supports/cd_zd2010/vol8_structural_steel/ZD_84042.py",
+    "filename": "ZD_84042.py",
+    "name": "ZD_84042",
+    "title": "ZD_84042 (84042工字钢倒三角架)",
+    "category": "07 电力标准 CD/ZD 2010 支吊架",
+    "path": "public/pyscripts/supports/cd_zd2010/vol8_structural_steel/ZD_84042.py",
+    "description": "CD-ZD2010 84042 混凝土梁端—端倒三角架（工字钢）"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A11.py",
+    "filename": "HG_A11.py",
+    "name": "HG_A11",
+    "title": "HG_A11 (单孔吊板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A11.py",
+    "description": "HG/T 21629-2021 A11 单孔吊板 图C.1-11"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A12.py",
+    "filename": "HG_A12.py",
+    "name": "HG_A12",
+    "title": "HG_A12 (直管用吊板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A12.py",
+    "description": "HG/T 21629-2021 A12 直管用吊板 图C.1-12"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A13.py",
+    "filename": "HG_A13.py",
+    "name": "HG_A13",
+    "title": "HG_A13 (90°弯头用吊板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A13.py",
+    "description": "HG/T 21629-2021 A13 90°弯头用吊板 图C.1-13"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A14.py",
+    "filename": "HG_A14.py",
+    "name": "HG_A14",
+    "title": "HG_A14 (U形吊耳)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A14.py",
+    "description": "HG/T 21629-2021 A14 U形吊耳 图C.1-14"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A17.py",
+    "filename": "HG_A17.py",
+    "name": "HG_A17",
+    "title": "HG_A17 (单孔吊板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A17.py",
+    "description": "HG/T 21629-2021 A17 单孔吊板 图C.1-17"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A18.py",
+    "filename": "HG_A18.py",
+    "name": "HG_A18",
+    "title": "HG_A18 (横担)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A18.py",
+    "description": "HG/T 21629-2021 A18 横担 图C.1-18"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A2.py",
+    "filename": "HG_A2.py",
+    "name": "HG_A2",
+    "title": "HG_A2 (标准型2螺栓管夹)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A2.py",
+    "description": "HG/T 21629-2021 A2 标准型2螺栓管夹 图C.1-2"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A20.py",
+    "filename": "HG_A20.py",
+    "name": "HG_A20",
+    "title": "HG_A20 (不保温立管用3螺栓管夹)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A20.py",
+    "description": "HG/T 21629-2021 A20 不保温立管用3螺栓管夹 图C.1-20"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A21.py",
+    "filename": "HG_A21.py",
+    "name": "HG_A21",
+    "title": "HG_A21 (防振型4螺栓管夹)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A21.py",
+    "description": "HG/T 21629-2021 A21 防振型4螺栓管夹 图C.1-21"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A25.py",
+    "filename": "HG_A25.py",
+    "name": "HG_A25",
+    "title": "HG_A25 (保冷管用重载型管夹)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A25.py",
+    "description": "HG/T 21629-2021 A25 保冷管用重载型管夹 图C.1-25"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A26.py",
+    "filename": "HG_A26.py",
+    "name": "HG_A26",
+    "title": "HG_A26 (不锈钢隔离层)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A26.py",
+    "description": "HG/T 21629-2021 A26 不锈钢隔离层 图C.1-26"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A30.py",
+    "filename": "HG_A30.py",
+    "name": "HG_A30",
+    "title": "HG_A30 (单孔U形吊耳)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A30.py",
+    "description": "HG/T 21629-2021 A30 单孔U形吊耳 图C.1-30"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A31.py",
+    "filename": "HG_A31.py",
+    "name": "HG_A31",
+    "title": "HG_A31 (单孔长吊板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A31.py",
+    "description": "HG/T 21629-2021 A31 单孔长吊板 图C.1-31"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A4.py",
+    "filename": "HG_A4.py",
+    "name": "HG_A4",
+    "title": "HG_A4 (法兰用U形管夹（1/2~2）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A4.py",
+    "description": "HG/T 21629-2021 A4 法兰用U形管夹（1/2~2） 图C.1-4"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A5.py",
+    "filename": "HG_A5.py",
+    "name": "HG_A5",
+    "title": "HG_A5 (减振用U形管夹)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A5.py",
+    "description": "HG/T 21629-2021 A5 减振用U形管夹 图C.1-5"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A6.py",
+    "filename": "HG_A6.py",
+    "name": "HG_A6",
+    "title": "HG_A6 (可调节的U形管夹)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A6.py",
+    "description": "HG/T 21629-2021 A6 可调节的U形管夹 图C.1-6"
+  },
+  {
+    "id": "supports/hgt_21629/a_parts/HG_A7.py",
+    "filename": "HG_A7.py",
+    "name": "HG_A7",
+    "title": "HG_A7 (标准型3螺栓管夹)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/a_parts/HG_A7.py",
+    "description": "HG/T 21629-2021 A7 标准型3螺栓管夹 图C.1-7"
+  },
+  {
+    "id": "supports/hgt_21629/b_rigid_hangers/HG_B1.py",
+    "filename": "HG_B1.py",
+    "name": "HG_B1",
+    "title": "HG_B1 (管夹式刚性吊架（1/2~36）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/b_rigid_hangers/HG_B1.py",
+    "description": "HG/T 21629-2021 B1~B4 管夹式刚性吊架（1/2~36） 图C.2-1"
+  },
+  {
+    "id": "supports/hgt_21629/b_rigid_hangers/HG_B5.py",
+    "filename": "HG_B5.py",
+    "name": "HG_B5",
+    "title": "HG_B5 (吊杆式刚性吊架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/b_rigid_hangers/HG_B5.py",
+    "description": "HG/T 21629-2021 B5~B8 吊杆式刚性吊架 图C.2-2"
+  },
+  {
+    "id": "supports/hgt_21629/b_rigid_hangers/HG_B9.py",
+    "filename": "HG_B9.py",
+    "name": "HG_B9",
+    "title": "HG_B9 (秋千式刚性吊架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/b_rigid_hangers/HG_B9.py",
+    "description": "HG/T 21629-2021 B9~B12 秋千式刚性吊架 图C.2-3"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C1.py",
+    "filename": "HG_C1.py",
+    "name": "HG_C1",
+    "title": "HG_C1 (上螺纹连接式可变弹簧吊架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C1.py",
+    "description": "HG/T 21629-2021 C1 上螺纹连接式可变弹簧吊架 图C.3-1"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C12.py",
+    "filename": "HG_C12.py",
+    "name": "HG_C12",
+    "title": "HG_C12 (主辅弹簧式恒力吊架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C12.py",
+    "description": "HG/T 21629-2021 C12~C13 主辅弹簧式恒力吊架 图C.3-6"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C14.py",
+    "filename": "HG_C14.py",
+    "name": "HG_C14",
+    "title": "HG_C14 (主辅弹簧式多簧并联恒力吊架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C14.py",
+    "description": "HG/T 21629-2021 C14~C15 主辅弹簧式多簧并联恒力吊架 图C.3-7"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C16.py",
+    "filename": "HG_C16.py",
+    "name": "HG_C16",
+    "title": "HG_C16 (主辅弹簧式恒力支架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C16.py",
+    "description": "HG/T 21629-2021 C16 主辅弹簧式恒力支架 图C.3-8"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C17.py",
+    "filename": "HG_C17.py",
+    "name": "HG_C17",
+    "title": "HG_C17 (主辅弹簧式双簧并联恒力吊架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C17.py",
+    "description": "HG/T 21629-2021 C17 主辅弹簧式双簧并联恒力吊架 图C.3-9"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C18.py",
+    "filename": "HG_C18.py",
+    "name": "HG_C18",
+    "title": "HG_C18 (双簧对称式恒力吊架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C18.py",
+    "description": "HG/T 21629-2021 C18 双簧对称式恒力吊架 图C.3-10"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C19.py",
+    "filename": "HG_C19.py",
+    "name": "HG_C19",
+    "title": "HG_C19 (双簧对称式恒力支架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C19.py",
+    "description": "HG/T 21629-2021 C19 双簧对称式恒力支架 图C.3-11"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C2.py",
+    "filename": "HG_C2.py",
+    "name": "HG_C2",
+    "title": "HG_C2 (单吊耳/双吊耳/上调节/下调节式可变)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C2.py",
+    "description": "HG/T 21629-2021 C2~C5 单吊耳/双吊耳/上调节/下调节式可变弹簧吊架 图C.3-2"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C6.py",
+    "filename": "HG_C6.py",
+    "name": "HG_C6",
+    "title": "HG_C6 (可变弹簧支架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C6.py",
+    "description": "HG/T 21629-2021 C6 可变弹簧支架 图C.3-3"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C7.py",
+    "filename": "HG_C7.py",
+    "name": "HG_C7",
+    "title": "HG_C7 (秋千式可变弹簧吊架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C7.py",
+    "description": "HG/T 21629-2021 C7 秋千式可变弹簧吊架 图C.3-4"
+  },
+  {
+    "id": "supports/hgt_21629/c_springs/HG_C8.py",
+    "filename": "HG_C8.py",
+    "name": "HG_C8",
+    "title": "HG_C8 (力矩平衡式恒力吊架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/c_springs/HG_C8.py",
+    "description": "HG/T 21629-2021 C8~C11 力矩平衡式恒力吊架 图C.3-5"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D1.py",
+    "filename": "HG_D1.py",
+    "name": "HG_D1",
+    "title": "HG_D1 (筋板和垫板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D1.py",
+    "description": "HG/T 21629-2021 D1 筋板和垫板 图C.4-1"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D10.py",
+    "filename": "HG_D10.py",
+    "name": "HG_D10",
+    "title": "HG_D10 (辅助梁)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D10.py",
+    "description": "HG/T 21629-2021 D10 辅助梁 图C.4-10"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D11.py",
+    "filename": "HG_D11.py",
+    "name": "HG_D11",
+    "title": "HG_D11 (辅助柱)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D11.py",
+    "description": "HG/T 21629-2021 D11 辅助柱 图C.4-11"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D12.py",
+    "filename": "HG_D12.py",
+    "name": "HG_D12",
+    "title": "HG_D12 (T形/倒T形架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D12.py",
+    "description": "HG/T 21629-2021 D12 T形/倒T形架 图C.4-12"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D15.py",
+    "filename": "HG_D15.py",
+    "name": "HG_D15",
+    "title": "HG_D15 (水平T形架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D15.py",
+    "description": "HG/T 21629-2021 D15 水平T形架 图C.4-15"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D16.py",
+    "filename": "HG_D16.py",
+    "name": "HG_D16",
+    "title": "HG_D16 (水平门形/井形架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D16.py",
+    "description": "HG/T 21629-2021 D16 水平门形/井形架 图C.4-16"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D17.py",
+    "filename": "HG_D17.py",
+    "name": "HG_D17",
+    "title": "HG_D17 (并排双三角架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D17.py",
+    "description": "HG/T 21629-2021 D17 并排双三角架 图C.4-17"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D18.py",
+    "filename": "HG_D18.py",
+    "name": "HG_D18",
+    "title": "HG_D18 (双角钢/槽钢悬臂架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D18.py",
+    "description": "HG/T 21629-2021 D18 双角钢/槽钢悬臂架 图C.4-18"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D19.py",
+    "filename": "HG_D19.py",
+    "name": "HG_D19",
+    "title": "HG_D19 (双槽钢三角架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D19.py",
+    "description": "HG/T 21629-2021 D19 双槽钢三角架 图C.4-19"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D2.py",
+    "filename": "HG_D2.py",
+    "name": "HG_D2",
+    "title": "HG_D2 (端焊悬臂架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D2.py",
+    "description": "HG/T 21629-2021 D2 端焊悬臂架 图C.4-2"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D5.py",
+    "filename": "HG_D5.py",
+    "name": "HG_D5",
+    "title": "HG_D5 (端焊三角架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D5.py",
+    "description": "HG/T 21629-2021 D5 端焊三角架 图C.4-5"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D7.py",
+    "filename": "HG_D7.py",
+    "name": "HG_D7",
+    "title": "HG_D7 (L形/倒L形架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D7.py",
+    "description": "HG/T 21629-2021 D7 L形/倒L形架 图C.4-7"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D8.py",
+    "filename": "HG_D8.py",
+    "name": "HG_D8",
+    "title": "HG_D8 (门形/倒门形架（角钢和槽钢）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D8.py",
+    "description": "HG/T 21629-2021 D8 门形/倒门形架（角钢和槽钢） 图C.4-8"
+  },
+  {
+    "id": "supports/hgt_21629/d_steel_embed/HG_D9.py",
+    "filename": "HG_D9.py",
+    "name": "HG_D9",
+    "title": "HG_D9 (半门形/倒半门形架（角钢和槽钢）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/d_steel_embed/HG_D9.py",
+    "description": "HG/T 21629-2021 D9 半门形/倒半门形架（角钢和槽钢） 图C.4-9"
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E1.py",
+    "filename": "HG_E1.py",
+    "name": "HG_E1",
+    "title": "HG_E1",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E1.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E10.py",
+    "filename": "HG_E10.py",
+    "name": "HG_E10",
+    "title": "HG_E10 (保温/保冷立管的承重/导向架（1/2)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E10.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E11.py",
+    "filename": "HG_E11.py",
+    "name": "HG_E11",
+    "title": "HG_E11 (立管的两方向导向架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E11.py",
+    "description": "HG/T 21629-2021 E11 立管的两方向导向架 图C.5-11"
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E12.py",
+    "filename": "HG_E12.py",
+    "name": "HG_E12",
+    "title": "HG_E12 (立管的四方向导向架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E12.py",
+    "description": "HG/T 21629-2021 E12 立管的四方向导向架 图C.5-12"
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E2.py",
+    "filename": "HG_E2.py",
+    "name": "HG_E2",
+    "title": "HG_E2 (管托的导向架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E2.py",
+    "description": "HG/T 21629-2021 E2 管托的导向架 图C.5-2"
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E3.py",
+    "filename": "HG_E3.py",
+    "name": "HG_E3",
+    "title": "HG_E3 (管托的压扣型导向架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E3.py",
+    "description": "HG/T 21629-2021 E3 管托的压扣型导向架 图C.5-3"
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E4.py",
+    "filename": "HG_E4.py",
+    "name": "HG_E4",
+    "title": "HG_E4 (结构型导向/限位架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E4.py",
+    "description": "HG/T 21629-2021 E4 结构型导向/限位架 图C.5-4"
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E5.py",
+    "filename": "HG_E5.py",
+    "name": "HG_E5",
+    "title": "HG_E5 (弹簧支架或可调支架的导向/限位架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E5.py",
+    "description": "HG/T 21629-2021 E5 弹簧支架或可调支架的导向/限位架 图C.5-5"
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E6.py",
+    "filename": "HG_E6.py",
+    "name": "HG_E6",
+    "title": "HG_E6 (竖管耳轴的导向/限位架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E6.py",
+    "description": "HG/T 21629-2021 E6 竖管耳轴的导向/限位架 图C.5-6"
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E8.py",
+    "filename": "HG_E8.py",
+    "name": "HG_E8",
+    "title": "HG_E8 (水平双耳轴的导向架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E8.py",
+    "description": "HG/T 21629-2021 E8 水平双耳轴的导向架 图C.5-8"
+  },
+  {
+    "id": "supports/hgt_21629/e_guides/HG_E9.py",
+    "filename": "HG_E9.py",
+    "name": "HG_E9",
+    "title": "HG_E9 (不保温管的管夹型导向架（6~24)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/e_guides/HG_E9.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F1.py",
+    "filename": "HG_F1.py",
+    "name": "HG_F1",
+    "title": "HG_F1 (耳轴的补强板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F1.py",
+    "description": "HG/T 21629-2021 F1 耳轴的补强板 图C.6-1"
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F10.py",
+    "filename": "HG_F10.py",
+    "name": "HG_F10",
+    "title": "HG_F10",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F10.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F11.py",
+    "filename": "HG_F11.py",
+    "name": "HG_F11",
+    "title": "HG_F11 (立管的L形耳轴)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F11.py",
+    "description": "HG/T 21629-2021 F11~F12 立管的L形耳轴 图C.6-9"
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F15.py",
+    "filename": "HG_F15.py",
+    "name": "HG_F15",
+    "title": "HG_F15 (16及以上立管用导向耳轴)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F15.py",
+    "description": "HG/T 21629-2021 F15~F16 16及以上立管用导向耳轴 图C.6-11"
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F17.py",
+    "filename": "HG_F17.py",
+    "name": "HG_F17",
+    "title": "HG_F17 (立管用耳座)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F17.py",
+    "description": "HG/T 21629-2021 F17 立管用耳座 图C.6-12"
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F18.py",
+    "filename": "HG_F18.py",
+    "name": "HG_F18",
+    "title": "HG_F18 (虾米弯支座)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F18.py",
+    "description": "HG/T 21629-2021 F18 虾米弯支座 图C.6-13"
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F19.py",
+    "filename": "HG_F19.py",
+    "name": "HG_F19",
+    "title": "HG_F19 (斜管的竖直耳轴)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F19.py",
+    "description": "HG/T 21629-2021 F19 斜管的竖直耳轴 图C.6-14"
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F2.py",
+    "filename": "HG_F2.py",
+    "name": "HG_F2",
+    "title": "HG_F2 (弯头的竖直耳轴)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F2.py",
+    "description": "HG/T 21629-2021 F2 弯头的竖直耳轴 图C.6-2"
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F20.py",
+    "filename": "HG_F20.py",
+    "name": "HG_F20",
+    "title": "HG_F20 (小管径三通和弯头用支架(1/2~2)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F20.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F3.py",
+    "filename": "HG_F3.py",
+    "name": "HG_F3",
+    "title": "HG_F3 (水平管的竖直耳轴)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F3.py",
+    "description": "HG/T 21629-2021 F3 水平管的竖直耳轴 图C.6-3"
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F4.py",
+    "filename": "HG_F4.py",
+    "name": "HG_F4",
+    "title": "HG_F4 (竖直弯头的水平耳轴)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F4.py",
+    "description": "HG/T 21629-2021 F4 竖直弯头的水平耳轴 图C.6-4"
+  },
+  {
+    "id": "supports/hgt_21629/f_trunnions/HG_F6.py",
+    "filename": "HG_F6.py",
+    "name": "HG_F6",
+    "title": "HG_F6 (立管的耳轴)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/f_trunnions/HG_F6.py",
+    "description": "HG/T 21629-2021 F6~F7 立管的耳轴 图C.6-6"
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G1.py",
+    "filename": "HG_G1.py",
+    "name": "HG_G1",
+    "title": "HG_G1 (地面锚板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G1.py",
+    "description": "HG/T 21629-2021 G1 地面锚板 图C.7-1"
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G10.py",
+    "filename": "HG_G10.py",
+    "name": "HG_G10",
+    "title": "HG_G10 (软管站用支架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G10.py",
+    "description": "HG/T 21629-2021 G10 软管站用支架 图C.7-10"
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G11.py",
+    "filename": "HG_G11.py",
+    "name": "HG_G11",
+    "title": "HG_G11 (混凝土上生根的悬臂架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G11.py",
+    "description": "HG/T 21629-2021 G11 混凝土上生根的悬臂架 图C.7-11"
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G12.py",
+    "filename": "HG_G12.py",
+    "name": "HG_G12",
+    "title": "HG_G12 (混凝土上生根的三角架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G12.py",
+    "description": "HG/T 21629-2021 G12 混凝土上生根的三角架 图C.7-12"
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G13.py",
+    "filename": "HG_G13.py",
+    "name": "HG_G13",
+    "title": "HG_G13 (混凝土上生根的L形/倒L形架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G13.py",
+    "description": "HG/T 21629-2021 G13 混凝土上生根的L形/倒L形架 图C.7-13"
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G2.py",
+    "filename": "HG_G2.py",
+    "name": "HG_G2",
+    "title": "HG_G2 (混凝土锚板（膨胀螺栓）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G2.py",
+    "description": "HG/T 21629-2021 G2 混凝土锚板（膨胀螺栓） 图C.7-2"
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G4.py",
+    "filename": "HG_G4.py",
+    "name": "HG_G4",
+    "title": "HG_G4 (地面上生根的T形架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G4.py",
+    "description": "HG/T 21629-2021 G4 地面上生根的T形架 图C.7-4"
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G5.py",
+    "filename": "HG_G5.py",
+    "name": "HG_G5",
+    "title": "HG_G5 (地面上生根的门形架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G5.py",
+    "description": "HG/T 21629-2021 G5 地面上生根的门形架 图C.7-5"
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G7.py",
+    "filename": "HG_G7.py",
+    "name": "HG_G7",
+    "title": "HG_G7",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G7.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G8.py",
+    "filename": "HG_G8.py",
+    "name": "HG_G8",
+    "title": "HG_G8 (U形螺栓/管卡型管道支腿(1/2~)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G8.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/g_steel_grade/HG_G9.py",
+    "filename": "HG_G9.py",
+    "name": "HG_G9",
+    "title": "HG_G9 (罐的支腿（-20℃~300℃）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/g_steel_grade/HG_G9.py",
+    "description": "HG/T 21629-2021 G9 罐的支腿（-20℃~300℃） 图C.7-9"
+  },
+  {
+    "id": "supports/hgt_21629/h_adjustable/HG_H1.py",
+    "filename": "HG_H1.py",
+    "name": "HG_H1",
+    "title": "HG_H1",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/h_adjustable/HG_H1.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/h_adjustable/HG_H2.py",
+    "filename": "HG_H2.py",
+    "name": "HG_H2",
+    "title": "HG_H2",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/h_adjustable/HG_H2.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/h_adjustable/HG_H3.py",
+    "filename": "HG_H3.py",
+    "name": "HG_H3",
+    "title": "HG_H3 (大管用可调支架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/h_adjustable/HG_H3.py",
+    "description": "HG/T 21629-2021 H3 大管用可调支架 图C.8-3"
+  },
+  {
+    "id": "supports/hgt_21629/j_shoes/HG_J1.py",
+    "filename": "HG_J1.py",
+    "name": "HG_J1",
+    "title": "HG_J1",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/j_shoes/HG_J1.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/j_shoes/HG_J15.py",
+    "filename": "HG_J15.py",
+    "name": "HG_J15",
+    "title": "HG_J15 (8及以上立管用焊接式管托)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/j_shoes/HG_J15.py",
+    "description": "HG/T 21629-2021 J15~J16 8及以上立管用焊接式管托 图C.9-9"
+  },
+  {
+    "id": "supports/hgt_21629/j_shoes/HG_J2.py",
+    "filename": "HG_J2.py",
+    "name": "HG_J2",
+    "title": "HG_J2",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/j_shoes/HG_J2.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/j_shoes/HG_J3.py",
+    "filename": "HG_J3.py",
+    "name": "HG_J3",
+    "title": "HG_J3 (大管焊接式管托（26~160）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/j_shoes/HG_J3.py",
+    "description": "HG/T 21629-2021 J3 大管焊接式管托（26~160） 图C.9-3"
+  },
+  {
+    "id": "supports/hgt_21629/j_shoes/HG_J4.py",
+    "filename": "HG_J4.py",
+    "name": "HG_J4",
+    "title": "HG_J4",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/j_shoes/HG_J4.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/j_shoes/HG_J5.py",
+    "filename": "HG_J5.py",
+    "name": "HG_J5",
+    "title": "HG_J5 (多向管夹式管托（1/2~24）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/j_shoes/HG_J5.py",
+    "description": "HG/T 21629-2021 J5~J8 多向管夹式管托（1/2~24） 图C.9-5"
+  },
+  {
+    "id": "supports/hgt_21629/k_limits/HG_K1.py",
+    "filename": "HG_K1.py",
+    "name": "HG_K1",
+    "title": "HG_K1 (不保温管的限位架（1/2~36）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/k_limits/HG_K1.py",
+    "description": "HG/T 21629-2021 K1 不保温管的限位架（1/2~36） 图C.10-1"
+  },
+  {
+    "id": "supports/hgt_21629/k_limits/HG_K2.py",
+    "filename": "HG_K2.py",
+    "name": "HG_K2",
+    "title": "HG_K2",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/k_limits/HG_K2.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/k_limits/HG_K3.py",
+    "filename": "HG_K3.py",
+    "name": "HG_K3",
+    "title": "HG_K3 (大管的限位架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/k_limits/HG_K3.py",
+    "description": "HG/T 21629-2021 K3 大管的限位架 图C.10-3"
+  },
+  {
+    "id": "supports/hgt_21629/k_limits/HG_K4.py",
+    "filename": "HG_K4.py",
+    "name": "HG_K4",
+    "title": "HG_K4 (焊接型固定架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/k_limits/HG_K4.py",
+    "description": "HG/T 21629-2021 K4 焊接型固定架 图C.10-4"
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L1.py",
+    "filename": "HG_L1.py",
+    "name": "HG_L1",
+    "title": "HG_L1 (标准长度的保冷管托(1/2~72)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L1.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L10.py",
+    "filename": "HG_L10.py",
+    "name": "HG_L10",
+    "title": "HG_L10 (地面上生根的保冷管架（1/2~36)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L10.py",
+    "description": "HG/T 21629-2021 L10 地面上生根的保冷管架（1/2~36） 图C.11-10"
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L11.py",
+    "filename": "HG_L11.py",
+    "name": "HG_L11",
+    "title": "HG_L11 (温度低于-40℃的不保冷管管夹式管托)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L11.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L13.py",
+    "filename": "HG_L13.py",
+    "name": "HG_L13",
+    "title": "HG_L13 (耳轴管的保冷管托)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L13.py",
+    "description": "HG/T 21629-2021 L13 耳轴管的保冷管托 图C.11-13"
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L14.py",
+    "filename": "HG_L14.py",
+    "name": "HG_L14",
+    "title": "HG_L14 (耳轴管的保冷块（1/2~72）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L14.py",
+    "description": "HG/T 21629-2021 L14 耳轴管的保冷块（1/2~72） 图C.11-14"
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L15.py",
+    "filename": "HG_L15.py",
+    "name": "HG_L15",
+    "title": "HG_L15 (标准型保冷管的吊架组件（1/2~3)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L15.py",
+    "description": "HG/T 21629-2021 L15 标准型保冷管的吊架组件（1/2~36） 图C.11-15"
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L17.py",
+    "filename": "HG_L17.py",
+    "name": "HG_L17",
+    "title": "HG_L17 (多向保冷管托（1/2~72）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L17.py",
+    "description": "HG/T 21629-2021 L17~L20 多向保冷管托（1/2~72） 图C.11-17"
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L24.py",
+    "filename": "HG_L24.py",
+    "name": "HG_L24",
+    "title": "HG_L24 (设备预焊件的保冷块)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L24.py",
+    "description": "HG/T 21629-2021 L24 设备预焊件的保冷块 图C.11-20"
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L4.py",
+    "filename": "HG_L4.py",
+    "name": "HG_L4",
+    "title": "HG_L4",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L4.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L5.py",
+    "filename": "HG_L5.py",
+    "name": "HG_L5",
+    "title": "HG_L5 (保冷管道的管托型限位架（1/2～7)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L5.py",
+    "description": "HG/T 21629-2021 L5 保冷管道的管托型限位架（1/2～72） 图C.11-5"
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L6.py",
+    "filename": "HG_L6.py",
+    "name": "HG_L6",
+    "title": "HG_L6 (保冷管道的耳轴型限位架（3～72)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L6.py",
+    "description": "HG/T 21629-2021 L6 保冷管道的耳轴型限位架（3～72，大荷载，非首选） 图C.11-6"
+  },
+  {
+    "id": "supports/hgt_21629/l_cold/HG_L9.py",
+    "filename": "HG_L9.py",
+    "name": "HG_L9",
+    "title": "HG_L9 (地面上生根的保冷管固定架（1/2~)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/l_cold/HG_L9.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/m_nonmetal/HG_MA4.py",
+    "filename": "HG_MA4.py",
+    "name": "HG_MA4",
+    "title": "HG_MA4 (管夹用橡胶套（非金属管）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/m_nonmetal/HG_MA4.py",
+    "description": "HG/T 21629-2021 MA4 管夹用橡胶套（非金属管） 图C.12-4"
+  },
+  {
+    "id": "supports/hgt_21629/m_nonmetal/HG_MA5.py",
+    "filename": "HG_MA5.py",
+    "name": "HG_MA5",
+    "title": "HG_MA5 (法兰用U形管夹（1/2~2，-2)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/m_nonmetal/HG_MA5.py",
+    "description": "HG/T 21629-2021 MA5 法兰用U形管夹（1/2~2，-20°℃~120℃，非金属管） 图C.12-5"
+  },
+  {
+    "id": "supports/hgt_21629/m_nonmetal/HG_MB1.py",
+    "filename": "HG_MB1.py",
+    "name": "HG_MB1",
+    "title": "HG_MB1 (管夹式刚性吊架（1/2~36，-)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/m_nonmetal/HG_MB1.py",
+    "description": "HG/T 21629-2021 MB1~MB4 管夹式刚性吊架（1/2~36，-20℃～120℃，非金属管） 图C.12-6"
+  },
+  {
+    "id": "supports/hgt_21629/m_nonmetal/HG_MD1.py",
+    "filename": "HG_MD1.py",
+    "name": "HG_MD1",
+    "title": "HG_MD1 (连续梁（非金属管）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/m_nonmetal/HG_MD1.py",
+    "description": "HG/T 21629-2021 MD1 连续梁（非金属管） 图C.12-7"
+  },
+  {
+    "id": "supports/hgt_21629/m_nonmetal/HG_ME1.py",
+    "filename": "HG_ME1.py",
+    "name": "HG_ME1",
+    "title": "HG_ME1 (立管用导向承重架（1/2~24，)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/m_nonmetal/HG_ME1.py",
+    "description": "HG/T 21629-2021 ME1 立管用导向承重架（1/2~24，非金属管） 图C.12-8"
+  },
+  {
+    "id": "supports/hgt_21629/m_nonmetal/HG_MF1.py",
+    "filename": "HG_MF1.py",
+    "name": "HG_MF1",
+    "title": "HG_MF1 (弯头的竖直耳轴（非金属管）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/m_nonmetal/HG_MF1.py",
+    "description": "HG/T 21629-2021 MF1 弯头的竖直耳轴（非金属管） 图C.12-9"
+  },
+  {
+    "id": "supports/hgt_21629/m_nonmetal/HG_MJ1.py",
+    "filename": "HG_MJ1.py",
+    "name": "HG_MJ1",
+    "title": "HG_MJ1 (管夹式管托(1/2~24，-20)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/m_nonmetal/HG_MJ1.py",
+    "description": "HG/T 21629-2021 MJ1 管夹式管托(1/2~24，-20℃~120℃，非金属管） 图C.12-14"
+  },
+  {
+    "id": "supports/hgt_21629/m_nonmetal/HG_MY1.py",
+    "filename": "HG_MY1.py",
+    "name": "HG_MY1",
+    "title": "HG_MY1 (弧形垫板（1/2~36，非金属管)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/m_nonmetal/HG_MY1.py",
+    "description": "HG/T 21629-2021 MY1 弧形垫板（1/2~36，非金属管） 图C.12-26"
+  },
+  {
+    "id": "supports/hgt_21629/n_equipment_steel/HG_N1.py",
+    "filename": "HG_N1.py",
+    "name": "HG_N1",
+    "title": "HG_N1 (设备上生根的单悬臂架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/n_equipment_steel/HG_N1.py",
+    "description": "HG/T 21629-2021 N1 设备上生根的单悬臂架 图C.13-1"
+  },
+  {
+    "id": "supports/hgt_21629/n_equipment_steel/HG_N3.py",
+    "filename": "HG_N3.py",
+    "name": "HG_N3",
+    "title": "HG_N3 (设备上生根的单三角架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/n_equipment_steel/HG_N3.py",
+    "description": "HG/T 21629-2021 N3 设备上生根的单三角架 图C.13-3"
+  },
+  {
+    "id": "supports/hgt_21629/n_equipment_steel/HG_N5.py",
+    "filename": "HG_N5.py",
+    "name": "HG_N5",
+    "title": "HG_N5 (设备上生根的T形架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/n_equipment_steel/HG_N5.py",
+    "description": "HG/T 21629-2021 N5 设备上生根的T形架 图C.13-5"
+  },
+  {
+    "id": "supports/hgt_21629/n_equipment_steel/HG_N6.py",
+    "filename": "HG_N6.py",
+    "name": "HG_N6",
+    "title": "HG_N6 (设备上生根的等高门形架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/n_equipment_steel/HG_N6.py",
+    "description": "HG/T 21629-2021 N6 设备上生根的等高门形架 图C.13-6"
+  },
+  {
+    "id": "supports/hgt_21629/n_equipment_steel/HG_N8.py",
+    "filename": "HG_N8.py",
+    "name": "HG_N8",
+    "title": "HG_N8 (设备预焊件用连接板和螺栓)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/n_equipment_steel/HG_N8.py",
+    "description": "HG/T 21629-2021 N8 设备预焊件用连接板和螺栓 图C.13-8"
+  },
+  {
+    "id": "supports/hgt_21629/p_ptfe/HG_P1.py",
+    "filename": "HG_P1.py",
+    "name": "HG_P1",
+    "title": "HG_P1 (尺寸固定的PTFE滑板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/p_ptfe/HG_P1.py",
+    "description": "HG/T 21629-2021 P1 尺寸固定的PTFE滑板 图C.14-1"
+  },
+  {
+    "id": "supports/hgt_21629/p_ptfe/HG_P2.py",
+    "filename": "HG_P2.py",
+    "name": "HG_P2",
+    "title": "HG_P2 (尺寸可变的PTFE滑板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/p_ptfe/HG_P2.py",
+    "description": "HG/T 21629-2021 P2 尺寸可变的PTFE滑板 图C.14-2"
+  },
+  {
+    "id": "supports/hgt_21629/q_branch/HG_Q1.py",
+    "filename": "HG_Q1.py",
+    "name": "HG_Q1",
+    "title": "HG_Q1 (大管用角钢支撑小管(1/2~4 )",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/q_branch/HG_Q1.py",
+    "description": "HG/T 21629-2021 Q1 大管用角钢支撑小管(1/2~4 不保温管） 图C.15-1"
+  },
+  {
+    "id": "supports/hgt_21629/q_branch/HG_Q12.py",
+    "filename": "HG_Q12.py",
+    "name": "HG_Q12",
+    "title": "HG_Q12 (小支管加强架（排净、放空和仪表，1/)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/q_branch/HG_Q12.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/q_branch/HG_Q15.py",
+    "filename": "HG_Q15.py",
+    "name": "HG_Q15",
+    "title": "HG_Q15 (小支管加强架（钢管撑，1/2~2)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/q_branch/HG_Q15.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/q_branch/HG_Q5.py",
+    "filename": "HG_Q5.py",
+    "name": "HG_Q5",
+    "title": "HG_Q5 (在大管的管托或耳轴上支撑小管（1/2)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/q_branch/HG_Q5.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/q_branch/HG_Q9.py",
+    "filename": "HG_Q9.py",
+    "name": "HG_Q9",
+    "title": "HG_Q9 (小支管加强架（安全阀，1/2~2)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/q_branch/HG_Q9.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/r_struts/HG_R1.py",
+    "filename": "HG_R1.py",
+    "name": "HG_R1",
+    "title": "HG_R1 (管夹型刚性拉撑杆)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/r_struts/HG_R1.py",
+    "description": "HG/T 21629-2021 R1 管夹型刚性拉撑杆 图C.16-1"
+  },
+  {
+    "id": "supports/hgt_21629/r_struts/HG_R2.py",
+    "filename": "HG_R2.py",
+    "name": "HG_R2",
+    "title": "HG_R2 (管夹型刚性拉撑杆（直管耳轴）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/r_struts/HG_R2.py",
+    "description": "HG/T 21629-2021 R2 管夹型刚性拉撑杆（直管耳轴） 图C.16-2"
+  },
+  {
+    "id": "supports/hgt_21629/r_struts/HG_R4.py",
+    "filename": "HG_R4.py",
+    "name": "HG_R4",
+    "title": "HG_R4 (管夹型刚性拉撑杆（双耳轴）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/r_struts/HG_R4.py",
+    "description": "HG/T 21629-2021 R4 管夹型刚性拉撑杆（双耳轴） 图C.16-4"
+  },
+  {
+    "id": "supports/hgt_21629/r_struts/HG_R8.py",
+    "filename": "HG_R8.py",
+    "name": "HG_R8",
+    "title": "HG_R8 (夹角可变的等长双刚性拉撑杆组合架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/r_struts/HG_R8.py",
+    "description": "HG/T 21629-2021 R8 夹角可变的等长双刚性拉撑杆组合架 图C.16-8"
+  },
+  {
+    "id": "supports/hgt_21629/r_struts/HG_R9.py",
+    "filename": "HG_R9.py",
+    "name": "HG_R9",
+    "title": "HG_R9 (夹角为90°的等长或不等长双刚性拉撑)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/r_struts/HG_R9.py",
+    "description": "HG/T 21629-2021 R9 夹角为90°的等长或不等长双刚性拉撑杆组合架 图C.16-9"
+  },
+  {
+    "id": "supports/hgt_21629/s_snubbers/HG_S1.py",
+    "filename": "HG_S1.py",
+    "name": "HG_S1",
+    "title": "HG_S1 (管夹型液压阻尼器)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/s_snubbers/HG_S1.py",
+    "description": "HG/T 21629-2021 S1 管夹型液压阻尼器 图C.17-1"
+  },
+  {
+    "id": "supports/hgt_21629/s_snubbers/HG_S2.py",
+    "filename": "HG_S2.py",
+    "name": "HG_S2",
+    "title": "HG_S2 (管夹型液压阻尼器（直管耳轴）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/s_snubbers/HG_S2.py",
+    "description": "HG/T 21629-2021 S2 管夹型液压阻尼器（直管耳轴） 图C.17-2"
+  },
+  {
+    "id": "supports/hgt_21629/s_snubbers/HG_S4.py",
+    "filename": "HG_S4.py",
+    "name": "HG_S4",
+    "title": "HG_S4 (管夹型液压阻尼器（双耳轴）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/s_snubbers/HG_S4.py",
+    "description": "HG/T 21629-2021 S4 管夹型液压阻尼器（双耳轴） 图C.17-4"
+  },
+  {
+    "id": "supports/hgt_21629/s_snubbers/HG_S8.py",
+    "filename": "HG_S8.py",
+    "name": "HG_S8",
+    "title": "HG_S8 (夹角可变的等长双液压阻尼器组合架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/s_snubbers/HG_S8.py",
+    "description": "HG/T 21629-2021 S8 夹角可变的等长双液压阻尼器组合架 图C.17-8"
+  },
+  {
+    "id": "supports/hgt_21629/s_snubbers/HG_S9.py",
+    "filename": "HG_S9.py",
+    "name": "HG_S9",
+    "title": "HG_S9 (夹角为90°的等长或不等长双液压阻尼)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/s_snubbers/HG_S9.py",
+    "description": "HG/T 21629-2021 S9 夹角为90°的等长或不等长双液压阻尼器组合架 图C.17-9"
+  },
+  {
+    "id": "supports/hgt_21629/t_hot/HG_T1.py",
+    "filename": "HG_T1.py",
+    "name": "HG_T1",
+    "title": "HG_T1 (双管夹式高温隔热管托（1/2～48)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/t_hot/HG_T1.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/t_hot/HG_T17.py",
+    "filename": "HG_T17.py",
+    "name": "HG_T17",
+    "title": "HG_T17 (8及以上立管用焊接式高温隔热管托)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/t_hot/HG_T17.py",
+    "description": "HG/T 21629-2021 T17~T18 8及以上立管用焊接式高温隔热管托 图C.18-11"
+  },
+  {
+    "id": "supports/hgt_21629/t_hot/HG_T3.py",
+    "filename": "HG_T3.py",
+    "name": "HG_T3",
+    "title": "HG_T3 (大管焊接式高温隔热管托（26~16)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/t_hot/HG_T3.py",
+    "description": "HG/T 21629-2021 T3 大管焊接式高温隔热管托（26~160） 图C.18-3"
+  },
+  {
+    "id": "supports/hgt_21629/t_hot/HG_T4.py",
+    "filename": "HG_T4.py",
+    "name": "HG_T4",
+    "title": "HG_T4 (高温隔热限位管托（1/2～48）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/t_hot/HG_T4.py",
+    "description": "HG/T 21629-2021 T4 高温隔热限位管托（1/2～48） 图C.18-4"
+  },
+  {
+    "id": "supports/hgt_21629/t_hot/HG_T5.py",
+    "filename": "HG_T5.py",
+    "name": "HG_T5",
+    "title": "HG_T5 (耳轴管的高温隔热管托)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/t_hot/HG_T5.py",
+    "description": "HG/T 21629-2021 T5 耳轴管的高温隔热管托 图C.18-5"
+  },
+  {
+    "id": "supports/hgt_21629/t_hot/HG_T7.py",
+    "filename": "HG_T7.py",
+    "name": "HG_T7",
+    "title": "HG_T7 (标准型高温隔热吊架组件（1/2～3)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/t_hot/HG_T7.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/t_hot/HG_T9.py",
+    "filename": "HG_T9.py",
+    "name": "HG_T9",
+    "title": "HG_T9 (双管夹式多向高温隔热管托（1/2～)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/t_hot/HG_T9.py",
+    "description": "HG/T 21629-2021 T9~T12 双管夹式多向高温隔热管托（1/2～48） 图C.18-9"
+  },
+  {
+    "id": "supports/hgt_21629/u_ubolts/HG_U3.py",
+    "filename": "HG_U3.py",
+    "name": "HG_U3",
+    "title": "HG_U3",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/u_ubolts/HG_U3.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/u_ubolts/HG_U4.py",
+    "filename": "HG_U4.py",
+    "name": "HG_U4",
+    "title": "HG_U4 (角钢和U形螺栓/管卡组成的托吊架（1)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/u_ubolts/HG_U4.py",
+    "description": "HG/T 21629-2021 U4 角钢和U形螺栓/管卡组成的托吊架（1/2~10） 图C.19-4"
+  },
+  {
+    "id": "supports/hgt_21629/u_ubolts/HG_U6.py",
+    "filename": "HG_U6.py",
+    "name": "HG_U6",
+    "title": "HG_U6 (法兰用U形管夹（1/2~2，-2)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/u_ubolts/HG_U6.py",
+    "description": "HG/T 21629-2021 U6 法兰用U形管夹（1/2~2，-20℃~300℃） 图C.19-6"
+  },
+  {
+    "id": "supports/hgt_21629/v_viscous/HG_V1.py",
+    "filename": "HG_V1.py",
+    "name": "HG_V1",
+    "title": "HG_V1 (水平管用单粘滞阻尼器)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/v_viscous/HG_V1.py",
+    "description": "HG/T 21629-2021 V1 水平管用单粘滞阻尼器 图C.20-1"
+  },
+  {
+    "id": "supports/hgt_21629/v_viscous/HG_V2.py",
+    "filename": "HG_V2.py",
+    "name": "HG_V2",
+    "title": "HG_V2 (水平管用双粘滞阻尼器)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/v_viscous/HG_V2.py",
+    "description": "HG/T 21629-2021 V2 水平管用双粘滞阻尼器 图C.20-2"
+  },
+  {
+    "id": "supports/hgt_21629/v_viscous/HG_V3.py",
+    "filename": "HG_V3.py",
+    "name": "HG_V3",
+    "title": "HG_V3 (立管用单粘滞阻尼器)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/v_viscous/HG_V3.py",
+    "description": "HG/T 21629-2021 V3 立管用单粘滞阻尼器 图C.20-3"
+  },
+  {
+    "id": "supports/hgt_21629/v_viscous/HG_V4.py",
+    "filename": "HG_V4.py",
+    "name": "HG_V4",
+    "title": "HG_V4 (立管用双粘滞阻尼器)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/v_viscous/HG_V4.py",
+    "description": "HG/T 21629-2021 V4 立管用双粘滞阻尼器 图C.20-4"
+  },
+  {
+    "id": "supports/hgt_21629/w_disc_springs/HG_W1.py",
+    "filename": "HG_W1.py",
+    "name": "HG_W1",
+    "title": "HG_W1 (不保温管的碟簧减振架（1/2~24)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/w_disc_springs/HG_W1.py",
+    "description": "HG/T 21629-2021 W1 不保温管的碟簧减振架（1/2~24，无横向位移） 图C.21-1"
+  },
+  {
+    "id": "supports/hgt_21629/w_disc_springs/HG_W3.py",
+    "filename": "HG_W3.py",
+    "name": "HG_W3",
+    "title": "HG_W3 (保温/保冷管的碟簧减振架（1/2~)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/w_disc_springs/HG_W3.py",
+    "description": "HG/T 21629-2021 W3 保温/保冷管的碟簧减振架（1/2~24，无横向位移） 图C.21-3"
+  },
+  {
+    "id": "supports/hgt_21629/x_spring_dampers/HG_X1.py",
+    "filename": "HG_X1.py",
+    "name": "HG_X1",
+    "title": "HG_X1 (管夹型弹簧减振器)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/x_spring_dampers/HG_X1.py",
+    "description": "HG/T 21629-2021 X1 管夹型弹簧减振器 图C.22-1"
+  },
+  {
+    "id": "supports/hgt_21629/x_spring_dampers/HG_X2.py",
+    "filename": "HG_X2.py",
+    "name": "HG_X2",
+    "title": "HG_X2 (管夹型弹簧减振器（直管耳轴）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/x_spring_dampers/HG_X2.py",
+    "description": "HG/T 21629-2021 X2 管夹型弹簧减振器（直管耳轴） 图C.22-2"
+  },
+  {
+    "id": "supports/hgt_21629/x_spring_dampers/HG_X4.py",
+    "filename": "HG_X4.py",
+    "name": "HG_X4",
+    "title": "HG_X4 (管夹型弹簧减振器（双耳轴）)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/x_spring_dampers/HG_X4.py",
+    "description": "HG/T 21629-2021 X4 管夹型弹簧减振器（双耳轴） 图C.22-4"
+  },
+  {
+    "id": "supports/hgt_21629/x_spring_dampers/HG_X8.py",
+    "filename": "HG_X8.py",
+    "name": "HG_X8",
+    "title": "HG_X8 (夹角可变的等长双弹簧减振器组合架)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/x_spring_dampers/HG_X8.py",
+    "description": "HG/T 21629-2021 X8 夹角可变的等长双弹簧减振器组合架 图C.22-8"
+  },
+  {
+    "id": "supports/hgt_21629/x_spring_dampers/HG_X9.py",
+    "filename": "HG_X9.py",
+    "name": "HG_X9",
+    "title": "HG_X9 (夹角为90°的等长或不等长双弹簧减振)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/x_spring_dampers/HG_X9.py",
+    "description": "HG/T 21629-2021 X9 夹角为90°的等长或不等长双弹簧减振器组合架 图C.22-9"
+  },
+  {
+    "id": "supports/hgt_21629/y_misc/HG_Y1.py",
+    "filename": "HG_Y1.py",
+    "name": "HG_Y1",
+    "title": "HG_Y1 (用于不锈钢裸管的垫板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/y_misc/HG_Y1.py",
+    "description": "HG/T 21629-2021 Y1 用于不锈钢裸管的垫板 图C.23-1"
+  },
+  {
+    "id": "supports/hgt_21629/y_misc/HG_Y2.py",
+    "filename": "HG_Y2.py",
+    "name": "HG_Y2",
+    "title": "HG_Y2",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/y_misc/HG_Y2.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/y_misc/HG_Y3.py",
+    "filename": "HG_Y3.py",
+    "name": "HG_Y3",
+    "title": "HG_Y3",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/y_misc/HG_Y3.py",
+    "description": ""
+  },
+  {
+    "id": "supports/hgt_21629/y_misc/HG_Y4.py",
+    "filename": "HG_Y4.py",
+    "name": "HG_Y4",
+    "title": "HG_Y4 (格栅板夹板)",
+    "category": "08 化工标准 HG/T 21629 支架",
+    "path": "public/pyscripts/supports/hgt_21629/y_misc/HG_Y4.py",
+    "description": "HG/T 21629-2021 Y4 格栅板夹板 图C.23-4"
+  },
+  {
+    "id": "system_defaults/01_supports/CCLAMP.py",
+    "filename": "CCLAMP.py",
+    "name": "CCLAMP",
+    "title": "CCLAMP",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CCLAMP.py",
+    "description": "CCLAMP"
+  },
+  {
+    "id": "system_defaults/01_supports/CCLAMPD.py",
+    "filename": "CCLAMPD.py",
+    "name": "CCLAMPD",
+    "title": "CCLAMPD",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CCLAMPD.py",
+    "description": "CCLAMPD"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB000.py",
+    "filename": "CSGB000.py",
+    "name": "CSGB000",
+    "title": "CSGB000",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB000.py",
+    "description": "CSGB000"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB001.py",
+    "filename": "CSGB001.py",
+    "name": "CSGB001",
+    "title": "CSGB001",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB001.py",
+    "description": "CSGB001"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB002.py",
+    "filename": "CSGB002.py",
+    "name": "CSGB002",
+    "title": "CSGB002",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB002.py",
+    "description": "CSGB002"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB003.py",
+    "filename": "CSGB003.py",
+    "name": "CSGB003",
+    "title": "CSGB003",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB003.py",
+    "description": "CSGB003"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB004.py",
+    "filename": "CSGB004.py",
+    "name": "CSGB004",
+    "title": "CSGB004",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB004.py",
+    "description": "CSGB004"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB005.py",
+    "filename": "CSGB005.py",
+    "name": "CSGB005",
+    "title": "CSGB005",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB005.py",
+    "description": "CSGB005"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB006.py",
+    "filename": "CSGB006.py",
+    "name": "CSGB006",
+    "title": "CSGB006",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB006.py",
+    "description": "CSGB006"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB007.py",
+    "filename": "CSGB007.py",
+    "name": "CSGB007",
+    "title": "CSGB007",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB007.py",
+    "description": "CSGB007"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB008.py",
+    "filename": "CSGB008.py",
+    "name": "CSGB008",
+    "title": "CSGB008",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB008.py",
+    "description": "CSGB008"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB009.py",
+    "filename": "CSGB009.py",
+    "name": "CSGB009",
+    "title": "CSGB009",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB009.py",
+    "description": "CSGB009"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB010.py",
+    "filename": "CSGB010.py",
+    "name": "CSGB010",
+    "title": "CSGB010",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB010.py",
+    "description": "CSGB010"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB011.py",
+    "filename": "CSGB011.py",
+    "name": "CSGB011",
+    "title": "CSGB011",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB011.py",
+    "description": "CSGB011"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB012.py",
+    "filename": "CSGB012.py",
+    "name": "CSGB012",
+    "title": "CSGB012",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB012.py",
+    "description": "CSGB012"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGB013.py",
+    "filename": "CSGB013.py",
+    "name": "CSGB013",
+    "title": "CSGB013",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGB013.py",
+    "description": "CSGB013"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGC000.py",
+    "filename": "CSGC000.py",
+    "name": "CSGC000",
+    "title": "CSGC000",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGC000.py",
+    "description": "CSGC000"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGC001.py",
+    "filename": "CSGC001.py",
+    "name": "CSGC001",
+    "title": "CSGC001",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGC001.py",
+    "description": "CSGC001"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGC002.py",
+    "filename": "CSGC002.py",
+    "name": "CSGC002",
+    "title": "CSGC002",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGC002.py",
+    "description": "CSGC002"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGC003.py",
+    "filename": "CSGC003.py",
+    "name": "CSGC003",
+    "title": "CSGC003",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGC003.py",
+    "description": "CSGC003"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGC004.py",
+    "filename": "CSGC004.py",
+    "name": "CSGC004",
+    "title": "CSGC004",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGC004.py",
+    "description": "CSGC004"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGC005.py",
+    "filename": "CSGC005.py",
+    "name": "CSGC005",
+    "title": "CSGC005",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGC005.py",
+    "description": "CSGC005"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGD001.py",
+    "filename": "CSGD001.py",
+    "name": "CSGD001",
+    "title": "CSGD001",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGD001.py",
+    "description": "CSGD001"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGE001.py",
+    "filename": "CSGE001.py",
+    "name": "CSGE001",
+    "title": "CSGE001",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGE001.py",
+    "description": "CSGE001"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGE002.py",
+    "filename": "CSGE002.py",
+    "name": "CSGE002",
+    "title": "CSGE002",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGE002.py",
+    "description": "CSGE002"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGE003.py",
+    "filename": "CSGE003.py",
+    "name": "CSGE003",
+    "title": "CSGE003",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGE003.py",
+    "description": "CSGE003"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGE004.py",
+    "filename": "CSGE004.py",
+    "name": "CSGE004",
+    "title": "CSGE004",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGE004.py",
+    "description": "CSGE004"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGF001.py",
+    "filename": "CSGF001.py",
+    "name": "CSGF001",
+    "title": "CSGF001",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGF001.py",
+    "description": "CSGF001"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGF002.py",
+    "filename": "CSGF002.py",
+    "name": "CSGF002",
+    "title": "CSGF002",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGF002.py",
+    "description": "CSGF002"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGF003.py",
+    "filename": "CSGF003.py",
+    "name": "CSGF003",
+    "title": "CSGF003",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGF003.py",
+    "description": "CSGF003"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGH001.py",
+    "filename": "CSGH001.py",
+    "name": "CSGH001",
+    "title": "CSGH001",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGH001.py",
+    "description": "CSGH001"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGH002.py",
+    "filename": "CSGH002.py",
+    "name": "CSGH002",
+    "title": "CSGH002",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGH002.py",
+    "description": "CSGH002"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGH003.py",
+    "filename": "CSGH003.py",
+    "name": "CSGH003",
+    "title": "CSGH003",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGH003.py",
+    "description": "CSGH003"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGH004.py",
+    "filename": "CSGH004.py",
+    "name": "CSGH004",
+    "title": "CSGH004",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGH004.py",
+    "description": "CSGH004"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGH005.py",
+    "filename": "CSGH005.py",
+    "name": "CSGH005",
+    "title": "CSGH005",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGH005.py",
+    "description": "CSGH005"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGH006.py",
+    "filename": "CSGH006.py",
+    "name": "CSGH006",
+    "title": "CSGH006",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGH006.py",
+    "description": "CSGH006"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGH007.py",
+    "filename": "CSGH007.py",
+    "name": "CSGH007",
+    "title": "CSGH007",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGH007.py",
+    "description": "CSGH007"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGH008.py",
+    "filename": "CSGH008.py",
+    "name": "CSGH008",
+    "title": "CSGH008",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGH008.py",
+    "description": "CSGH008"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGH009.py",
+    "filename": "CSGH009.py",
+    "name": "CSGH009",
+    "title": "CSGH009",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGH009.py",
+    "description": "CSGH009"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGPRIM.py",
+    "filename": "CSGPRIM.py",
+    "name": "CSGPRIM",
+    "title": "CSGPRIM",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGPRIM.py",
+    "description": "CSGPRIM"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGR001.py",
+    "filename": "CSGR001.py",
+    "name": "CSGR001",
+    "title": "CSGR001",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGR001.py",
+    "description": "CSGR001"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGR002.py",
+    "filename": "CSGR002.py",
+    "name": "CSGR002",
+    "title": "CSGR002",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGR002.py",
+    "description": "CSGR002"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGR004.py",
+    "filename": "CSGR004.py",
+    "name": "CSGR004",
+    "title": "CSGR004",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGR004.py",
+    "description": "CSGR004"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGR005.py",
+    "filename": "CSGR005.py",
+    "name": "CSGR005",
+    "title": "CSGR005",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGR005.py",
+    "description": "CSGR005"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGR006.py",
+    "filename": "CSGR006.py",
+    "name": "CSGR006",
+    "title": "CSGR006",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGR006.py",
+    "description": "CSGR006"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGR007.py",
+    "filename": "CSGR007.py",
+    "name": "CSGR007",
+    "title": "CSGR007",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGR007.py",
+    "description": "CSGR007"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGR008.py",
+    "filename": "CSGR008.py",
+    "name": "CSGR008",
+    "title": "CSGR008",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGR008.py",
+    "description": "CSGR008"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGT001.py",
+    "filename": "CSGT001.py",
+    "name": "CSGT001",
+    "title": "CSGT001",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGT001.py",
+    "description": "CSGT001"
+  },
+  {
+    "id": "system_defaults/01_supports/CSGT002.py",
+    "filename": "CSGT002.py",
+    "name": "CSGT002",
+    "title": "CSGT002",
+    "category": "09 原厂系统库 - 支吊架",
+    "path": "public/pyscripts/system_defaults/01_supports/CSGT002.py",
+    "description": "CSGT002"
+  },
+  {
+    "id": "system_defaults/02_fittings/CCOUPLING.py",
+    "filename": "CCOUPLING.py",
+    "name": "CCOUPLING",
+    "title": "CCOUPLING (CP METRIC Coupling)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CCOUPLING.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CDBBEND.py",
+    "filename": "CDBBEND.py",
+    "name": "CDBBEND",
+    "title": "CDBBEND (Built-in CDBBEND)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CDBBEND.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CDBCROSS.py",
+    "filename": "CDBCROSS.py",
+    "name": "CDBCROSS",
+    "title": "CDBCROSS (Built-in CDBCROSS)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CDBCROSS.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CDBOX.py",
+    "filename": "CDBOX.py",
+    "name": "CDBOX",
+    "title": "CDBOX",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CDBOX.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CDBTEE.py",
+    "filename": "CDBTEE.py",
+    "name": "CDBTEE",
+    "title": "CDBTEE (Built-in CDBTEE)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CDBTEE.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CDCBEND.py",
+    "filename": "CDCBEND.py",
+    "name": "CDCBEND",
+    "title": "CDCBEND (Built-in CDCBEND)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CDCBEND.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CDCCROSS.py",
+    "filename": "CDCCROSS.py",
+    "name": "CDCCROSS",
+    "title": "CDCCROSS (Built-in CDCCROSS)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CDCCROSS.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CDCTEE.py",
+    "filename": "CDCTEE.py",
+    "name": "CDCTEE",
+    "title": "CDCTEE (Built-in CDCTEE)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CDCTEE.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CDCYLINDER.py",
+    "filename": "CDCYLINDER.py",
+    "name": "CDCYLINDER",
+    "title": "CDCYLINDER (CP METRIC Bleed Ring)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CDCYLINDER.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPB.py",
+    "filename": "CPB.py",
+    "name": "CPB",
+    "title": "CPB (CP METRIC Elbow 90.0°)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPB.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPBD.py",
+    "filename": "CPBD.py",
+    "name": "CPBD",
+    "title": "CPBD (Built-in CPBD)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPBD.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPBE.py",
+    "filename": "CPBE.py",
+    "name": "CPBE",
+    "title": "CPBE (Built-in CPBE)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPBE.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPBN.py",
+    "filename": "CPBN.py",
+    "name": "CPBN",
+    "title": "CPBN (Built-in CPBN)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPBN.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPBS.py",
+    "filename": "CPBS.py",
+    "name": "CPBS",
+    "title": "CPBS (Built-in CPBS)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPBS.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPBT.py",
+    "filename": "CPBT.py",
+    "name": "CPBT",
+    "title": "CPBT (Built-in CPBT)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPBT.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPB_F_F_.py",
+    "filename": "CPB_F_F_.py",
+    "name": "CPB_F_F_",
+    "title": "CPB_F_F_",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPB_F_F_.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPC.py",
+    "filename": "CPC.py",
+    "name": "CPC",
+    "title": "CPC (CP METRIC Cap)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPC.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPJB.py",
+    "filename": "CPJB.py",
+    "name": "CPJB",
+    "title": "CPJB (Built-in CPJB)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPJB.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPJC.py",
+    "filename": "CPJC.py",
+    "name": "CPJC",
+    "title": "CPJC (Built-in CPJC)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPJC.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPJO.py",
+    "filename": "CPJO.py",
+    "name": "CPJO",
+    "title": "CPJO (Built-in CPJO)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPJO.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPJRC.py",
+    "filename": "CPJRC.py",
+    "name": "CPJRC",
+    "title": "CPJRC (CP METRIC Reducer conc.)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPJRC.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPJRCL.py",
+    "filename": "CPJRCL.py",
+    "name": "CPJRCL",
+    "title": "CPJRCL (Built-in CPJRCL)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPJRCL.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPJRE.py",
+    "filename": "CPJRE.py",
+    "name": "CPJRE",
+    "title": "CPJRE (CP METRIC Reducer ecc.)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPJRE.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPJREL.py",
+    "filename": "CPJREL.py",
+    "name": "CPJREL",
+    "title": "CPJREL (Built-in CPJREL)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPJREL.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPR5V.py",
+    "filename": "CPR5V.py",
+    "name": "CPR5V",
+    "title": "CPR5V (Built-in CPR5V)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPR5V.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPT2.py",
+    "filename": "CPT2.py",
+    "name": "CPT2",
+    "title": "CPT2 (Built-in CPT2)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPT2.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPTC.py",
+    "filename": "CPTC.py",
+    "name": "CPTC",
+    "title": "CPTC (Built-in CPTC)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPTC.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPTE.py",
+    "filename": "CPTE.py",
+    "name": "CPTE",
+    "title": "CPTE (Built-in CPTE)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPTE.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPTS.py",
+    "filename": "CPTS.py",
+    "name": "CPTS",
+    "title": "CPTS (CP METRIC Lateral)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPTS.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPTW.py",
+    "filename": "CPTW.py",
+    "name": "CPTW",
+    "title": "CPTW (CP METRIC Elbow Side Outlet)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPTW.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPTY.py",
+    "filename": "CPTY.py",
+    "name": "CPTY",
+    "title": "CPTY (CP METRIC Wye)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPTY.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPXL.py",
+    "filename": "CPXL.py",
+    "name": "CPXL",
+    "title": "CPXL (Built-in CPXL)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPXL.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPXT.py",
+    "filename": "CPXT.py",
+    "name": "CPXT",
+    "title": "CPXT (CP METRIC Tee Side Outlet)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPXT.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CPXX.py",
+    "filename": "CPXX.py",
+    "name": "CPXX",
+    "title": "CPXX (CP METRIC Cross)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CPXX.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CYLSTACK002.py",
+    "filename": "CYLSTACK002.py",
+    "name": "CYLSTACK002",
+    "title": "CYLSTACK002 (Built-in CYLSTACK002)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CYLSTACK002.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/02_fittings/CYLSTACK003.py",
+    "filename": "CYLSTACK003.py",
+    "name": "CYLSTACK003",
+    "title": "CYLSTACK003 (Built-in CYLSTACK003)",
+    "category": "10 原厂系统库 - 管件",
+    "path": "public/pyscripts/system_defaults/02_fittings/CYLSTACK003.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CGLAND.py",
+    "filename": "CGLAND.py",
+    "name": "CGLAND",
+    "title": "CGLAND (Built-in CGLAND)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CGLAND.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPFBO.py",
+    "filename": "CPFBO.py",
+    "name": "CPFBO",
+    "title": "CPFBO (Built-in CPFBO)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPFBO.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPFBR.py",
+    "filename": "CPFBR.py",
+    "name": "CPFBR",
+    "title": "CPFBR (CP METRIC Flange blind)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPFBR.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPFLO.py",
+    "filename": "CPFLO.py",
+    "name": "CPFLO",
+    "title": "CPFLO (Built-in CPFLO)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPFLO.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPFLR.py",
+    "filename": "CPFLR.py",
+    "name": "CPFLR",
+    "title": "CPFLR (Built-in CPFLR)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPFLR.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPFWO.py",
+    "filename": "CPFWO.py",
+    "name": "CPFWO",
+    "title": "CPFWO (Built-in CPFWO)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPFWO.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPFWR.py",
+    "filename": "CPFWR.py",
+    "name": "CPFWR",
+    "title": "CPFWR (CP METRIC Flange)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPFWR.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPFWRI.py",
+    "filename": "CPFWRI.py",
+    "name": "CPFWRI",
+    "title": "CPFWRI (Built-in CPFWRI)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPFWRI.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPIBL.py",
+    "filename": "CPIBL.py",
+    "name": "CPIBL",
+    "title": "CPIBL (Built-in CPIBL)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPIBL.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPIBP.py",
+    "filename": "CPIBP.py",
+    "name": "CPIBP",
+    "title": "CPIBP (CP METRIC Spectacle Blind)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPIBP.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPMB.py",
+    "filename": "CPMB.py",
+    "name": "CPMB",
+    "title": "CPMB (Built-in CPMB)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPMB.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPMGO.py",
+    "filename": "CPMGO.py",
+    "name": "CPMGO",
+    "title": "CPMGO (Built-in CPMGO)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPMGO.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPMGP.py",
+    "filename": "CPMGP.py",
+    "name": "CPMGP",
+    "title": "CPMGP (CP METRIC Gasket)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPMGP.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPMGR.py",
+    "filename": "CPMGR.py",
+    "name": "CPMGR",
+    "title": "CPMGR (Built-in CPMGR)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPMGR.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/03_flanges_gaskets_blinds/CPMU_.py",
+    "filename": "CPMU_.py",
+    "name": "CPMU_",
+    "title": "CPMU_ (CP METRIC Collar)",
+    "category": "11 原厂系统库 - 法兰与盲板",
+    "path": "public/pyscripts/system_defaults/03_flanges_gaskets_blinds/CPMU_.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CMANHOLE.py",
+    "filename": "CMANHOLE.py",
+    "name": "CMANHOLE",
+    "title": "CMANHOLE (Nozzle, handway)",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CMANHOLE.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CPBP.py",
+    "filename": "CPBP.py",
+    "name": "CPBP",
+    "title": "CPBP (Nozzle, vent, ASME B16.9)",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CPBP.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CPMH.py",
+    "filename": "CPMH.py",
+    "name": "CPMH",
+    "title": "CPMH (Built-in CPMH)",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CPMH.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CPMV.py",
+    "filename": "CPMV.py",
+    "name": "CPMV",
+    "title": "CPMV (Built-in CPMV)",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CPMV.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CPMW.py",
+    "filename": "CPMW.py",
+    "name": "CPMW",
+    "title": "CPMW",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CPMW.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CPNS.py",
+    "filename": "CPNS.py",
+    "name": "CPNS",
+    "title": "CPNS (CP METRIC Olet)",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CPNS.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CPP.py",
+    "filename": "CPP.py",
+    "name": "CPP",
+    "title": "CPP (CP METRIC Pipe)",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CPP.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CPP_F_F_.py",
+    "filename": "CPP_F_F_.py",
+    "name": "CPP_F_F_",
+    "title": "CPP_F_F_ (Nozzle, flanged, C, 1, DIN 2630)",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CPP_F_F_.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CPP_OFOF.py",
+    "filename": "CPP_OFOF.py",
+    "name": "CPP_OFOF",
+    "title": "CPP_OFOF (Nozzle, threaded, ASME B16.11)",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CPP_OFOF.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/04_pipes_nozzles_olets/CPP_OMOM.py",
+    "filename": "CPP_OMOM.py",
+    "name": "CPP_OMOM",
+    "title": "CPP_OMOM",
+    "category": "12 原厂系统库 - 管嘴与接头",
+    "path": "public/pyscripts/system_defaults/04_pipes_nozzles_olets/CPP_OMOM.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPMDB.py",
+    "filename": "CPMDB.py",
+    "name": "CPMDB",
+    "title": "CPMDB (Built-in CPMDB)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPMDB.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPSA001.py",
+    "filename": "CPSA001.py",
+    "name": "CPSA001",
+    "title": "CPSA001 (Built-in CPSA001)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPSA001.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPSI001.py",
+    "filename": "CPSI001.py",
+    "name": "CPSI001",
+    "title": "CPSI001 (Built-in CPSI001)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPSI001.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPSY001.py",
+    "filename": "CPSY001.py",
+    "name": "CPSY001",
+    "title": "CPSY001 (CP METRIC Strainer)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPSY001.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPV3000000.py",
+    "filename": "CPV3000000.py",
+    "name": "CPV3000000",
+    "title": "CPV3000000 (Built-in CPV3000000)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPV3000000.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVA001000.py",
+    "filename": "CPVA001000.py",
+    "name": "CPVA001000",
+    "title": "CPVA001000 (Built-in CPVA001000)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVA001000.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVI001000.py",
+    "filename": "CPVI001000.py",
+    "name": "CPVI001000",
+    "title": "CPVI001000",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVI001000.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVI064000.py",
+    "filename": "CPVI064000.py",
+    "name": "CPVI064000",
+    "title": "CPVI064000 (MAGNETIC FLOW METER, CL 150, RF)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVI064000.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVR001000.py",
+    "filename": "CPVR001000.py",
+    "name": "CPVR001000",
+    "title": "CPVR001000 (Built-in CPVR001000)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVR001000.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX001.py",
+    "filename": "CPVX001.py",
+    "name": "CPVX001",
+    "title": "CPVX001 (T-Crank)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX001.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX002.py",
+    "filename": "CPVX002.py",
+    "name": "CPVX002",
+    "title": "CPVX002 (Hand Wheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX002.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX003.py",
+    "filename": "CPVX003.py",
+    "name": "CPVX003",
+    "title": "CPVX003 (Actuator case)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX003.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX004.py",
+    "filename": "CPVX004.py",
+    "name": "CPVX004",
+    "title": "CPVX004 (T-Lever)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX004.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX005.py",
+    "filename": "CPVX005.py",
+    "name": "CPVX005",
+    "title": "CPVX005 (Actuator case w.Crank)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX005.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX006.py",
+    "filename": "CPVX006.py",
+    "name": "CPVX006",
+    "title": "CPVX006 (Detailed actuator case w. Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX006.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX007.py",
+    "filename": "CPVX007.py",
+    "name": "CPVX007",
+    "title": "CPVX007 (Actuator case w. Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX007.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX008.py",
+    "filename": "CPVX008.py",
+    "name": "CPVX008",
+    "title": "CPVX008 (L-Lever)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX008.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX016.py",
+    "filename": "CPVX016.py",
+    "name": "CPVX016",
+    "title": "CPVX016 (Vert. Cylinder actuator)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX016.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX017.py",
+    "filename": "CPVX017.py",
+    "name": "CPVX017",
+    "title": "CPVX017 (Vert. Cylinder actuator w. Extension)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX017.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX018.py",
+    "filename": "CPVX018.py",
+    "name": "CPVX018",
+    "title": "CPVX018 (Vertical cylinder actuator w. Extension and extra cylinder)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX018.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX019.py",
+    "filename": "CPVX019.py",
+    "name": "CPVX019",
+    "title": "CPVX019 (Vert. Cylinder actuator w. Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX019.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX020.py",
+    "filename": "CPVX020.py",
+    "name": "CPVX020",
+    "title": "CPVX020 (Vert. Cylinder actuator w. Extension and Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX020.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX021.py",
+    "filename": "CPVX021.py",
+    "name": "CPVX021",
+    "title": "CPVX021 (Vert. Cylinder actuator w. Extension and extra Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX021.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX032.py",
+    "filename": "CPVX032.py",
+    "name": "CPVX032",
+    "title": "CPVX032 (Hor. Cylinder actuator)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX032.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX033.py",
+    "filename": "CPVX033.py",
+    "name": "CPVX033",
+    "title": "CPVX033 (Hor. Cylinder actuator w. Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX033.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX064.py",
+    "filename": "CPVX064.py",
+    "name": "CPVX064",
+    "title": "CPVX064 (Box actuator)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX064.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX065.py",
+    "filename": "CPVX065.py",
+    "name": "CPVX065",
+    "title": "CPVX065 (Box actuator w. Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX065.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX128.py",
+    "filename": "CPVX128.py",
+    "name": "CPVX128",
+    "title": "CPVX128 (Cone actuator)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX128.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX129.py",
+    "filename": "CPVX129.py",
+    "name": "CPVX129",
+    "title": "CPVX129 (Cone actuator w. Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX129.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX256.py",
+    "filename": "CPVX256.py",
+    "name": "CPVX256",
+    "title": "CPVX256 (Pyramid actuator)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX256.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX257.py",
+    "filename": "CPVX257.py",
+    "name": "CPVX257",
+    "title": "CPVX257 (Pyramid actuator w. Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX257.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX512.py",
+    "filename": "CPVX512.py",
+    "name": "CPVX512",
+    "title": "CPVX512 (Ice cone like actuator)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX512.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/05_valves_actuators/CPVX513.py",
+    "filename": "CPVX513.py",
+    "name": "CPVX513",
+    "title": "CPVX513 (Diaphragm With Handwheel)",
+    "category": "13 原厂系统库 - 阀门与执行器",
+    "path": "public/pyscripts/system_defaults/05_valves_actuators/CPVX513.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/06_instruments/CPI001.py",
+    "filename": "CPI001.py",
+    "name": "CPI001",
+    "title": "CPI001 (Built-in CPI001)",
+    "category": "14 原厂系统库 - 仪表",
+    "path": "public/pyscripts/system_defaults/06_instruments/CPI001.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/06_instruments/CPI001_F_.py",
+    "filename": "CPI001_F_.py",
+    "name": "CPI001_F_",
+    "title": "CPI001_F_ (PRESSURE GAUGE, CL 150, RF)",
+    "category": "14 原厂系统库 - 仪表",
+    "path": "public/pyscripts/system_defaults/06_instruments/CPI001_F_.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/06_instruments/CPI001_OF.py",
+    "filename": "CPI001_OF.py",
+    "name": "CPI001_OF",
+    "title": "CPI001_OF (PRESSURE GAUGE, FPT)",
+    "category": "14 原厂系统库 - 仪表",
+    "path": "public/pyscripts/system_defaults/06_instruments/CPI001_OF.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/06_instruments/CPI001_OM.py",
+    "filename": "CPI001_OM.py",
+    "name": "CPI001_OM",
+    "title": "CPI001_OM (PRESSURE GAUGE, MPT)",
+    "category": "14 原厂系统库 - 仪表",
+    "path": "public/pyscripts/system_defaults/06_instruments/CPI001_OM.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/06_instruments/CPI002.py",
+    "filename": "CPI002.py",
+    "name": "CPI002",
+    "title": "CPI002 (Built-in CPI002)",
+    "category": "14 原厂系统库 - 仪表",
+    "path": "public/pyscripts/system_defaults/06_instruments/CPI002.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/06_instruments/CPI002_F_.py",
+    "filename": "CPI002_F_.py",
+    "name": "CPI002_F_",
+    "title": "CPI002_F_ (TEMPERATURE TRANSMITTER, CL 150, RF)",
+    "category": "14 原厂系统库 - 仪表",
+    "path": "public/pyscripts/system_defaults/06_instruments/CPI002_F_.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/06_instruments/CPI002_OF.py",
+    "filename": "CPI002_OF.py",
+    "name": "CPI002_OF",
+    "title": "CPI002_OF (TEMPERATURE TRANSMITTER, FPT)",
+    "category": "14 原厂系统库 - 仪表",
+    "path": "public/pyscripts/system_defaults/06_instruments/CPI002_OF.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/06_instruments/CPI002_OM.py",
+    "filename": "CPI002_OM.py",
+    "name": "CPI002_OM",
+    "title": "CPI002_OM (TEMPERATURE TRANSMITTER, MPT)",
+    "category": "14 原厂系统库 - 仪表",
+    "path": "public/pyscripts/system_defaults/06_instruments/CPI002_OM.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/06_instruments/CPI003.py",
+    "filename": "CPI003.py",
+    "name": "CPI003",
+    "title": "CPI003 (Built-in CPI003)",
+    "category": "14 原厂系统库 - 仪表",
+    "path": "public/pyscripts/system_defaults/06_instruments/CPI003.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/07_equipment_pumps/CAPD1a.py",
+    "filename": "CAPD1a.py",
+    "name": "CAPD1a",
+    "title": "CAPD1a (Built-in CAPD1a)",
+    "category": "15 原厂系统库 - 设备泵类",
+    "path": "public/pyscripts/system_defaults/07_equipment_pumps/CAPD1a.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/07_equipment_pumps/CAPH1a.py",
+    "filename": "CAPH1a.py",
+    "name": "CAPH1a",
+    "title": "CAPH1a (Built-in CAPH1a)",
+    "category": "15 原厂系统库 - 设备泵类",
+    "path": "public/pyscripts/system_defaults/07_equipment_pumps/CAPH1a.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/07_equipment_pumps/CAPH3a.py",
+    "filename": "CAPH3a.py",
+    "name": "CAPH3a",
+    "title": "CAPH3a (Built-in CAPH3a)",
+    "category": "15 原厂系统库 - 设备泵类",
+    "path": "public/pyscripts/system_defaults/07_equipment_pumps/CAPH3a.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/07_equipment_pumps/CAPH4a.py",
+    "filename": "CAPH4a.py",
+    "name": "CAPH4a",
+    "title": "CAPH4a (Built-in CAPH4a)",
+    "category": "15 原厂系统库 - 设备泵类",
+    "path": "public/pyscripts/system_defaults/07_equipment_pumps/CAPH4a.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/07_equipment_pumps/CAPI1a.py",
+    "filename": "CAPI1a.py",
+    "name": "CAPI1a",
+    "title": "CAPI1a (Built-in CAPI1a)",
+    "category": "15 原厂系统库 - 设备泵类",
+    "path": "public/pyscripts/system_defaults/07_equipment_pumps/CAPI1a.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/07_equipment_pumps/CAPI2a.py",
+    "filename": "CAPI2a.py",
+    "name": "CAPI2a",
+    "title": "CAPI2a (Built-in CAPI2a)",
+    "category": "15 原厂系统库 - 设备泵类",
+    "path": "public/pyscripts/system_defaults/07_equipment_pumps/CAPI2a.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/07_equipment_pumps/CAPS1a.py",
+    "filename": "CAPS1a.py",
+    "name": "CAPS1a",
+    "title": "CAPS1a (Built-in CAPS1a)",
+    "category": "15 原厂系统库 - 设备泵类",
+    "path": "public/pyscripts/system_defaults/07_equipment_pumps/CAPS1a.py",
+    "description": ""
+  },
+  {
+    "id": "system_defaults/07_equipment_pumps/CAPS2a.py",
+    "filename": "CAPS2a.py",
+    "name": "CAPS2a",
+    "title": "CAPS2a (Built-in CAPS2a)",
+    "category": "15 原厂系统库 - 设备泵类",
+    "path": "public/pyscripts/system_defaults/07_equipment_pumps/CAPS2a.py",
+    "description": ""
+  }
+]

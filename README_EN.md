@@ -10,16 +10,19 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="License: GPL v3" /></a>
+  <a href="https://zly258.github.io/P3dPyPad/"><img src="https://img.shields.io/badge/Live_Demo-GitHub_Pages-blue?style=flat&logo=github" alt="Live Demo on GitHub Pages" /></a>
   <img src="https://img.shields.io/badge/AutoCAD_Plant_3D-2019~2026-brightgreen.svg" alt="Plant 3D Compatibility" />
   <img src="https://img.shields.io/badge/.NET_Framework-4.7.2~4.8-purple.svg" alt=".NET Framework" />
   <img src="https://img.shields.io/badge/Python-3.10%20%7C%20OCC%207.7+-yellow.svg" alt="Python & PyOCC" />
+  <img src="https://img.shields.io/badge/Web-OpenCASCADE%20WASM%20%7C%20Three.js-blue.svg" alt="WebAssembly & Three.js" />
+  <img src="https://img.shields.io/badge/Node.js-18+-success.svg" alt="Node.js 18+" />
   <a href="https://github.com/zly258"><img src="https://img.shields.io/badge/Author-zly258-orange.svg" alt="Author GitHub" /></a>
   <a href="https://ifdian.net/order/create?user_id=3db8e630e6dc11f1b37452540025c377"><img src="https://img.shields.io/badge/Sponsor-Afdian-946ce6.svg" alt="Sponsor on Afdian" /></a>
 </p>
 
-A high-performance, engineering-grade toolkit for **AutoCAD Plant 3D (2019 ~ 2026)**, integrating **parametric component design, real-time hot reload debugging, automated batch verification, and a standalone PyOCC offline simulation workbench**.
+A high-performance, engineering-grade toolkit for **AutoCAD Plant 3D (2019 ~ 2026)**, integrating **parametric component design, real-time hot reload debugging, automated batch verification, a standalone desktop PyOCC offline simulation studio, and a WebAssembly in-browser 3D modeling workbench**.
 
-Architected and developed with end-to-end assistance from **Google Gemini 4** under test-driven development (TDD). Integrates **334+ industrial-grade parametric component scripts** and released as open source under the GNU GPL v3 License. Contributions and discussions from piping designers and CAD developers worldwide are warmly welcome!
+Architected and developed with end-to-end assistance from **Google Gemini 4** under test-driven development (TDD). Integrates **490+ industrial-grade parametric component scripts** and released as open source under the GNU GPL v3 License. Contributions and discussions from piping designers and CAD developers worldwide are warmly welcome!
 
 ---
 
@@ -27,11 +30,21 @@ Architected and developed with end-to-end assistance from **Google Gemini 4** un
 
 - ⚡ **Millisecond Hot Reload (Zero CAD Restart)**: Eliminates the tedious need to restart AutoCAD Plant 3D after every script edit. Powered by in-memory dynamic proxies and the `PnP3dACPAdapter.arx` adapter, press `F5` to instantly regenerate and replace 3D solids in the active CAD viewport.
 - 📐 **PyOCC 1:1 Offline Geometric Topology Alignment**: Complete reverse engineering and alignment with native Plant 3D primitives (Box, Cylinder, Cone, Torus, CSTE_* structural profiles, fasteners, etc.). Perform 100% accurate solid modeling in a standalone Python 3 + OpenCASCADE environment without launching CAD.
-- 📦 **334+ AI Industrial Script Asset Library**: Covers piping components, flanges, valves, instruments, process equipment, and comprehensive pipe supports/hangers (National Power Standard CD/ZD 2010, Chemical Industry Standard HG/T 21629), 100% verified with B-Rep single-connected topology.
+- 🌐 **WebAssembly Offline 3D Simulation & Preview Studio (`web/`)**: A zero-dependency Node.js and static browser studio powered by OpenCASCADE 8.0.1 WASM (`occt.js` / `libcascade`) and Three.js. Paste or edit Python component scripts online, simulate 3D B-Rep solids in milliseconds, and export presentation-grade dual PNG isometric preview snapshots.
+- ☀️ **100% Crisp Engineering Light Theme**: Clean, distraction-free CAD light theme aligned with `/wpf-ui-style`, completely eliminating dark mode eye strain. Features high-contrast deep charcoal edge lines (Slate-900) for crystal-clear geometry contours.
+- 📐 **Dual-Mode Isometric Snapshots & Clean 3D Viewport**: Interactive 3D scene remains completely clean with zero floating dimension clutter. Clicking "生成预览图" generates two presentation-quality exports: **① Clean Isometric View** (pure solid) and **② Annotated Isometric View** (with 45° architectural ticks, offset witness lines, and haloed parameter label sprites), with instant modal tab switching and batch downloads.
+- ⏳ **Seamless Loading Feedback**: Real-time loading overlays and status badges across WASM kernel boot, script loading, CAD modeling, and dual-mode snapshot rendering.
+- 🖥️ **Orthographic Projection & Professional CAD Controls**: True orthographic projection (`OrthographicCamera`) eliminating perspective distortion; OrbitControls with damping disabled (`enableDamping = false`, stop-on-release CAD feel); zero viewport grid; expandable bottom multi-line console log with timestamps and status tags.
+- 🔤 **Google Fonts Typography**: Fully integrated with Google Fonts CDN (`Roboto`, `Noto Sans SC`, and monospace `Roboto Mono`) across all interface elements and dimension labels.
+- 📚 **Full 490+ Component Catalog Discovery & Real-Time Filtering**: Dynamic categorized catalog of all 494 industrial scripts from `pyscripts/` (fittings, flanges, valves, instruments, power supports CD/ZD, chemical supports HG/T, equipment). Instant sub-second keyword search.
+- 🎨 **Minimalist Text-First CAD UI**: Clean, distraction-free aesthetic with strictly zero decorative icons or emojis, aligned with desktop CAD toolbars and engineering conventions.
+- 🔗 **GitHub Pages Instant Live Demo**: Accessible anywhere at [https://zly258.github.io/P3dPyPad/](https://zly258.github.io/P3dPyPad/).
+- 📦 **490+ AI Industrial Script Asset Library**: Covers piping components, flanges, valves, instruments, process equipment, and comprehensive pipe supports/hangers (National Power Standard CD/ZD 2010, Chemical Industry Standard HG/T 21629), 100% verified with B-Rep single-connected topology.
 - 📊 **Automatic Co-Located CSV Spec Discovery**: Automatically pairs scripts with co-located `.csv` specification tables (e.g., `VALVE_GATE.csv`). Dropdown selector enables instant multi-size filtering without tedious manual path configuration.
 - 🏷️ **Smart 3D Isometric Dimensioning**: The PyOCC workbench features an automated offscreen dimensioning engine with 45° architectural ticks (eliminating arrow direction ambiguity), collinear chain dimension grouping, and multi-tier baseline stacking.
 - 🔄 **End-to-End Catalog & SQLite Lifecycle**: One-click generation of `.acat/.pcat` component catalogs, `.peqx` equipment templates, and direct SQLite `.pspc` spec management with safe member deletion and zero orphaned data.
 - 🚀 **Streamlined Packaging & Out-of-the-Box Setup**: Automated InnoSetup installers (~1.85 MB for plugin, ~155 MB for full workbench) deploying directly to the system add-in directory for clean, zero-pollution loading.
+- ☁️ **GitHub Pages Automated CI/CD Deployment**: Equipped with `.github/workflows/pages.yml` to automatically build and deploy the Web studio to GitHub Pages on push.
 
 ---
 
@@ -141,29 +154,47 @@ flowchart TD
 
 ```text
 P3dPyPad/
+├── .github/workflows/               # GitHub Actions CI/CD workflows
+│   └── pages.yml                    # Automated GitHub Pages static build & deployment
 ├── installer/                       # Installer packaging & automated deployment
 │   ├── output/                      # Release artifact directory
 │   │   └── P3dPyPad-Setup-v1.0.0.exe# Standalone plugin setup (~1.85 MB)
 │   ├── PackageContents.xml          # AutoCAD Autoloader manifest
 │   ├── P3dPyPad.iss                 # InnoSetup project script
 │   └── Publish-PluginExe.ps1        # PowerShell automated build script
-├── plant3d_occ/                     # PyOCC standalone offline workbench
+├── plant3d_occ/                     # PyOCC standalone offline workbench (Python 3 + PySide6)
 │   ├── core/                        # Session, topological entity & geometry math
 │   ├── gui/                         # PySide6 UI components & theme system
 │   ├── primitives/                  # 1:1 aligned native & extended primitives
 │   ├── renderer/                    # Shaded edge renderer & 45° tick dimensioning
 │   ├── catalog/                     # Catalog publisher & SQLite database engine
 │   └── main.py                      # Standalone application entry point
-├── pyscripts/                       # 334+ AI industrial component scripts
-│   ├── custom_scripts/              # 92 curated fittings/flanges/valves/instruments/equipment
+├── pyscripts/                       # 490+ AI industrial component scripts
+│   ├── custom_scripts/              # Curated fittings/flanges/valves/instruments/equipment
 │   ├── supports/                    # Standard pipe support libraries (CD/ZD 2010, HG/T 21629)
-│   └── system_defaults/             # 160 clean scripts distilled from original variants.zip
+│   └── system_defaults/             # Clean scripts distilled from original variants.zip
 ├── skills/                          # AI Agent modeling skill (plant3d-python-cad-generator)
 ├── src/P3dPyPad/                    # AutoCAD in-process C# plugin source
 │   ├── App/                         # Plugin entry & Ribbon builder
 │   ├── Core/                        # Script parser, hot-reload runner & i18n
 │   └── Views/                       # Script pad, batch tester & about dialogs
 ├── tests/                           # Unit tests & topological regression suites
+├── web/                             # WebAssembly offline 3D simulation studio (Node.js / occt.js)
+│   ├── public/                      # Static WASM, Three.js modules & offline script mirror
+│   │   ├── libs/                    # occt.js (OpenCASCADE 8.0.1 WASM) & Three.js
+│   │   ├── pyscripts/               # 490+ component script offline mirror
+│   │   └── pyscripts_manifest.json  # Component catalog categorization & search index
+│   ├── src/                         # Frontend application source
+│   │   ├── app.js                   # Viewport controls, state & event bindings (Minimal MD)
+│   │   ├── kernel.js                # OpenCASCADE WASM modeling & B-Rep mesher
+│   │   ├── transpiler.js            # Python primitive transpiler & @param sandbox
+│   │   ├── presets.js               # Preset fallback catalog
+│   │   └── style.css                # Minimalist Material Design styling (zero icons)
+│   ├── index.html                   # Web studio entry point
+│   ├── server.js                    # Zero-dependency native Node.js static dev server
+│   ├── sync_pyscripts.js            # pyscripts mirror syncer and manifest generator
+│   └── package.json                 # Web studio Node.js package manifest
+├── package.json                     # Root project execution scripts (npm start / npm run dev)
 ├── LICENSE                          # GNU GPL v3 License
 ├── README.md                        # Official documentation (Chinese)
 └── README_EN.md                     # Official documentation (English)
@@ -193,7 +224,7 @@ pwsh -File installer/Publish-OccExe.ps1
 pwsh -File installer/Publish-Release.ps1
 ```
 
-### Running the PyOCC Offline Workbench:
+### 3. Running the PyOCC Offline Workbench (Python Desktop)
 In an environment with Python 3.10+, PySide6, and PythonOCC-Core:
 ```bash
 # Launch the offline workbench
@@ -203,7 +234,29 @@ python plant3d_occ/main.py
 python plant3d_occ/main.py pyscripts/custom_scripts/03_valves/VALVE_GATE.py
 ```
 
-### Running Regression Tests:
+### 4. Running the Web Offline 3D Studio (Node.js / Browser)
+Zero-dependency local server with the full 490+ script catalog and OpenCASCADE WASM:
+
+- 🌐 **GitHub Pages Live Demo**: [https://zly258.github.io/P3dPyPad/](https://zly258.github.io/P3dPyPad/) (Zero installation, accessible directly in any modern browser)
+- 💻 **Local Execution**:
+```bash
+# Option 1: Start directly from the repository root
+npm start
+
+# Option 2: Start from the web directory
+cd web
+npm start    # or: node server.js
+
+# Open in browser: http://localhost:3000
+```
+> **Key Capabilities**:
+> - **☀️ 100% Crisp Engineering Light Theme**: Clean white and slate-50 styling with high-contrast deep charcoal contours (Slate-900).
+> - **🔍 490+ Script Catalog**: Select any component from categorized dropdown or type keywords in the search bar (e.g. "ELBOW", "VALVE", "FLANGE").
+> - **⚡ Live Editing & Execution**: Edit Python code or tweak `@param` fields, press F5 or click "运行 (F5)" for sub-second 3D B-Rep rendering with loading animations.
+> - **📐 Dual-Mode Isometric Snapshots**: Interactive 3D scene stays clutter-free; clicking "生成预览图" generates both a clean isometric PNG and an annotated isometric PNG (with 45° architectural ticks and haloed parameter label sprites).
+> - **☁️ GitHub Pages CI/CD**: Built-in `.github/workflows/pages.yml` continuously deploys the static site to GitHub Pages on push.
+
+### 5. Running Regression Tests
 ```bash
 # Run unit test suite
 python -m unittest discover -s tests -p "test_*.py"

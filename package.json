@@ -1,0 +1,17 @@
+{
+  "name": "p3dpypad",
+  "version": "1.0.0",
+  "description": "AutoCAD Plant 3D 参数化构件设计与测试工具箱 (含 PyOCC 仿真与 Web 工作台)",
+  "private": true,
+  "scripts": {
+    "start": "npm start --prefix web",
+    "dev": "npm run dev --prefix web"
+  },
+  "keywords": [
+    "autocad-plant3d",
+    "pyocc",
+    "opencascade"
+  ],
+  "author": "zly258",
+  "license": "GPL-3.0"
+}
