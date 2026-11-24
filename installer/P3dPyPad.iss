@@ -54,6 +54,7 @@ DisableProgramGroupPage=no
 DefaultGroupName={#MyAppName}
 #endif
 PrivilegesRequired=admin
+PrivilegesRequiredOverridesAllowed=commandline
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 OutputDir=output
