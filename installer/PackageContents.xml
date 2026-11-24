@@ -12,13 +12,14 @@
   <Components Description="参数化构件测试工具集">
     <RuntimeRequirements
         OS="Win64"
-        Platform="Plant3D"
+        Platform="AutoCAD*|Plant3D"
         SeriesMin="R22.0"
         SeriesMax="R26.0" />
     <ComponentEntry
         AppName="P3dPyPad"
         Version="1.0.0"
         ModuleName="./Contents/P3dPyPad.dll"
+        AppType=".NET"
         AppDescription="Plant 3D 参数化构件单件调试、批量测试与自动化出图工具"
         LoadOnAutoCADStartup="True"
         LoadOnCommandInvocation="True">
