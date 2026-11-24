@@ -49,9 +49,14 @@ try {
         }
     }
 
-    $pluginDll = Join-Path $releaseDir 'P3dPyPad.dll'
-    if (-not (Test-Path -LiteralPath $pluginDll)) {
-        throw "未找到 Release 产物: $pluginDll。请先构建或去掉 -SkipBuild。"
+    $requiredDlls = @(
+        (Join-Path $releaseDir '2019-2024\P3dPyPad.dll'),
+        (Join-Path $releaseDir '2025-2026\P3dPyPad.dll')
+    )
+    foreach ($pluginDll in $requiredDlls) {
+        if (-not (Test-Path -LiteralPath $pluginDll)) {
+            throw "未找到双版本 Release 产物: $pluginDll。请先构建或去掉 -SkipBuild。"
+        }
     }
 
     $iscc = Resolve-Iscc -ExplicitPath $IsccPath

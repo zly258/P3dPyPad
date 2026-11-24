@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics;
+using Autodesk.AutoCAD.DatabaseServices;
+using Microsoft.Win32;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace P3dPyPad
@@ -7,7 +9,8 @@ namespace P3dPyPad
     /// <summary>
     /// 运行产品门禁：P3dPyPad 只在 AutoCAD Plant 3D 中启用。
     /// Plant 3D 本身基于 AutoCAD，所以普通 AutoCAD 也会加载本程序集，
-    /// 必须通过产品标识、已加载程序集和已加载模块三重判断。
+    /// 通过命令行参数、宿主产品注册表根键、系统变量、已加载程序集与进程模块五重判断，
+    /// 确保 2019-2026 启动最早阶段即可准确识别且不误伤普通 AutoCAD。
     /// </summary>
     internal static class ProductGuard
     {
@@ -68,6 +71,16 @@ namespace P3dPyPad
 
         private static bool Detect()
         {
+            if (HasPlantCommandLine())
+            {
+                return true;
+            }
+
+            if (HasPlantRegistryProduct())
+            {
+                return true;
+            }
+
             if (HasPlantProductName())
             {
                 return true;
@@ -79,6 +92,73 @@ namespace P3dPyPad
             }
 
             return HasPlantModuleLoaded();
+        }
+
+        /// <summary>
+        /// 检查进程启动命令行（例如 /product PLNT3D）。
+        /// </summary>
+        private static bool HasPlantCommandLine()
+        {
+            try
+            {
+                var cmd = Environment.CommandLine;
+                if (!string.IsNullOrEmpty(cmd) &&
+                    (cmd.IndexOf("PLNT3D", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                     cmd.IndexOf("Plant", StringComparison.OrdinalIgnoreCase) >= 0))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 检查当前宿主实例对应的 HKLM 产品注册表根键（如 R23.0\ACAD-2017:804、R25.1\ACAD-9117:804）。
+        /// 即使双击 DWG 直接启动（命令行不含 /product PLNT3D）且模块尚未延迟加载，也能在启动瞬间识别。
+        /// </summary>
+        private static bool HasPlantRegistryProduct()
+        {
+            try
+            {
+                var host = HostApplicationServices.Current;
+                if (host == null)
+                {
+                    return false;
+                }
+
+                var rootKeyPath = host.MachineRegistryProductRootKey;
+                if (string.IsNullOrEmpty(rootKeyPath))
+                {
+                    return false;
+                }
+
+                using (var key = Registry.LocalMachine.OpenSubKey(rootKeyPath, false))
+                {
+                    if (key != null)
+                    {
+                        string[] valueNames = { "ProductName", "ProductNameGlob", "UPILocation", "LPUPILocation", "AboutDirective" };
+                        for (var i = 0; i < valueNames.Length; i++)
+                        {
+                            var val = key.GetValue(valueNames[i]) as string;
+                            if (!string.IsNullOrEmpty(val) &&
+                                (val.IndexOf("Plant", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                 val.IndexOf("PLNT3D", StringComparison.OrdinalIgnoreCase) >= 0))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return false;
         }
 
         private static bool HasPlantProductName()

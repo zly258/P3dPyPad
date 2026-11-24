@@ -2,34 +2,62 @@
 <ApplicationPackage
     SchemaVersion="1.0"
     AutodeskProduct="AutoCAD"
-    Name="Plant 3D 参数化构件工具集"
-    Description="AutoCAD Plant 3D 参数化构件单件测试与批量测试插件"
-    AppVersion="1.0.0"
     ProductType="Application"
+    Name="P3dPyPad"
+    NameChs="Plant 3D 参数化构件工具集"
+    Description="AutoCAD Plant 3D Parametric Component Toolset"
+    DescriptionChs="AutoCAD Plant 3D 参数化构件单件测试与批量测试插件"
+    AppVersion="1.0.0"
+    FriendlyVersion="1.0.0"
     ProductCode="{B6E2A1C4-8F0D-4C3A-9E21-7A5D4C2B10E8}"
+    UpgradeCode="{A1D9E4B2-7C38-4F65-8E12-3B9C5D7A20F1}"
     Author="P3dPyPad">
-  <CompanyDetails Name="P3dPyPad" />
-  <Components Description="参数化构件测试工具集">
-    <RuntimeRequirements
-        OS="Win64"
-        Platform="AutoCAD*|Plant3D"
-        SeriesMin="R22.0"
-        SeriesMax="R26.0" />
+  <CompanyDetails Name="P3dPyPad" Url="https://github.com/zly258" Email=" " Phone=" " />
+  <RuntimeRequirements OS="Win64" Platform="AutoCAD*" SeriesMin="R23.0" />
+
+  <!-- 针对 AutoCAD Plant 3D 2019-2024 (R23.0 ~ R24.3, .NET Framework) -->
+  <Components Description="AutoCAD Plant 3D x64 (2019-2024)">
+    <RuntimeRequirements OS="Win64" Platform="AutoCAD*" SeriesMin="R23.0" SeriesMax="R24.3" />
     <ComponentEntry
         AppName="P3dPyPad"
         Version="1.0.0"
-        ModuleName="./Contents/P3dPyPad.dll"
-        AppType=".NET"
+        ModuleName="./Contents/2019-2024/P3dPyPad.dll"
         AppDescription="Plant 3D 参数化构件单件调试、批量测试与自动化出图工具"
         LoadOnAutoCADStartup="True"
         LoadOnCommandInvocation="True">
-      <Commands GroupName="参数化构件">
-        <Command Global="PYPAD" Local="PYPAD" />
-        <Command Global="PYBATCH" Local="PYBATCH" />
-        <Command Global="PYBATCH_RUN" Local="PYBATCH_RUN" />
-        <Command Global="PYLANG" Local="PYLANG" />
-        <Command Global="PYABOUT" Local="PYABOUT" />
+      <Commands GroupName="P3DPYPAD_CMDS">
+        <Command Local="PYPAD" Global="PYPAD" />
+        <Command Local="PYBATCH" Global="PYBATCH" />
+        <Command Local="PYBATCH_RUN" Global="PYBATCH_RUN" />
+        <Command Local="PYLANG" Global="PYLANG" />
+        <Command Local="PYABOUT" Global="PYABOUT" />
       </Commands>
+      <AssemblyMappings>
+        <AssemblyMapping Name="ICSharpCode.AvalonEdit" Path="./Contents/2019-2024/ICSharpCode.AvalonEdit.dll" />
+      </AssemblyMappings>
+    </ComponentEntry>
+  </Components>
+
+  <!-- 针对 AutoCAD Plant 3D 2025-2026+ (R25.0+, .NET 8.0 CoreCLR) -->
+  <Components Description="AutoCAD Plant 3D x64 (2025-2026)">
+    <RuntimeRequirements OS="Win64" Platform="AutoCAD*" SeriesMin="R25.0" />
+    <ComponentEntry
+        AppName="P3dPyPad"
+        Version="1.0.0"
+        ModuleName="./Contents/2025-2026/P3dPyPad.dll"
+        AppDescription="Plant 3D 参数化构件单件调试、批量测试与自动化出图工具"
+        LoadOnAutoCADStartup="True"
+        LoadOnCommandInvocation="True">
+      <Commands GroupName="P3DPYPAD_CMDS">
+        <Command Local="PYPAD" Global="PYPAD" />
+        <Command Local="PYBATCH" Global="PYBATCH" />
+        <Command Local="PYBATCH_RUN" Global="PYBATCH_RUN" />
+        <Command Local="PYLANG" Global="PYLANG" />
+        <Command Local="PYABOUT" Global="PYABOUT" />
+      </Commands>
+      <AssemblyMappings>
+        <AssemblyMapping Name="ICSharpCode.AvalonEdit" Path="./Contents/2025-2026/ICSharpCode.AvalonEdit.dll" />
+      </AssemblyMappings>
     </ComponentEntry>
   </Components>
 </ApplicationPackage>

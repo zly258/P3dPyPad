@@ -3,14 +3,18 @@
   <!--
     程序集名与根命名空间保持英文 P3dPyPad（Autodesk 加载、pack:// 资源 URI
     与安装包路径都依赖它），对外显示名走 Directory.Build.props 里的中文常量。
+    支持 AutoCAD 2019-2024 (net472) 与 AutoCAD 2025-2026+ (net8.0-windows) 双目标编译。
   -->
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFrameworks>net472;net8.0-windows</TargetFrameworks>
     <OutputType>Library</OutputType>
     <AssemblyName>P3dPyPad</AssemblyName>
     <RootNamespace>P3dPyPad</RootNamespace>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\</IntermediateOutputPath>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <Version>1.0.0</Version>
 
@@ -24,6 +28,17 @@
     <NoWarn>$(NoWarn);MSB3270</NoWarn>
   </PropertyGroup>
 
+  <!-- 针对不同框架定制输出路径与 CAD 库路径 -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net472'">
+    <OutputPath>$(BaseOutputPath)$(Configuration)\2019-2024\</OutputPath>
+    <CadLibPath>$(CadLibPath_2019)</CadLibPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+    <OutputPath>$(BaseOutputPath)$(Configuration)\2025-2026\</OutputPath>
+    <CadLibPath>$(CadLibPath_2026)</CadLibPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
   </ItemGroup>
@@ -33,13 +48,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\..\installer\PackageContents.xml" Link="PackageContents.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net472'">
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- AutoCAD 核心基础托管程序集 (免复杂 CAD 专有依赖) -->
     <Reference Include="accoremgd">
       <HintPath>$(CadLibPath)\accoremgd.dll</HintPath>
@@ -60,22 +78,39 @@
     </Reference>
   </ItemGroup>
 
-  <!-- 自动部署到 AutoCAD ApplicationPlugins 目录，实现免 NETLOAD 启动自加载 -->
-  <Target Name="DeployToApplicationPlugins" AfterTargets="Build" Condition="'$(SkipBundleDeploy)' != 'true'">
+  <!--
+    自动部署到 AutoCAD 2019-2026 全版本默认扫描且受 SECURELOAD 信任的系统级插件目录：
+      C:\Program Files\Autodesk\ApplicationPlugins\P3dPyPad.bundle
+    注：AutoCAD 2025/2026 的 AcAutoLoader.crx 默认不再扫描 C:\ProgramData\Autodesk\ApplicationPlugins，
+    必须部署到 Program Files（或当前用户 %APPDATA%），并清理旧的 ProgramData 残留防止多副本冲突。
+  -->
+  <Target Name="DeployToApplicationPlugins" AfterTargets="Build" Condition="'$(SkipBundleDeploy)' != 'true' and '$(TargetFramework)' != ''">
     <PropertyGroup>
-      <BundleDir>$(ProgramData)\Autodesk\ApplicationPlugins\P3dPyPad.bundle</BundleDir>
+      <ProgramFiles64Dir>$([System.Environment]::GetFolderPath(SpecialFolder.ProgramFiles))</ProgramFiles64Dir>
+      <ProgramFiles64Dir Condition="'$(ProgramFiles64Dir)' == '' or $(ProgramFiles64Dir.Contains('(x86)'))">$(ProgramW6432)</ProgramFiles64Dir>
+      <ProgramFiles64Dir Condition="'$(ProgramFiles64Dir)' == ''">C:\Program Files</ProgramFiles64Dir>
+      <BundleDir>$(ProgramFiles64Dir)\Autodesk\ApplicationPlugins\P3dPyPad.bundle</BundleDir>
+      <LegacyProgramDataBundle>$(ProgramData)\Autodesk\ApplicationPlugins\P3dPyPad.bundle</LegacyProgramDataBundle>
+      <LegacyAppDataBundle>$(AppData)\Autodesk\ApplicationPlugins\P3dPyPad.bundle</LegacyAppDataBundle>
+      <BundleSubDir Condition="'$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net472'">2019-2024</BundleSubDir>
+      <BundleSubDir Condition="'$(TargetFramework)' == 'net8.0-windows'">2025-2026</BundleSubDir>
+      <BundleSubDir Condition="'$(BundleSubDir)' == ''">$(TargetFramework)</BundleSubDir>
     </PropertyGroup>
+    <RemoveDir Directories="$(LegacyProgramDataBundle);$(LegacyAppDataBundle)" Condition="Exists('$(LegacyProgramDataBundle)') or Exists('$(LegacyAppDataBundle)')" ContinueOnError="true" />
     <ItemGroup>
       <BundleRootFiles Include="$(MSBuildProjectDirectory)\..\..\installer\PackageContents.xml" />
       <BundleRootFiles Include="$(MSBuildProjectDirectory)\..\..\installer\app_icon.ico" />
-      <BundleContentsFiles Include="$(TargetDir)$(TargetName).*" />
+      <BundleContentsFiles Include="$(TargetDir)$(TargetName).dll" />
+      <BundleContentsFiles Include="$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+      <BundleContentsFiles Include="$(TargetDir)$(TargetName).deps.json" Condition="Exists('$(TargetDir)$(TargetName).deps.json')" />
       <BundleContentsFiles Include="$(TargetDir)ICSharpCode.AvalonEdit.dll" />
       <BundleResourceFiles Include="$(TargetDir)Resources\**\*" />
     </ItemGroup>
-    <Copy SourceFiles="@(BundleRootFiles)" DestinationFolder="$(BundleDir)" SkipUnchangedFiles="true" ContinueOnError="true" />
-    <Copy SourceFiles="@(BundleContentsFiles)" DestinationFolder="$(BundleDir)\Contents" SkipUnchangedFiles="true" ContinueOnError="true" />
-    <Copy SourceFiles="@(BundleResourceFiles)" DestinationFolder="$(BundleDir)\Contents\Resources\%(RecursiveDir)" SkipUnchangedFiles="true" ContinueOnError="true" />
-    <Message Importance="High" Text="[P3dPyPad] 已自动部署 Bundle 插件到: $(BundleDir) (AutoCAD 启动将自动加载)" />
+    <Copy SourceFiles="@(BundleRootFiles)" DestinationFolder="$(BundleDir)" SkipUnchangedFiles="false" ContinueOnError="true" />
+    <Copy SourceFiles="@(BundleContentsFiles)" DestinationFolder="$(BundleDir)\Contents\$(BundleSubDir)" SkipUnchangedFiles="false" ContinueOnError="true" />
+    <Copy SourceFiles="@(BundleResourceFiles)" DestinationFolder="$(BundleDir)\Contents\$(BundleSubDir)\Resources\%(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="true" />
+    <Copy SourceFiles="@(BundleResourceFiles)" DestinationFolder="$(BundleDir)\Contents\Resources\%(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="true" />
+    <Message Importance="High" Text="[P3dPyPad] 已自动部署 Bundle 插件 ($(TargetFramework)) 到: $(BundleDir)\Contents\$(BundleSubDir)" />
   </Target>
 
 </Project>

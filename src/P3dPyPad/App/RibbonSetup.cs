@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.Windows;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
@@ -11,6 +12,7 @@ namespace P3dPyPad
     /// AutoCAD Plant 3D 原生 Ribbon 构建器：
     /// 纯色圆角色块 + 白色 Material Design 图标，按命令用颜色区分。
     /// 面板：【脚本测试 / 批量测试】与【语言切换 / 关于】。
+    /// 同时监听启动空闲事件与工作空间切换（WSCURRENT / MENUNAME），防止 Plant 3D 切换三维配管工作空间后冲掉自定义选项卡。
     /// </summary>
     internal static class RibbonSetup
     {
@@ -18,6 +20,8 @@ namespace P3dPyPad
         private static readonly Uri IconDictionaryUri =
             new Uri("pack://application:,,,/P3dPyPad;component/Theme/Icons.xaml", UriKind.Absolute);
         private static ResourceDictionary _iconResources;
+        private static bool _hooksRegistered;
+        private static bool _idlePending;
 
         private static readonly Color PadAccent = Color.FromRgb(0x25, 0x63, 0xEB);
         private static readonly Color BatchAccent = Color.FromRgb(0x7C, 0x3A, 0xED);
@@ -40,13 +44,84 @@ namespace P3dPyPad
 
         public static void AttachToComponentManager()
         {
+            if (!_hooksRegistered)
+            {
+                _hooksRegistered = true;
+                AcadApp.SystemVariableChanged += OnSystemVariableChanged;
+            }
+
             if (ComponentManager.Ribbon != null)
             {
                 Build(ComponentManager.Ribbon);
+            }
+            else
+            {
+                ComponentManager.ItemInitialized -= OnItemInitialized;
+                ComponentManager.ItemInitialized += OnItemInitialized;
+            }
+
+            // Plant 3D 启动阶段会在插件 Initialize 之后加载三维配管工作空间并重建 Ribbon，
+            // 挂载一次 Idle 回调确保工作空间就绪后选项卡依然存在。
+            ScheduleEnsureOnIdle();
+        }
+
+        public static void Detach()
+        {
+            ComponentManager.ItemInitialized -= OnItemInitialized;
+            if (_idlePending)
+            {
+                AcadApp.Idle -= OnApplicationIdle;
+                _idlePending = false;
+            }
+            if (_hooksRegistered)
+            {
+                AcadApp.SystemVariableChanged -= OnSystemVariableChanged;
+                _hooksRegistered = false;
+            }
+        }
+
+        private static void ScheduleEnsureOnIdle()
+        {
+            if (_idlePending)
+            {
+                return;
+            }
+            _idlePending = true;
+            AcadApp.Idle += OnApplicationIdle;
+        }
+
+        private static void OnApplicationIdle(object sender, EventArgs e)
+        {
+            var ribbon = ComponentManager.Ribbon;
+            if (ribbon == null)
+            {
                 return;
             }
 
-            ComponentManager.ItemInitialized += OnItemInitialized;
+            AcadApp.Idle -= OnApplicationIdle;
+            _idlePending = false;
+
+            try
+            {
+                Build(ribbon);
+            }
+            catch
+            {
+            }
+        }
+
+        private static void OnSystemVariableChanged(object sender, SystemVariableChangedEventArgs e)
+        {
+            if (e == null || string.IsNullOrEmpty(e.Name))
+            {
+                return;
+            }
+
+            if (string.Equals(e.Name, "WSCURRENT", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(e.Name, "MENUNAME", StringComparison.OrdinalIgnoreCase))
+            {
+                ScheduleEnsureOnIdle();
+            }
         }
 
         private static void OnItemInitialized(object sender, RibbonItemEventArgs e)
@@ -59,6 +134,7 @@ namespace P3dPyPad
 
             ComponentManager.ItemInitialized -= OnItemInitialized;
             Build(ribbon);
+            ScheduleEnsureOnIdle();
         }
 
         public static void Rebuild(RibbonControl ribbon)

@@ -47,13 +47,42 @@ namespace P3dPyPad
         {
             get
             {
-                var content = UserSettings.GetDirectory("ContentDir");
+                var baseDir = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
+                var years = new List<string> { "2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019" };
+                string activeYear = null;
+                for (var i = 0; i < years.Count; i++)
+                {
+                    if (baseDir.IndexOf(years[i], StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        activeYear = years[i];
+                        years.RemoveAt(i);
+                        years.Insert(0, activeYear);
+                        break;
+                    }
+                }
+
+                // 优先读取当前年份专属设置；兼容旧版全局 ContentDir，但避免跨版本串用其他年份的默认目录
+                var content = !string.IsNullOrEmpty(activeYear)
+                    ? UserSettings.GetDirectory("ContentDir_" + activeYear)
+                    : null;
+                if (string.IsNullOrEmpty(content))
+                {
+                    var legacyContent = UserSettings.GetDirectory("ContentDir");
+                    if (!string.IsNullOrEmpty(legacyContent) &&
+                        (string.IsNullOrEmpty(activeYear) ||
+                         legacyContent.IndexOf("AutoCAD Plant 3D ", StringComparison.OrdinalIgnoreCase) < 0 ||
+                         legacyContent.IndexOf(activeYear, StringComparison.OrdinalIgnoreCase) >= 0))
+                    {
+                        content = legacyContent;
+                    }
+                }
                 if (!string.IsNullOrEmpty(content) && Directory.Exists(content))
                 {
                     var custom = Path.Combine(content, "CustomScripts");
                     if (Directory.Exists(custom)) return custom;
                     return content;
                 }
+
                 var env = Environment.GetEnvironmentVariable("PLANT3D_CONTENT_DIR");
                 if (!string.IsNullOrEmpty(env) && Directory.Exists(env))
                 {
@@ -61,18 +90,27 @@ namespace P3dPyPad
                     if (Directory.Exists(custom)) return custom;
                     return env;
                 }
-                string[] years = { "2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019" };
+
                 string[] drives = { "C:\\", "D:\\", "E:\\", "F:\\" };
                 foreach (var d in drives)
                 {
                     if (!Directory.Exists(d)) continue;
                     foreach (var yr in years)
                     {
-                        var cand = Path.Combine(d, string.Format("AutoCAD Plant 3D {0} Content", yr), "CPak Common", "CustomScripts");
-                        if (Directory.Exists(cand)) return cand;
+                        var cpak = Path.Combine(d, string.Format("AutoCAD Plant 3D {0} Content", yr), "CPak Common");
+                        if (Directory.Exists(cpak))
+                        {
+                            var custom = Path.Combine(cpak, "CustomScripts");
+                            if (!Directory.Exists(custom))
+                            {
+                                try { Directory.CreateDirectory(custom); } catch { }
+                            }
+                            if (Directory.Exists(custom)) return custom;
+                            return cpak;
+                        }
                     }
                 }
-                return @"C:\AutoCAD Plant 3D 2019 Content\CPak Common\CustomScripts";
+                return @"C:\AutoCAD Plant 3D 2026 Content\CPak Common\CustomScripts";
             }
         }
 
@@ -82,6 +120,10 @@ namespace P3dPyPad
             {
                 var cand = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PLNT3D", "PnP3dACPAdapter.arx");
                 if (File.Exists(cand)) return cand;
+                if (File.Exists(@"C:\Program Files\Autodesk\AutoCAD 2026\PLNT3D\PnP3dACPAdapter.arx"))
+                {
+                    return @"C:\Program Files\Autodesk\AutoCAD 2026\PLNT3D\PnP3dACPAdapter.arx";
+                }
                 return @"C:\Program Files\Autodesk\AutoCAD 2019\PLNT3D\PnP3dACPAdapter.arx";
             }
         }
@@ -479,6 +521,7 @@ namespace P3dPyPad
                 var candidates = new[]
                 {
                     Path.Combine(asmDir, "Resources", "DEV_PROXY.py"),
+                    Path.Combine(asmDir, "..", "Resources", "DEV_PROXY.py"),
                     Path.Combine(asmDir, "DEV_PROXY.py")
                 };
                 foreach (var c in candidates)

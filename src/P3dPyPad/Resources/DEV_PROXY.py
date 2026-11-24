@@ -43,10 +43,19 @@ def DEV_PROXY(s, REV=0.0, **kw):
         try:
             f = open(log_path, "wb")
             try:
-                if isinstance(text, unicode):
-                    data = text.encode("utf-8")
+                if sys.version_info[0] < 3:
+                    try:
+                        if isinstance(text, unicode):
+                            data = text.encode("utf-8")
+                        else:
+                            data = str(text)
+                    except NameError:
+                        data = str(text)
                 else:
-                    data = text
+                    if isinstance(text, str):
+                        data = text.encode("utf-8")
+                    else:
+                        data = bytes(text)
                 f.write(data)
             finally:
                 f.close()
@@ -63,13 +72,13 @@ def DEV_PROXY(s, REV=0.0, **kw):
             source = f.read()
         finally:
             f.close()
-        if source.startswith("\xef\xbb\xbf"):
+        if source.startswith(b"\xef\xbb\xbf"):
             source = source[3:]
         code = compile(source, core_path, "exec")
         ctx = globals().copy()
         ctx["__file__"] = core_path
         ctx["__name__"] = "dev_core"
-        exec code in ctx
+        exec(code, ctx)
         fn = ctx.get("ACP_DEV_BUILD")
         if fn is None:
             raise RuntimeError("dev_core.pyinc has no ACP_DEV_BUILD")

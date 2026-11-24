@@ -1,8 +1,9 @@
 <Project>
 
   <!--
-    AutoCAD / Plant 3D 2019 引用。
-    可用环境变量覆盖：CAD_LIB_2019 / PLANT3D_LIB_2019
+    AutoCAD / Plant 3D 库引用。
+    2019-2024 (.NET Framework 4.8) 与 2025-2026 (.NET 8.0)
+    可用环境变量覆盖：CAD_LIB_2019 / CAD_LIB_2026 / PLANT3D_LIB_2019 / PLANT3D_LIB_2026
   -->
   <PropertyGroup>
     <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
@@ -18,20 +19,34 @@
     <BaseOutputPath>$(BuildRoot)bin\</BaseOutputPath>
     <BaseIntermediateOutputPath>$(BuildRoot)obj\</BaseIntermediateOutputPath>
 
-    <CadLibPath Condition="'$(CadLibPath)' == '' and '$(CAD_LIB_2019)' != ''">$(CAD_LIB_2019)</CadLibPath>
-    <CadLibPath Condition="'$(CadLibPath)' == ''">$(RepoRoot)..\..\vs2019\cad_lib_2019</CadLibPath>
+    <!-- 2019-2024 (.NET Framework) 库路径 -->
+    <CadLibPath_2019 Condition="'$(CadLibPath_2019)' == '' and '$(CAD_LIB_2019)' != ''">$(CAD_LIB_2019)</CadLibPath_2019>
+    <CadLibPath_2019 Condition="'$(CadLibPath_2019)' == '' and Exists('$(RepoRoot)..\..\vs2019\cad_lib_2019')">$(RepoRoot)..\..\vs2019\cad_lib_2019</CadLibPath_2019>
+    <CadLibPath_2019 Condition="'$(CadLibPath_2019)' == '' and Exists('C:\Program Files\Autodesk\AutoCAD 2019')">C:\Program Files\Autodesk\AutoCAD 2019</CadLibPath_2019>
+    <CadLibPath_2019 Condition="'$(CadLibPath_2019)' == ''">$(RepoRoot)..\..\vs2019\cad_lib_2019</CadLibPath_2019>
+
+    <!-- 2025-2026 (.NET 8.0) 库路径 -->
+    <CadLibPath_2026 Condition="'$(CadLibPath_2026)' == '' and '$(CAD_LIB_2026)' != ''">$(CAD_LIB_2026)</CadLibPath_2026>
+    <CadLibPath_2026 Condition="'$(CadLibPath_2026)' == '' and Exists('C:\Program Files\Autodesk\AutoCAD 2026')">C:\Program Files\Autodesk\AutoCAD 2026</CadLibPath_2026>
+    <CadLibPath_2026 Condition="'$(CadLibPath_2026)' == '' and Exists('C:\Program Files\Autodesk\AutoCAD 2025')">C:\Program Files\Autodesk\AutoCAD 2025</CadLibPath_2026>
+    <CadLibPath_2026 Condition="'$(CadLibPath_2026)' == ''">$(RepoRoot)..\..\vs2026\cad_lib_2026</CadLibPath_2026>
+
+    <!-- 向后兼容旧变量 -->
+    <CadLibPath Condition="'$(CadLibPath)' == ''">$(CadLibPath_2019)</CadLibPath>
 
     <Plant3DLibPath Condition="'$(Plant3DLibPath)' == '' and '$(PLANT3D_LIB_2019)' != ''">$(PLANT3D_LIB_2019)</Plant3DLibPath>
+    <Plant3DLibPath Condition="'$(Plant3DLibPath)' == '' and Exists('$(RepoRoot)..\..\vs2019\plant3d_lib_2019')">$(RepoRoot)..\..\vs2019\plant3d_lib_2019</Plant3DLibPath>
+    <Plant3DLibPath Condition="'$(Plant3DLibPath)' == '' and Exists('C:\Program Files\Autodesk\AutoCAD 2019\PLNT3D')">C:\Program Files\Autodesk\AutoCAD 2019\PLNT3D</Plant3DLibPath>
     <Plant3DLibPath Condition="'$(Plant3DLibPath)' == ''">$(RepoRoot)..\..\vs2019\plant3d_lib_2019</Plant3DLibPath>
 
     <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
     <NeutralLanguage>zh-Hans</NeutralLanguage>
 
     <!-- 中文显示名统一在此定义，安装包与清单也引用同一套叫法。 -->
     <ProductDisplayName>Plant 3D 参数化构件工具集</ProductDisplayName>
-    <ProductDescription>AutoCAD Plant 3D 2019 参数化构件调试、批量校验与自动出图插件</ProductDescription>
+    <ProductDescription>AutoCAD Plant 3D 2019-2026 参数化构件调试、批量校验与自动出图插件</ProductDescription>
   </PropertyGroup>
 
 </Project>

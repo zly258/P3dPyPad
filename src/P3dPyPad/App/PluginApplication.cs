@@ -1,7 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+#if NET8_0_OR_GREATER
+using System.Runtime.Loader;
+#endif
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Runtime;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
@@ -15,34 +18,109 @@ namespace P3dPyPad
         private static ScriptPadWindow _window;
         private static BatchTestWindow _batchWindow;
         private static bool _ribbonAttached;
+        private static bool _bannerPrinted;
+        private static bool _startupIdleHooked;
 
         static PluginApplication()
         {
             AppDomain.CurrentDomain.AssemblyResolve += ResolvePluginAssembly;
+#if NET8_0_OR_GREATER
+            // AutoCAD 2025/2026 (.NET 8.0) 下插件可能位于独立 AssemblyLoadContext，
+            // 同步注册当前加载上下文的 Resolving 事件以确保 WPF XAML 顺利加载 AvalonEdit。
+            var alc = AssemblyLoadContext.GetLoadContext(typeof(PluginApplication).Assembly);
+            if (alc != null)
+            {
+                alc.Resolving += ResolveInLoadContext;
+            }
+#endif
         }
 
         public void Initialize()
         {
-            // 普通 AutoCAD 也会加载本程序集，这里直接静默退出：
-            // 不创建 Ribbon，不写启动信息，不初始化任何 UI 侧资源。
-            if (!ProductGuard.IsPlant3D)
+            if (ProductGuard.IsPlant3D)
             {
+                ActivateForPlant3D();
                 return;
             }
 
+            // 若在极端早期阶段 Plant 3D 特征尚未就绪，挂一次 Idle 复检；
+            // 普通 AutoCAD 复检仍为 false 时静默卸载监听，不创建任何 UI。
+            if (!_startupIdleHooked)
+            {
+                _startupIdleHooked = true;
+                AcadApp.Idle += OnStartupCheckIdle;
+            }
+        }
+
+        private static void OnStartupCheckIdle(object sender, EventArgs e)
+        {
+            AcadApp.Idle -= OnStartupCheckIdle;
+            _startupIdleHooked = false;
+
+            if (ProductGuard.IsPlant3D)
+            {
+                ActivateForPlant3D();
+            }
+        }
+
+        private static void ActivateForPlant3D()
+        {
             EnsureRibbon();
 
+            if (!TryPrintLoadedBanner())
+            {
+                // 启动页（无活动文档）时延后到首次打开文档时输出提示并复核 Ribbon
+                AcadApp.DocumentManager.DocumentBecameCurrent -= OnDocumentBecameCurrent;
+                AcadApp.DocumentManager.DocumentBecameCurrent += OnDocumentBecameCurrent;
+            }
+        }
+
+        private static void OnDocumentBecameCurrent(object sender, DocumentCollectionEventArgs e)
+        {
+            EnsureRibbon();
+            if (TryPrintLoadedBanner())
+            {
+                AcadApp.DocumentManager.DocumentBecameCurrent -= OnDocumentBecameCurrent;
+            }
+        }
+
+        private static bool TryPrintLoadedBanner()
+        {
+            if (_bannerPrinted)
+            {
+                return true;
+            }
+
             var doc = AcadApp.DocumentManager.MdiActiveDocument;
-            if (doc != null)
+            if (doc == null)
+            {
+                return false;
+            }
+
+            try
             {
                 doc.Editor.WriteMessage(
                     "\nP3dPyPad 已加载。命令: PYPAD 单个测试 | PYBATCH 批量测试 | " +
                     "PYBATCH_RUN 无人值守批量测试 | PYLANG 切换语言 | PYABOUT 关于\n");
+                _bannerPrinted = true;
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
         public void Terminate()
         {
+            if (_startupIdleHooked)
+            {
+                AcadApp.Idle -= OnStartupCheckIdle;
+                _startupIdleHooked = false;
+            }
+            AcadApp.DocumentManager.DocumentBecameCurrent -= OnDocumentBecameCurrent;
+            RibbonSetup.Detach();
+
             if (_window != null)
             {
                 _window.Close();
@@ -244,9 +322,14 @@ namespace P3dPyPad
             }
         }
 
-        private static Assembly ResolvePluginAssembly(object sender, ResolveEventArgs args)
+        private static string FindDependencyPath(string simpleName)
         {
-            var name = new AssemblyName(args.Name).Name + ".dll";
+            if (string.IsNullOrEmpty(simpleName))
+            {
+                return null;
+            }
+
+            var fileName = simpleName + ".dll";
             var folder = Path.GetDirectoryName(typeof(PluginApplication).Assembly.Location);
             var searchDirs = new[]
             {
@@ -258,14 +341,28 @@ namespace P3dPyPad
             foreach (var dir in searchDirs)
             {
                 if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir)) continue;
-                var candidate = Path.Combine(dir, name);
+                var candidate = Path.Combine(dir, fileName);
                 if (File.Exists(candidate))
                 {
-                    return Assembly.LoadFrom(candidate);
+                    return candidate;
                 }
             }
 
             return null;
+        }
+
+#if NET8_0_OR_GREATER
+        private static Assembly ResolveInLoadContext(AssemblyLoadContext context, AssemblyName assemblyName)
+        {
+            var candidate = FindDependencyPath(assemblyName != null ? assemblyName.Name : null);
+            return !string.IsNullOrEmpty(candidate) ? context.LoadFromAssemblyPath(candidate) : null;
+        }
+#endif
+
+        private static Assembly ResolvePluginAssembly(object sender, ResolveEventArgs args)
+        {
+            var candidate = FindDependencyPath(new AssemblyName(args.Name).Name);
+            return !string.IsNullOrEmpty(candidate) ? Assembly.LoadFrom(candidate) : null;
         }
 
         private static bool EnsurePlant3D()
@@ -281,21 +378,19 @@ namespace P3dPyPad
 
         private static void EnsureRibbon()
         {
-            if (_ribbonAttached)
+            if (!_ribbonAttached)
             {
-                return;
+                try
+                {
+                    LocalizationManager.EnsureInitialized();
+                }
+                catch { }
+                _ribbonAttached = true;
             }
-
-            try
-            {
-                LocalizationManager.EnsureInitialized();
-            }
-            catch { }
 
             try
             {
                 RibbonSetup.AttachToComponentManager();
-                _ribbonAttached = true;
             }
             catch { }
         }

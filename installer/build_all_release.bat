@@ -24,17 +24,28 @@ if %ERRORLEVEL% NEQ 0 (
 echo [成功] C# 程序集编译完成！
 echo.
 
-:: 2. 调用 Inno Setup 编译全机所有用户安装包 (P3dPyPad-Setup.exe)
-echo [2/3] 正在使用 Inno Setup 编译全机所有用户安装包 ...
+:: 2. 调用 Inno Setup 编译全机所有用户安装包
+echo [2/3] 正在使用 Inno Setup 编译安装包 ...
 set ISCC="C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 if not exist %ISCC% set ISCC="C:\Program Files\Inno Setup 6\ISCC.exe"
 
 if exist %ISCC% (
-    %ISCC% "installer\P3dPyPad.iss"
+    echo   [2.1] 正在生成 AutoCAD 独立插件安装包 (P3dPyPad-Plugin-Setup) ...
+    %ISCC% /DPACKAGE_TYPE=plugin "installer\P3dPyPad.iss"
     if %ERRORLEVEL% EQU 0 (
-        echo [成功] Inno Setup 全用户安装包生成完成！
+        echo   [成功] AutoCAD 独立插件安装包生成完成！
     ) else (
-        echo [警告] Inno Setup 编译出现警告或错误。
+        echo   [警告] 插件安装包编译出现警告或错误。
+    )
+
+    if exist "installer\output\Plant3dOcc" (
+        echo   [2.2] 正在生成双端二合一全功能安装包 (P3dPyPad-AllInOne-Setup) ...
+        %ISCC% /DPACKAGE_TYPE=allinone "installer\P3dPyPad.iss"
+        if %ERRORLEVEL% EQU 0 (
+            echo   [成功] 双端全功能安装包生成完成！
+        ) else (
+            echo   [警告] 全功能安装包编译出现警告或错误。
+        )
     )
 ) else (
     echo [提示] 未在默认路径找到 Inno Setup 6 (ISCC.exe)，跳过 ISS 编译。
