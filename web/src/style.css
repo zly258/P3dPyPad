@@ -186,6 +186,215 @@ html, body {
   flex-direction: column;
 }
 
+/* 顶部模式切换栏 (案例预览模式 / 代码测试模式) */
+.md-mode-bar {
+  padding: 8px 12px;
+  background-color: var(--wpf-bg-surface);
+  border-bottom: 1px solid var(--wpf-border);
+  flex-shrink: 0;
+}
+
+.md-mode-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.md-mode-view.hidden {
+  display: none !important;
+}
+
+/* ================= 树状目录浏览区 (Case Preview Tree) ================= */
+.md-tree-toolbar {
+  padding: 8px 12px;
+  background-color: var(--wpf-bg-surface);
+  border-bottom: 1px solid var(--wpf-border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.md-btn-tool {
+  height: var(--wpf-control-height);
+  padding: 0 10px;
+  background-color: var(--wpf-bg-input);
+  border: 1px solid var(--wpf-border);
+  border-radius: var(--wpf-radius);
+  font-size: var(--wpf-font-size-caption);
+  color: var(--wpf-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+
+.md-btn-tool:hover {
+  background-color: var(--wpf-bg-surface-hover);
+  border-color: var(--wpf-border-hover);
+  color: var(--wpf-text-primary);
+}
+
+.md-tree-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+  background-color: #ffffff;
+}
+
+.tree-group {
+  margin-bottom: 2px;
+}
+
+.tree-group-header {
+  height: 30px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--wpf-font-size-caption);
+  font-weight: 600;
+  color: var(--wpf-text-primary);
+  transition: background-color 0.12s ease;
+}
+
+.tree-group-header:hover {
+  background-color: #f1f5f9;
+}
+
+.tree-group-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tree-arrow {
+  display: inline-block;
+  width: 12px;
+  font-size: 9px;
+  color: #64748b;
+  transition: transform 0.15s ease;
+}
+
+.tree-arrow.expanded {
+  transform: rotate(90deg);
+}
+
+.tree-group-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tree-badge {
+  font-size: 10px;
+  padding: 1px 6px;
+  background-color: #e2e8f0;
+  color: #475569;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.tree-group-children {
+  display: none;
+}
+
+.tree-group-children.expanded {
+  display: block;
+}
+
+.tree-item {
+  height: 28px;
+  padding: 0 12px 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--wpf-font-size-caption);
+  color: var(--wpf-text-secondary);
+  border-left: 3px solid transparent;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.tree-item:hover {
+  background-color: #f1f5f9;
+  color: var(--wpf-text-primary);
+}
+
+.tree-item.selected {
+  background-color: #eff6ff;
+  border-left-color: var(--wpf-accent);
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.tree-item-name {
+  font-family: var(--wpf-font-mono);
+  font-size: 11px;
+}
+
+.tree-item-title {
+  font-size: 11px;
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+  text-align: right;
+  margin-left: 8px;
+}
+
+.tree-item.selected .tree-item-title {
+  color: #2563eb;
+}
+
+/* 预览底部构件信息栏 */
+.md-preview-footer {
+  height: 48px;
+  padding: 0 12px;
+  background-color: var(--wpf-bg-surface);
+  border-top: 1px solid var(--wpf-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.md-preview-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.md-preview-name {
+  font-size: var(--wpf-font-size-body);
+  font-weight: 600;
+  color: var(--wpf-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.md-preview-meta {
+  font-size: var(--wpf-font-size-micro);
+  color: var(--wpf-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .md-panel-header {
   padding: 8px 12px;
   background-color: var(--wpf-bg-surface);
@@ -335,13 +544,14 @@ html, body {
   color: var(--wpf-text-primary);
 }
 
-/* ================= 代码编辑器区 ================= */
+/* ================= 代码编辑器区 (支持彩色语法高亮) ================= */
 .md-editor-box {
   flex: 1.2;
   min-height: 200px;
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid var(--wpf-border);
+  background-color: #ffffff;
 }
 
 .md-section-label {
@@ -354,23 +564,103 @@ html, body {
   color: var(--wpf-text-secondary);
   background-color: var(--wpf-bg-surface);
   border-bottom: 1px solid var(--wpf-border);
+  flex-shrink: 0;
+}
+
+.md-editor-hint {
+  font-size: 11px;
+  font-weight: 400;
+  color: #94a3b8;
+  letter-spacing: normal;
+}
+
+.md-editor-container {
+  position: relative;
+  flex: 1;
+  min-height: 180px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+/* 语法高亮背景层与代码输入层尺寸排版像素级一致 */
+.md-code-backdrop,
+.md-code-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border: none;
+  box-sizing: border-box;
+  font-family: var(--wpf-font-mono);
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre;
+  word-wrap: normal;
+  tab-size: 4;
+  letter-spacing: 0;
+}
+
+.md-code-backdrop {
+  pointer-events: none;
+  overflow: hidden;
+  background-color: #ffffff;
+  color: #0f172a;
+  z-index: 1;
+}
+
+.md-code-backdrop code {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: inherit;
 }
 
 .md-code-input {
-  flex: 1;
-  width: 100%;
-  background-color: #ffffff;
-  color: var(--wpf-text-code);
-  border: none;
+  background-color: transparent !important;
+  color: transparent !important;
+  caret-color: #2563eb !important;
   outline: none;
   resize: none;
-  padding: 10px 12px;
-  font-family: var(--wpf-font-mono);
-  font-size: var(--wpf-font-size-body);
-  line-height: 1.5;
-  white-space: pre;
-  tab-size: 4;
+  overflow: auto;
+  z-index: 2;
   user-select: text;
+}
+
+/* 现代工业浅色 Python 语法高亮 Token 配色 (清晰醒目、对比度高) */
+.tok-comment {
+  color: #6a737d;
+  font-style: italic;
+}
+
+.tok-string {
+  color: #0a58ca;
+  font-weight: 500;
+}
+
+.tok-keyword {
+  color: #cf222e;
+  font-weight: 600;
+}
+
+.tok-primitive {
+  color: #0969da;
+  font-weight: 600;
+}
+
+.tok-decorator {
+  color: #8250df;
+  font-weight: 600;
+}
+
+.tok-number {
+  color: #116329;
+}
+
+.tok-operator {
+  color: #cf222e;
 }
 
 /* ================= 动态规格参数网格 (Safe Form Layout) ================= */
@@ -716,7 +1006,7 @@ html, body {
   font-weight: 500;
 }
 
-/* ================= 底部状态条 (Status Bar) ================= */
+/* ================= 底部状态条 (Status Bar - 极简紧凑) ================= */
 .md-status-bar {
   height: 24px;
   background-color: #ffffff;
@@ -730,12 +1020,58 @@ html, body {
   z-index: 20;
 }
 
+.md-status-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.md-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.md-status-dot.ready {
+  background-color: #16a34a;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+}
+
+.md-status-dot.busy {
+  background-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  animation: dot-pulse 1.2s infinite;
+}
+
+.md-status-dot.error {
+  background-color: #dc2626;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+@keyframes dot-pulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+.md-status-right {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
 .md-log-text {
-  font-family: var(--wpf-font-mono);
+  font-family: var(--wpf-font-sans);
+  font-size: 11px;
+  font-weight: 500;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: var(--wpf-text-primary);
+  color: var(--wpf-text-secondary);
+}
+
+.md-log-text.success {
+  color: #15803d;
 }
 
 .md-log-text.error {

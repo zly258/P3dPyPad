@@ -35,8 +35,9 @@ let currentSnapshots = { clean: '', annotated: '', activeTab: 'clean', compName:
 let isRendering = false;
 let renderMode = 'shaded_edges'; // 'shaded_edges' | 'shaded' | 'wireframe'
 let modelColor = '#388bfd';
-let allScriptCatalog = []; // 存储 pyscripts 全库构件索引
+let allScriptCatalog = []; // 存储 pyscripts 全库构件索引 (已彻底排除系统脚本)
 let currentScriptItem = null;
+let currentMode = 'preview'; // 'preview' (案例预览模式) | 'editor' (代码测试模式)
 
 const els = {};
 
@@ -104,11 +105,28 @@ function cacheDOMElements() {
   els.lblLogTitle = document.getElementById('lbl-log-title');
   els.dialogTitle = document.getElementById('dialog-title');
 
+  // 双模式容器与切换按钮
+  els.btnModePreview = document.getElementById('btn-mode-preview');
+  els.btnModeEditor = document.getElementById('btn-mode-editor');
+  els.previewModeView = document.getElementById('preview-mode-view');
+  els.editorModeView = document.getElementById('editor-mode-view');
+
+  // 案例树状视图元素
+  els.treeSearch = document.getElementById('tree-search');
+  els.btnTreeCollapse = document.getElementById('btn-tree-collapse');
+  els.btnTreeExpand = document.getElementById('btn-tree-expand');
+  els.scriptTreeContainer = document.getElementById('script-tree-container');
+  els.previewCompTitle = document.getElementById('preview-comp-title');
+  els.previewCompMeta = document.getElementById('preview-comp-meta');
+  els.btnSwitchToEdit = document.getElementById('btn-switch-to-edit');
+
+  // 视口与代码编辑器元素
   els.viewportContainer = document.getElementById('viewport-container');
   els.viewportLoading = document.getElementById('viewport-loading');
   els.loadingText = document.getElementById('loading-text');
   els.codeEditor = document.getElementById('code-editor');
-  els.scriptSearch = document.getElementById('script-search');
+  els.codeHighlight = document.getElementById('code-highlight');
+  els.codeBackdrop = document.querySelector('.md-code-backdrop');
   els.presetSelect = document.getElementById('preset-select');
   els.btnRun = document.getElementById('btn-run');
   els.btnReset = document.getElementById('btn-reset');
@@ -121,6 +139,7 @@ function cacheDOMElements() {
   els.renderModeSelect = document.getElementById('render-mode-select');
   els.colorSelect = document.getElementById('color-select');
   els.paramContainer = document.getElementById('param-container');
+  els.statusIndicator = document.getElementById('status-indicator');
   els.statusQuick = document.getElementById('status-quick');
   els.logPanel = document.getElementById('log-panel');
   els.logList = document.getElementById('log-list');
@@ -139,13 +158,112 @@ function cacheDOMElements() {
 }
 
 /**
- * 异步加载 pyscripts 全库构件资产清单
+/**
+ * 极简、快速且无外部依赖的 Python 语法高亮着色器 (HTML Tokenizer)
+ * 专为工业 CAD 脚本环境深度调优，高亮 Python 关键字、注释、字符串、数字、装饰器及 Plant 3D 几何原语
+ */
+function highlightPython(code) {
+  if (!code) return '';
+  const escapeHtml = str => str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // 词法正则
+  const tokenRegex = /(#[^\n]*|"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|@[a-zA-Z_]\w*|\b(?:def|class|return|import|from|as|if|elif|else|for|while|try|except|finally|with|in|not|and|or|is|None|True|False|pass|break|continue|lambda|yield|global|nonlocal)\b|\b(?:BOX|CYLINDER|CONE|TORUS|SPHERE|DISK|PYRAMID|REVOLUTION|EXTRUSION|ARC3D|Point3d|Vector3d|activate|group|param|LENGTH|LENGTH0|STRING|setPoint|setLinearDimension|uniteWith|subtractFrom|intersectWith|erase|rotateX|rotateY|rotateZ|translate|float|int|str|len|range|print|abs|max|min|round)\b|\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b|[+\-*\/%=<>!&|^~]+)/g;
+
+  let lastIndex = 0;
+  let html = '';
+  let match;
+
+  while ((match = tokenRegex.exec(code)) !== null) {
+    const text = match[0];
+    const index = match.index;
+
+    if (index > lastIndex) {
+      html += escapeHtml(code.slice(lastIndex, index));
+    }
+
+    if (text.startsWith('#')) {
+      html += `<span class="tok-comment">${escapeHtml(text)}</span>`;
+    } else if (text.startsWith('"""') || text.startsWith("'''") || text.startsWith('"') || text.startsWith("'")) {
+      html += `<span class="tok-string">${escapeHtml(text)}</span>`;
+    } else if (text.startsWith('@')) {
+      html += `<span class="tok-decorator">${escapeHtml(text)}</span>`;
+    } else if (/^(def|class|return|import|from|as|if|elif|else|for|while|try|except|finally|with|in|not|and|or|is|None|True|False|pass|break|continue|lambda|yield|global|nonlocal)$/.test(text)) {
+      html += `<span class="tok-keyword">${escapeHtml(text)}</span>`;
+    } else if (/^(BOX|CYLINDER|CONE|TORUS|SPHERE|DISK|PYRAMID|REVOLUTION|EXTRUSION|ARC3D|Point3d|Vector3d|activate|group|param|LENGTH|LENGTH0|STRING|setPoint|setLinearDimension|uniteWith|subtractFrom|intersectWith|erase|rotateX|rotateY|rotateZ|translate|float|int|str|len|range|print|abs|max|min|round)$/.test(text)) {
+      html += `<span class="tok-primitive">${escapeHtml(text)}</span>`;
+    } else if (/^\d/.test(text)) {
+      html += `<span class="tok-number">${escapeHtml(text)}</span>`;
+    } else if (/^[+\-*\/%=<>!&|^~]+$/.test(text)) {
+      html += `<span class="tok-operator">${escapeHtml(text)}</span>`;
+    } else {
+      html += escapeHtml(text);
+    }
+
+    lastIndex = tokenRegex.lastIndex;
+  }
+
+  if (lastIndex < code.length) {
+    html += escapeHtml(code.slice(lastIndex));
+  }
+
+  // 若以换行结尾，补一个空格，防止末行光标脱位
+  if (code.endsWith('\n')) {
+    html += ' ';
+  }
+
+  return html;
+}
+
+/**
+ * 更新代码编辑器的语法高亮内容与滚动偏移
+ */
+function updateCodeHighlight() {
+  if (!els.codeHighlight || !els.codeEditor) return;
+  els.codeHighlight.innerHTML = highlightPython(els.codeEditor.value);
+  if (els.codeBackdrop) {
+    els.codeBackdrop.scrollTop = els.codeEditor.scrollTop;
+    els.codeBackdrop.scrollLeft = els.codeEditor.scrollLeft;
+  }
+}
+
+/**
+ * 切换工作台操作模式 (案例预览模式 vs 代码测试模式)
+ */
+function switchMode(mode) {
+  currentMode = mode;
+  if (mode === 'preview') {
+    els.btnModePreview?.classList.add('active');
+    els.btnModeEditor?.classList.remove('active');
+    els.previewModeView?.classList.remove('hidden');
+    els.editorModeView?.classList.add('hidden');
+  } else {
+    els.btnModePreview?.classList.remove('active');
+    els.btnModeEditor?.classList.add('active');
+    els.previewModeView?.classList.add('hidden');
+    els.editorModeView?.classList.remove('hidden');
+    // 切换至编辑模式时立即同步高亮与尺寸
+    updateCodeHighlight();
+  }
+}
+
+/**
+ * 异步加载 pyscripts 全库构件资产清单 (严格过滤原厂系统脚本)
  */
 async function initScriptCatalog() {
   try {
     const resp = await fetch('./public/pyscripts_manifest.json');
     if (resp.ok) {
-      allScriptCatalog = await resp.json();
+      const rawList = await resp.json();
+      // 彻底排除原厂系统脚本 (system_defaults)
+      allScriptCatalog = rawList.filter(item => {
+        const p = (item.path || '').toLowerCase();
+        const c = (item.category || '').toLowerCase();
+        const id = (item.id || '').toLowerCase();
+        return !p.includes('system_defaults') && !c.includes('原厂系统库') && !c.includes('system_defaults') && !id.startsWith('sys_');
+      });
       updateStatus(t('status_catalog_loaded', { count: allScriptCatalog.length }), 'info');
     } else {
       throw new Error(`HTTP ${resp.status}`);
@@ -163,6 +281,154 @@ async function initScriptCatalog() {
   }
 
   renderScriptDropdown();
+  renderScriptTree();
+}
+
+/**
+ * 渲染左侧构件树状目录 (按分类分组、折叠展开、搜索即时过滤、点击即看外形)
+ */
+function renderScriptTree(filterText = '') {
+  if (!els.scriptTreeContainer) return;
+  const query = filterText.trim().toLowerCase();
+  els.scriptTreeContainer.innerHTML = '';
+  const isEn = getLanguage() === LANG_EN;
+
+  const filtered = allScriptCatalog.filter(item => {
+    if (!query) return true;
+    return (
+      item.name.toLowerCase().includes(query) ||
+      (item.title && item.title.toLowerCase().includes(query)) ||
+      (item.category && item.category.toLowerCase().includes(query)) ||
+      (item.description && item.description.toLowerCase().includes(query))
+    );
+  });
+
+  if (filtered.length === 0) {
+    const tip = document.createElement('div');
+    tip.className = 'md-empty-tip';
+    tip.textContent = t('preview_empty_tree');
+    els.scriptTreeContainer.appendChild(tip);
+    return;
+  }
+
+  // 按分类分组
+  const groups = {};
+  for (let item of filtered) {
+    let cat = item.category || '通用构件';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(item);
+  }
+
+  const categoryKeys = Object.keys(groups);
+
+  categoryKeys.forEach((cat, index) => {
+    const items = groups[cat];
+    let displayCat = cat;
+    if (isEn && CATEGORY_NAMES_EN[cat]) {
+      displayCat = CATEGORY_NAMES_EN[cat];
+    }
+
+    const groupEl = document.createElement('div');
+    groupEl.className = 'tree-group';
+
+    const headerEl = document.createElement('div');
+    headerEl.className = 'tree-group-header';
+
+    const leftEl = document.createElement('div');
+    leftEl.className = 'tree-group-left';
+
+    const arrowEl = document.createElement('span');
+    arrowEl.className = 'tree-arrow';
+    arrowEl.textContent = '▶';
+
+    const titleEl = document.createElement('span');
+    titleEl.className = 'tree-group-title';
+    titleEl.textContent = displayCat;
+
+    leftEl.appendChild(arrowEl);
+    leftEl.appendChild(titleEl);
+
+    const badgeEl = document.createElement('span');
+    badgeEl.className = 'tree-badge';
+    badgeEl.textContent = items.length;
+
+    headerEl.appendChild(leftEl);
+    headerEl.appendChild(badgeEl);
+
+    const childrenEl = document.createElement('div');
+    childrenEl.className = 'tree-group-children';
+
+    // 默认展开首个分组，或者当处于搜索过滤状态时全部展开
+    const shouldExpand = (query.length > 0) || (index === 0) || (currentScriptItem && items.some(i => i.id === currentScriptItem.id));
+    if (shouldExpand) {
+      arrowEl.classList.add('expanded');
+      childrenEl.classList.add('expanded');
+    }
+
+    headerEl.addEventListener('click', () => {
+      const isExpanded = childrenEl.classList.toggle('expanded');
+      arrowEl.classList.toggle('expanded', isExpanded);
+    });
+
+    items.forEach(item => {
+      const itemEl = document.createElement('div');
+      itemEl.className = 'tree-item';
+      itemEl.dataset.id = item.id;
+
+      if (currentScriptItem && (currentScriptItem.id === item.id || currentScriptItem.name === item.name)) {
+        itemEl.classList.add('selected');
+      }
+
+      const nameEl = document.createElement('span');
+      nameEl.className = 'tree-item-name';
+      nameEl.textContent = item.name;
+
+      const subTitleEl = document.createElement('span');
+      subTitleEl.className = 'tree-item-title';
+      let titleClean = (item.title || '').replace(item.name, '').replace(/[()（）]/g, '').trim();
+      subTitleEl.textContent = titleClean || item.name;
+      subTitleEl.title = `${item.name} - ${item.description || item.title || ''}`;
+
+      itemEl.appendChild(nameEl);
+      itemEl.appendChild(subTitleEl);
+
+      // 单击叶子节点：立即加载该脚本并在视口中显示对应的外形！
+      itemEl.addEventListener('click', async () => {
+        // 清除其余节点的选中态
+        document.querySelectorAll('.tree-item.selected').forEach(el => el.classList.remove('selected'));
+        itemEl.classList.add('selected');
+
+        await loadScriptById(item.id);
+      });
+
+      childrenEl.appendChild(itemEl);
+    });
+
+    groupEl.appendChild(headerEl);
+    groupEl.appendChild(childrenEl);
+    els.scriptTreeContainer.appendChild(groupEl);
+  });
+}
+
+/**
+ * 更新树视图中指定构件节点的选中高亮状态
+ */
+function updateTreeSelection(selectedId) {
+  if (!els.scriptTreeContainer) return;
+  const items = els.scriptTreeContainer.querySelectorAll('.tree-item');
+  items.forEach(el => {
+    if (el.dataset.id === selectedId) {
+      el.classList.add('selected');
+      // 展开父目录
+      const parentGroup = el.closest('.tree-group');
+      if (parentGroup) {
+        parentGroup.querySelector('.tree-arrow')?.classList.add('expanded');
+        parentGroup.querySelector('.tree-group-children')?.classList.add('expanded');
+      }
+    } else {
+      el.classList.remove('selected');
+    }
+  });
 }
 
 /**
@@ -247,6 +513,21 @@ async function loadScriptById(scriptId) {
   currentScriptItem = item;
   currentParams = {}; // 重置参数表
 
+  // 更新预览模式信息卡
+  if (els.previewCompTitle) {
+    els.previewCompTitle.textContent = item.title || item.name;
+    els.previewCompTitle.title = item.name;
+  }
+  if (els.previewCompMeta) {
+    els.previewCompMeta.textContent = `${item.category || ''} · ${item.description || item.filename || ''}`;
+  }
+  if (els.presetSelect) {
+    els.presetSelect.value = item.id;
+  }
+
+  // 同步高亮树中对应选中项
+  updateTreeSelection(item.id);
+
   try {
     if (item.code) {
       els.codeEditor.value = item.code.trim();
@@ -258,6 +539,7 @@ async function loadScriptById(scriptId) {
       const code = await resp.text();
       els.codeEditor.value = code.trim();
     }
+    updateCodeHighlight();
     refreshParameterPanel();
     await executeCurrentCode();
   } catch (err) {
@@ -364,6 +646,44 @@ function animate() {
  * 绑定界面各类操作按钮与交互事件 (纯文本，无图标)
  */
 function bindUIEvents() {
+  // 双模式切换事件 (案例预览模式 vs 代码测试模式)
+  if (els.btnModePreview) {
+    els.btnModePreview.addEventListener('click', () => switchMode('preview'));
+  }
+  if (els.btnModeEditor) {
+    els.btnModeEditor.addEventListener('click', () => switchMode('editor'));
+  }
+
+  // 案例树状视图操作
+  if (els.treeSearch) {
+    let treeSearchTimer = null;
+    els.treeSearch.addEventListener('input', e => {
+      clearTimeout(treeSearchTimer);
+      treeSearchTimer = setTimeout(() => {
+        renderScriptTree(e.target.value);
+      }, 200);
+    });
+  }
+  if (els.btnTreeCollapse) {
+    els.btnTreeCollapse.addEventListener('click', () => {
+      if (!els.scriptTreeContainer) return;
+      els.scriptTreeContainer.querySelectorAll('.tree-group-children').forEach(c => c.classList.remove('expanded'));
+      els.scriptTreeContainer.querySelectorAll('.tree-arrow').forEach(a => a.classList.remove('expanded'));
+    });
+  }
+  if (els.btnTreeExpand) {
+    els.btnTreeExpand.addEventListener('click', () => {
+      if (!els.scriptTreeContainer) return;
+      els.scriptTreeContainer.querySelectorAll('.tree-group-children').forEach(c => c.classList.add('expanded'));
+      els.scriptTreeContainer.querySelectorAll('.tree-arrow').forEach(a => a.classList.add('expanded'));
+    });
+  }
+  if (els.btnSwitchToEdit) {
+    els.btnSwitchToEdit.addEventListener('click', () => {
+      switchMode('editor');
+    });
+  }
+
   els.presetSelect.addEventListener('change', () => {
     if (els.presetSelect.value) {
       loadScriptById(els.presetSelect.value);
@@ -382,25 +702,6 @@ function bindUIEvents() {
     }
   });
 
-  if (els.scriptSearch) {
-    let searchTimer = null;
-    els.scriptSearch.addEventListener('input', e => {
-      clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => {
-        renderScriptDropdown(e.target.value);
-      }, 200);
-    });
-
-    els.scriptSearch.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        if (els.presetSelect.value) {
-          loadScriptById(els.presetSelect.value);
-        }
-      }
-    });
-  }
-
   window.addEventListener('keydown', e => {
     if (e.key === 'F5' || (e.ctrlKey && e.key === 'Enter')) {
       e.preventDefault();
@@ -408,13 +709,48 @@ function bindUIEvents() {
     }
   });
 
-  let codeChangeTimer = null;
-  els.codeEditor.addEventListener('input', () => {
-    clearTimeout(codeChangeTimer);
-    codeChangeTimer = setTimeout(() => {
-      refreshParameterPanel();
-    }, 400);
-  });
+  // 代码编辑器输入与滚动同步，支持彩色语法高亮与 Tab 缩进
+  if (els.codeEditor) {
+    els.codeEditor.addEventListener('scroll', () => {
+      if (els.codeBackdrop) {
+        els.codeBackdrop.scrollTop = els.codeEditor.scrollTop;
+        els.codeBackdrop.scrollLeft = els.codeEditor.scrollLeft;
+      }
+    });
+
+    els.codeEditor.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = els.codeEditor.selectionStart;
+        const end = els.codeEditor.selectionEnd;
+        const val = els.codeEditor.value;
+
+        if (!e.shiftKey) {
+          // 插入 4 个空格缩进
+          els.codeEditor.value = val.substring(0, start) + '    ' + val.substring(end);
+          els.codeEditor.selectionStart = els.codeEditor.selectionEnd = start + 4;
+        } else {
+          // Shift+Tab 反向减少 4 个空格缩进
+          const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+          if (val.substr(lineStart, 4) === '    ') {
+            els.codeEditor.value = val.substring(0, lineStart) + val.substring(lineStart + 4);
+            els.codeEditor.selectionStart = els.codeEditor.selectionEnd = Math.max(lineStart, start - 4);
+          }
+        }
+        updateCodeHighlight();
+        refreshParameterPanel();
+      }
+    });
+
+    let codeChangeTimer = null;
+    els.codeEditor.addEventListener('input', () => {
+      updateCodeHighlight();
+      clearTimeout(codeChangeTimer);
+      codeChangeTimer = setTimeout(() => {
+        refreshParameterPanel();
+      }, 400);
+    });
+  }
 
   if (els.btnFit) {
     els.btnFit.addEventListener('click', () => fitViewToModel());
@@ -529,11 +865,35 @@ function applyLanguage(lang) {
   // 顶部标题
   if (els.brandTitle) els.brandTitle.textContent = t('app_title');
 
-  // 左侧操作面板
-  if (els.scriptSearch) {
-    els.scriptSearch.placeholder = t('search_placeholder');
-    els.scriptSearch.title = t('search_title');
+  // 双模式切换分段按钮
+  if (els.btnModePreview) {
+    els.btnModePreview.textContent = t('mode_preview');
+    els.btnModePreview.title = t('mode_preview_tip');
   }
+  if (els.btnModeEditor) {
+    els.btnModeEditor.textContent = t('mode_editor');
+    els.btnModeEditor.title = t('mode_editor_tip');
+  }
+
+  // 案例树状视图
+  if (els.treeSearch) {
+    els.treeSearch.placeholder = t('tree_search_placeholder');
+    els.treeSearch.title = t('tree_search_title');
+  }
+  if (els.btnTreeCollapse) {
+    els.btnTreeCollapse.textContent = t('btn_tree_collapse');
+    els.btnTreeCollapse.title = t('btn_tree_collapse_tip');
+  }
+  if (els.btnTreeExpand) {
+    els.btnTreeExpand.textContent = t('btn_tree_expand');
+    els.btnTreeExpand.title = t('btn_tree_expand_tip');
+  }
+  if (els.btnSwitchToEdit) {
+    els.btnSwitchToEdit.textContent = t('btn_switch_to_edit');
+    els.btnSwitchToEdit.title = t('btn_switch_to_edit_tip');
+  }
+
+  // 代码编辑模式面板控件
   if (els.btnRun) {
     els.btnRun.textContent = t('btn_run');
     els.btnRun.title = t('btn_run_tip');
@@ -548,6 +908,10 @@ function applyLanguage(lang) {
   if (els.lblCode) els.lblCode.textContent = t('section_code');
   if (els.codeEditor) els.codeEditor.placeholder = t('code_placeholder');
   if (els.lblParams) els.lblParams.textContent = t('section_params');
+
+  // 刷新构件下拉与构件树的多语言分组
+  renderScriptDropdown();
+  renderScriptTree(els.treeSearch ? els.treeSearch.value : '');
 
   // 视口工具栏分段按钮
   if (els.btnIso) { els.btnIso.textContent = t('view_iso'); els.btnIso.title = t('view_iso_tip'); }
@@ -615,9 +979,6 @@ function applyLanguage(lang) {
   if (els.btnDialogClose) els.btnDialogClose.textContent = t('btn_close');
   if (els.btnDownloadSnapshot) els.btnDownloadSnapshot.textContent = t('btn_download_current');
   if (els.btnDownloadAll) els.btnDownloadAll.textContent = t('btn_download_all');
-
-  // 重新渲染构件下拉菜单 (保持选中态与中英分类)
-  renderScriptDropdown(els.scriptSearch ? els.scriptSearch.value : '');
 
   // 重新渲染当前参数面板 (若无参数显示对应语言的空提示)
   refreshParameterPanel();
@@ -1059,12 +1420,25 @@ function updateStatus(msg, type = 'info') {
     els.logList.scrollTop = els.logList.scrollHeight;
   }
 
+  // 左下角任务栏极简展示，彻底避免冗长技术数据与大段文字堆叠
   if (els.statusQuick) {
-    els.statusQuick.textContent = `[${timeStr}] ${msg}`;
+    const isEn = getLanguage() === LANG_EN;
+    let simpleText = '';
     if (type === 'error') {
-      els.statusQuick.classList.add('error');
+      simpleText = isEn ? 'Modeling Failed' : '建模失败';
+    } else if (type === 'success') {
+      simpleText = isEn ? 'Ready' : '准备就绪';
+    } else if (msg.includes('正在') || msg.includes('Loading') || msg.includes('Meshing') || msg.includes('Modeling')) {
+      simpleText = isEn ? 'Modeling...' : '正在建模...';
     } else {
-      els.statusQuick.classList.remove('error');
+      simpleText = isEn ? 'Ready' : '准备就绪';
+    }
+
+    els.statusQuick.textContent = simpleText;
+    els.statusQuick.className = `md-log-text ${type === 'error' ? 'error' : (type === 'success' ? 'success' : '')}`;
+
+    if (els.statusIndicator) {
+      els.statusIndicator.className = `md-status-dot ${type === 'error' ? 'error' : (type === 'success' ? 'ready' : 'busy')}`;
     }
   }
 

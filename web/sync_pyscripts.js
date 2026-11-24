@@ -23,14 +23,7 @@ const CATEGORY_MAP = {
   'custom_scripts/05_supports': '05 定制支吊架 (Custom Supports)',
   'custom_scripts/06_equipment': '06 工艺设备 (Equipment)',
   'supports/cd_zd2010': '07 电力标准 CD/ZD 2010 支吊架',
-  'supports/hgt_21629': '08 化工标准 HG/T 21629 支架',
-  'system_defaults/01_supports': '09 原厂系统库 - 支吊架',
-  'system_defaults/02_fittings': '10 原厂系统库 - 管件',
-  'system_defaults/03_flanges_gaskets_blinds': '11 原厂系统库 - 法兰与盲板',
-  'system_defaults/04_pipes_nozzles_olets': '12 原厂系统库 - 管嘴与接头',
-  'system_defaults/05_valves_actuators': '13 原厂系统库 - 阀门与执行器',
-  'system_defaults/06_instruments': '14 原厂系统库 - 仪表',
-  'system_defaults/07_equipment_pumps': '15 原厂系统库 - 设备泵类'
+  'supports/hgt_21629': '08 化工标准 HG/T 21629 支架'
 };
 
 function copyRecursive(src, dst) {
@@ -51,6 +44,8 @@ function scanAndBuildManifest(dir, rel = '') {
   if (!fs.existsSync(dir)) return list;
 
   for (const item of fs.readdirSync(dir)) {
+    // 排除系统脚本目录，不计入 manifest
+    if (item === 'system_defaults') continue;
     const full = path.join(dir, item);
     const subRel = rel ? `${rel}/${item}` : item;
     const stat = fs.statSync(full);

@@ -25,7 +25,63 @@ export const DICTIONARY = {
   lang_zh: { zh: '中文', en: '中文' },
   lang_en: { zh: 'English', en: 'English' },
 
-  // 左侧操作区
+  // 双模式切换
+  mode_preview: {
+    zh: '案例预览模式',
+    en: 'Case Preview'
+  },
+  mode_preview_tip: {
+    zh: '预览现有构件库三维模型 (点击即看外形)',
+    en: 'Browse component library (click to preview 3D shape)'
+  },
+  mode_editor: {
+    zh: '代码测试模式',
+    en: 'Code Editor & Test'
+  },
+  mode_editor_tip: {
+    zh: '自主编写与调试 Python 代码 (带语法高亮)',
+    en: 'Write/edit Python code with syntax highlighting & test'
+  },
+
+  // 案例树状视图
+  tree_search_placeholder: {
+    zh: '搜索案例 (如 弯头 / 阀门 / CD)...',
+    en: 'Search cases (e.g. Elbow / Valve / CD)...'
+  },
+  tree_search_title: {
+    zh: '输入构件位号或中文关键字即时过滤',
+    en: 'Filter by component ID or keyword'
+  },
+  btn_tree_collapse: {
+    zh: '折叠',
+    en: 'Collapse'
+  },
+  btn_tree_collapse_tip: {
+    zh: '折叠全部目录',
+    en: 'Collapse all folders'
+  },
+  btn_tree_expand: {
+    zh: '展开',
+    en: 'Expand'
+  },
+  btn_tree_expand_tip: {
+    zh: '展开全部目录',
+    en: 'Expand all folders'
+  },
+  btn_switch_to_edit: {
+    zh: '编辑代码',
+    en: 'Edit Code'
+  },
+  btn_switch_to_edit_tip: {
+    zh: '切换到代码测试模式编辑当前构件',
+    en: 'Switch to editor mode to edit current component'
+  },
+  preview_empty_tree: {
+    zh: '未找到匹配的构件案例',
+    en: 'No matching component cases found'
+  },
+
+  // 代码测试模式操作区
   search_placeholder: {
     zh: '搜索构件 (如 弯头 / 阀门 / CD)...',
     en: 'Search components (e.g. Elbow / Valve / CD)...'

@@ -37,35 +37,72 @@
 
   <!-- 工作区主布局 -->
   <main class="md-workspace">
-    <!-- 左侧：参数化构件代码与属性控制面板 -->
+    <!-- 左侧：参数化构件代码与属性控制面板 (支持案例预览模式与代码测试模式双模式切换) -->
     <aside class="md-side-panel">
-      <!-- 构件预设选择与快捷操作栏 -->
-      <div class="md-panel-header" style="flex-direction: column; align-items: stretch; gap: 8px;">
-        <div style="display: flex; gap: 8px;">
-          <input id="script-search" type="text" class="md-text-field" placeholder="搜索构件 (如 弯头 / 阀门 / CD)..." style="flex: 1;" title="输入构件位号或中文关键字即时过滤" />
-          <button id="btn-run" class="md-button md-button-primary" title="执行脚本建模 (快捷键 F5 或 Ctrl+Enter)">
-            运行 (F5)
-          </button>
-          <button id="btn-reset" class="md-button md-button-outlined" title="重置代码">
-            重置
+      <!-- 模式切换栏 (案例预览模式 / 代码测试模式) -->
+      <div class="md-mode-bar">
+        <div class="md-segmented-group" id="mode-switcher" style="width: 100%;">
+          <button id="btn-mode-preview" class="md-segmented-item active" style="flex: 1;" title="预览现有构件库三维模型 (点击即看外形)">案例预览模式</button>
+          <button id="btn-mode-editor" class="md-segmented-item" style="flex: 1;" title="自主编写与调试 Python 代码 (带语法高亮)">代码测试模式</button>
+        </div>
+      </div>
+
+      <!-- 模式一：案例预览模式 (Tree 树状目录浏览，点击即显示外形) -->
+      <div id="preview-mode-view" class="md-mode-view">
+        <div class="md-tree-toolbar">
+          <input id="tree-search" type="text" class="md-text-field" placeholder="搜索案例 (如 弯头 / 阀门 / CD)..." style="flex: 1;" title="输入构件位号或中文关键字即时过滤" />
+          <button id="btn-tree-collapse" class="md-btn-tool" title="全部折叠">折叠</button>
+          <button id="btn-tree-expand" class="md-btn-tool" title="全部展开">展开</button>
+        </div>
+        <div id="script-tree-container" class="md-tree-container">
+          <!-- 动态渲染树状结构：分类节点与构件叶子节点 -->
+        </div>
+        <div class="md-preview-footer">
+          <div class="md-preview-info">
+            <div id="preview-comp-title" class="md-preview-name">-</div>
+            <div id="preview-comp-meta" class="md-preview-meta">-</div>
+          </div>
+          <button id="btn-switch-to-edit" class="md-button md-button-outlined md-btn-sm" title="切换到代码测试模式编辑当前构件">
+            编辑代码
           </button>
         </div>
-        <select id="preset-select" class="md-select" style="width: 100%;" title="选择 pyscripts 构件脚本">
-          <!-- 动态注入 pyscripts 全部分类选项 -->
-        </select>
       </div>
 
-      <!-- Python 代码编辑器 -->
-      <div class="md-editor-box">
-        <div id="lbl-code" class="md-section-label">Python 源码</div>
-        <textarea id="code-editor" class="md-code-input" spellcheck="false" placeholder="在此粘贴 AutoCAD Plant 3D 构件 Python 脚本代码..."></textarea>
-      </div>
+      <!-- 模式二：代码测试模式 (自主编写代码、带语法高亮、参数调节与执行) -->
+      <div id="editor-mode-view" class="md-mode-view hidden">
+        <!-- 构件模板选择与快捷操作栏 -->
+        <div class="md-panel-header">
+          <div style="display: flex; gap: 8px; width: 100%;">
+            <select id="preset-select" class="md-select" style="flex: 1;" title="选择构件代码模板">
+              <!-- 动态注入 pyscripts 构件选项 -->
+            </select>
+            <button id="btn-run" class="md-button md-button-primary" title="执行脚本建模 (快捷键 F5 或 Ctrl+Enter)">
+              运行 (F5)
+            </button>
+            <button id="btn-reset" class="md-button md-button-outlined" title="重置代码">
+              重置
+            </button>
+          </div>
+        </div>
 
-      <!-- 动态解析尺寸参数网格 -->
-      <div class="md-params-box">
-        <div id="lbl-params" class="md-section-label">尺寸参数</div>
-        <div id="param-container" class="md-param-list">
-          <!-- 动态解析渲染参数行 -->
+        <!-- Python 代码编辑器 (带彩色语法高亮) -->
+        <div class="md-editor-box">
+          <div class="md-section-label" style="display: flex; justify-content: space-between; align-items: center;">
+            <span id="lbl-code">Python 源码</span>
+            <span class="md-editor-hint">Tab 缩进 · F5 运行</span>
+          </div>
+          <div class="md-editor-container" id="editor-container">
+            <pre class="md-code-backdrop" aria-hidden="true"><code id="code-highlight" class="language-python"></code></pre>
+            <textarea id="code-editor" class="md-code-input" spellcheck="false" placeholder="在此输入或修改 AutoCAD Plant 3D 构件 Python 脚本代码..."></textarea>
+          </div>
+        </div>
+
+        <!-- 动态解析尺寸参数网格 -->
+        <div class="md-params-box">
+          <div id="lbl-params" class="md-section-label">尺寸参数</div>
+          <div id="param-container" class="md-param-list">
+            <!-- 动态解析渲染参数行 -->
+          </div>
         </div>
       </div>
     </aside>
@@ -136,10 +173,13 @@
     </section>
   </main>
 
-  <!-- 底部极简状态栏 -->
+  <!-- 底部极简状态栏 (简化状态显示，零多余冗长文字) -->
   <footer class="md-status-bar">
-    <div id="status-quick" class="md-log-text">准备就绪</div>
-    <div>AutoCAD Plant 3D Web Toolkit</div>
+    <div class="md-status-left">
+      <span id="status-indicator" class="md-status-dot ready"></span>
+      <span id="status-quick" class="md-log-text">准备就绪</span>
+    </div>
+    <div class="md-status-right">Plant 3D Web Studio</div>
   </footer>
 
   <!-- 构件预览图展示与导出弹窗 (支持标准轴测图与轴测尺寸图双出图切换) -->
