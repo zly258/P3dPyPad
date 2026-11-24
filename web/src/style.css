@@ -11,14 +11,14 @@
  */
 
 :root {
-  /* ================= 1. 字体阶梯 (Typography - Google Fonts) ================= */
-  --wpf-font-sans: "Roboto", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --wpf-font-mono: "Roboto Mono", "Cascadia Code", Consolas, monospace;
+  /* ================= 1. 统一工程级字体阶梯 (Google Fonts: Inter + JetBrains Mono + Noto Sans SC) ================= */
+  --wpf-font-sans: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --wpf-font-mono: "JetBrains Mono", "Roboto Mono", "Cascadia Code", Consolas, monospace;
 
   --wpf-font-size-display: 14px;
   --wpf-font-size-title: 13px;
   --wpf-font-size-body: 12px;
-  --wpf-font-size-caption: 11.5px;
+  --wpf-font-size-caption: 11px;
   --wpf-font-size-micro: 10px;
 
   /* ================= 2. 尺寸与间距令牌 (Density: Medium Default) ================= */
@@ -70,11 +70,18 @@
   --wpf-btn-secondary-hover-bg: #f1f5f9;
 }
 
-/* ================= 基础重置 ================= */
+/* ================= 基础重置与全局字体继承规范 ================= */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+button, input, select, textarea, optgroup, option {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
 }
 
 html, body {
@@ -88,6 +95,9 @@ html, body {
   line-height: 1.5;
   user-select: none;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11"; /* 优化 Inter 数字与关键字母形态 */
 }
 
 /* 滚动条细致工程样式 */
@@ -275,7 +285,7 @@ html, body {
   border: 1px solid var(--wpf-border);
   border-radius: var(--wpf-radius);
   color: var(--wpf-text-primary);
-  font-family: var(--wpf-font-mono);
+  font-family: var(--wpf-font-sans);
   font-size: var(--wpf-font-size-body);
   outline: none;
   user-select: text;
@@ -298,6 +308,7 @@ html, body {
   color: var(--wpf-text-primary);
   border: 1px solid var(--wpf-border);
   border-radius: var(--wpf-radius);
+  font-family: var(--wpf-font-sans);
   font-size: var(--wpf-font-size-body);
   outline: none;
   cursor: pointer;
@@ -404,6 +415,7 @@ html, body {
 .md-param-item .md-text-field {
   height: var(--wpf-control-height-xs);
   padding: var(--wpf-input-padding-sm);
+  font-family: var(--wpf-font-mono);
   font-size: var(--wpf-font-size-body);
   border-radius: 2px;
 }
@@ -607,7 +619,8 @@ html, body {
   display: inline-block;
   padding: 1px 6px;
   border-radius: 2px;
-  font-size: 10px;
+  font-family: var(--wpf-font-sans);
+  font-size: var(--wpf-font-size-micro);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -642,7 +655,8 @@ html, body {
   border: 1px solid var(--wpf-border);
   border-radius: var(--wpf-radius);
   color: var(--wpf-text-secondary);
-  font-size: 11px;
+  font-family: var(--wpf-font-sans);
+  font-size: var(--wpf-font-size-caption);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -661,7 +675,7 @@ html, body {
   overflow-y: auto;
   padding: 6px 10px;
   font-family: var(--wpf-font-mono);
-  font-size: 11px;
+  font-size: var(--wpf-font-size-caption);
   line-height: 1.6;
   background-color: #ffffff;
 }

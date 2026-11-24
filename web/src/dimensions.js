@@ -375,7 +375,7 @@ function createTextSprite(text, fontSize = 28) {
   const ctx = canvas.getContext('2d');
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.font = `bold ${fontSize}px "Roboto", "Noto Sans SC", sans-serif`;
+  ctx.font = `bold ${fontSize}px "Inter", "Noto Sans SC", -apple-system, sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
