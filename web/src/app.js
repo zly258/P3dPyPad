@@ -254,7 +254,7 @@ function switchMode(mode) {
  */
 async function initScriptCatalog() {
   try {
-    const resp = await fetch('./public/pyscripts_manifest.json?v=20261124');
+    const resp = await fetch('./public/pyscripts_manifest.json?v=20261124_02');
     if (resp.ok) {
       const rawList = await resp.json();
       // 彻底排除原厂系统脚本 (system_defaults)
@@ -394,6 +394,7 @@ function renderScriptTree(filterText = '') {
 
       // 单击叶子节点：立即加载该脚本并在视口中显示对应的外形！
       itemEl.addEventListener('click', async () => {
+        if (isRendering) return; // 正在造型中时防重复触发
         // 清除其余节点的选中态
         document.querySelectorAll('.tree-item.selected').forEach(el => el.classList.remove('selected'));
         itemEl.classList.add('selected');
@@ -528,6 +529,12 @@ async function loadScriptById(scriptId) {
   // 同步高亮树中对应选中项
   updateTreeSelection(item.id);
 
+  // 立即显示加载遮罩 (点击即出 Loading)，留出微任务重绘时间让 Loading 动画优先渲染
+  const isEn = getLanguage() === LANG_EN;
+  const compLabel = item.title || item.name;
+  showLoading(isEn ? `Loading ${item.name}...` : `正在载入构件 ${compLabel}...`);
+  await new Promise(r => requestAnimationFrame(() => setTimeout(r, 20)));
+
   try {
     if (item.code) {
       els.codeEditor.value = item.code.trim();
@@ -541,10 +548,12 @@ async function loadScriptById(scriptId) {
     }
     updateCodeHighlight();
     refreshParameterPanel();
-    await executeCurrentCode();
+    await executeCurrentCode(isEn ? `Modeling ${item.name}...` : `正在进行 OpenCASCADE 实体造型 (${item.name})...`);
   } catch (err) {
     console.error('加载构件脚本失败:', err);
     updateStatus(t('status_model_error', { msg: err.message }), 'error');
+  } finally {
+    hideLoading();
   }
 }
 
@@ -1032,12 +1041,20 @@ function refreshParameterPanel() {
 }
 
 /**
- * 执行当前 Python 脚本并渲染三维实体
+ * 执行当前 Python 脚本并渲染三维实体 (展示高精度 CAD Loading 遮罩与状态指示)
  */
-async function executeCurrentCode() {
+async function executeCurrentCode(customLoadingMsg) {
   if (isRendering) return;
   isRendering = true;
-  els.btnRun.classList.add('loading');
+
+  const isEn = getLanguage() === LANG_EN;
+  const compName = currentScriptItem ? (currentScriptItem.title || currentScriptItem.name) : '';
+  const initialText = customLoadingMsg || (compName ? (isEn ? `Modeling ${currentScriptItem.name}...` : `正在进行 OpenCASCADE 实体造型 (${compName})...`) : t('loading_modeling'));
+
+  showLoading(initialText);
+  // 核心微任务延迟：留出微小间隙让浏览器优先将 Loading 遮罩与小菊花渲染到屏幕上，防止 WASM 运算抢占主线程导致白屏或无反馈
+  await new Promise(r => requestAnimationFrame(() => setTimeout(r, 25)));
+
   updateStatus(t('loading_modeling'), 'info');
 
   try {
@@ -1045,18 +1062,23 @@ async function executeCurrentCode() {
     const res = await runPlant3dScript(pyCode, currentParams, kernel);
 
     if (!res.success || !res.shape) {
-      throw new Error(getLanguage() === LANG_EN ? 'Script execution produced no valid 3D solid!' : '脚本执行后未产生有效的实体模型！');
+      throw new Error(isEn ? 'Script execution produced no valid 3D solid!' : '脚本执行后未产生有效的实体模型！');
     }
 
     currentShape = res.shape;
     currentSession = res.session;
     currentMetadata = res.meta;
 
+    if (els.loadingText) {
+      els.loadingText.textContent = isEn ? 'Meshing 3D B-Rep solid...' : '正在离散剖分 B-Rep 实体与边界特征线...';
+    }
     updateStatus(t('loading_meshing'), 'info');
+    await new Promise(r => setTimeout(r, 10));
+
     const meshData = kernel.meshShape(res.shape, 0.5);
 
     if (!meshData) {
-      throw new Error(getLanguage() === LANG_EN ? 'B-Rep tessellation returned no valid triangles!' : '网格剖分未提取到有效三角面片！');
+      throw new Error(isEn ? 'B-Rep tessellation returned no valid triangles!' : '网格剖分未提取到有效三角面片！');
     }
 
     renderGeometryToScene(meshData);
@@ -1081,7 +1103,7 @@ async function executeCurrentCode() {
     const dimCount = currentSession && currentSession.dimensions ? currentSession.dimensions.length : 0;
     const portCount = currentSession && currentSession.ports ? currentSession.ports.length : 0;
     const bboxSize = `${Math.round(meshData.bbox.size[0])} × ${Math.round(meshData.bbox.size[1])} × ${Math.round(meshData.bbox.size[2])} mm`;
-    const compTitle = (getLanguage() === LANG_EN ? currentMetadata?.functionName : (res.meta.title || currentMetadata?.functionName)) || 'COMPONENT';
+    const compTitle = (isEn ? currentMetadata?.functionName : (res.meta.title || currentMetadata?.functionName)) || 'COMPONENT';
 
     updateStatus(t('status_model_completed', {
       name: compTitle,
