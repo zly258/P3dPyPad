@@ -26,8 +26,12 @@
   <!-- 顶部标题栏 (极简紧凑设计，无冗余文字，无图标) -->
   <header class="md-app-bar">
     <div class="md-brand">
-      <div class="md-brand-title">Plant 3D PyOCC 仿真工作台</div>
+      <div id="brand-title" class="md-brand-title">Plant 3D PyOCC 仿真工作台</div>
       <span class="md-chip md-chip-accent">OpenCASCADE 8.0.1 WASM</span>
+    </div>
+    <div class="md-segmented-group" id="lang-switcher">
+      <button id="btn-lang-zh" class="md-segmented-item active" title="切换到中文">中文</button>
+      <button id="btn-lang-en" class="md-segmented-item" title="Switch to English">English</button>
     </div>
   </header>
 
@@ -53,13 +57,13 @@
 
       <!-- Python 代码编辑器 -->
       <div class="md-editor-box">
-        <div class="md-section-label">Python 源码</div>
+        <div id="lbl-code" class="md-section-label">Python 源码</div>
         <textarea id="code-editor" class="md-code-input" spellcheck="false" placeholder="在此粘贴 AutoCAD Plant 3D 构件 Python 脚本代码..."></textarea>
       </div>
 
       <!-- 动态解析尺寸参数网格 -->
       <div class="md-params-box">
-        <div class="md-section-label">尺寸参数</div>
+        <div id="lbl-params" class="md-section-label">尺寸参数</div>
         <div id="param-container" class="md-param-list">
           <!-- 动态解析渲染参数行 -->
         </div>
@@ -117,7 +121,7 @@
       <div id="log-panel" class="md-log-panel">
         <div class="md-log-header">
           <div class="md-log-title">
-            <span>运行日志</span>
+            <span id="lbl-log-title">运行日志</span>
             <span id="log-status-badge" class="md-badge md-badge-info">就绪</span>
           </div>
           <div class="md-log-actions">
@@ -143,7 +147,7 @@
     <div class="md-dialog-container">
       <div class="md-dialog-header">
         <div style="display: flex; align-items: center; gap: 10px;">
-          <div class="md-dialog-title">三维出图预览</div>
+          <div id="dialog-title" class="md-dialog-title">三维出图预览</div>
           <div class="md-segmented-group">
             <button id="tab-preview-clean" class="md-segmented-item active" title="纯实体着色轴测出图 (无标注)">标准轴测图</button>
             <button id="tab-preview-annotated" class="md-segmented-item" title="带工程尺寸标注的轴测图">轴测尺寸图</button>

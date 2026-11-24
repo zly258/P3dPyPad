@@ -1,7 +1,7 @@
 // -*- coding: utf-8 -*-
 /**
  * P3dPyPad Web - 主应用程序控制器 (UI 交互、Three.js 视口管理与构件三维预览)
- * 采用极简 Material Design 风格，纯文本交互，无任何图标修饰
+ * 采用极简 Material Design 风格，纯文本交互，无任何图标修饰，原生支持中英双语 (i18n)
  */
 
 import * as THREE from 'three';
@@ -10,6 +10,16 @@ import * as kernel from './kernel.js';
 import { extractScriptMetadata, runPlant3dScript } from './transpiler.js';
 import { PRESET_SCRIPTS } from './presets.js';
 import { create3dDimensionsObject } from './dimensions.js';
+import {
+  LANG_ZH,
+  LANG_EN,
+  initLanguage,
+  getLanguage,
+  setLanguage,
+  onLanguageChange,
+  t,
+  CATEGORY_NAMES_EN
+} from './i18n.js';
 
 // 全局状态管理
 let scene, camera, renderer, controls;
@@ -33,8 +43,8 @@ const els = {};
 /**
  * 显示/隐藏视口加载遮罩
  */
-function showLoading(text = '正在处理中...') {
-  if (els.loadingText) els.loadingText.textContent = text;
+function showLoading(text) {
+  if (els.loadingText) els.loadingText.textContent = text || t('loading_default');
   if (els.viewportLoading) els.viewportLoading.classList.remove('hidden');
   if (els.btnRun) {
     els.btnRun.classList.add('loading');
@@ -55,17 +65,19 @@ function hideLoading() {
  */
 window.addEventListener('DOMContentLoaded', async () => {
   cacheDOMElements();
+  initLanguage();
   initThreeViewport();
   bindUIEvents();
+  applyLanguage(getLanguage());
 
   try {
-    showLoading('正在加载 OpenCASCADE 几何造型内核 (WASM)...');
-    updateStatus('正在加载 OpenCASCADE 几何造型内核 (WASM)...', 'info');
+    showLoading(t('loading_wasm'));
+    updateStatus(t('loading_wasm'), 'info');
     await kernel.initOpenCascade(msg => {
       updateStatus(msg, 'info');
       if (els.loadingText) els.loadingText.textContent = msg;
     });
-    updateStatus('OpenCASCADE 几何造型内核就绪！', 'success');
+    updateStatus(t('loading_kernel_ok'), 'success');
 
     // 加载 pyscripts 构件库清单
     await initScriptCatalog();
@@ -84,6 +96,14 @@ window.addEventListener('DOMContentLoaded', async () => {
  * 缓存常用 DOM 元素
  */
 function cacheDOMElements() {
+  els.brandTitle = document.getElementById('brand-title');
+  els.btnLangZh = document.getElementById('btn-lang-zh');
+  els.btnLangEn = document.getElementById('btn-lang-en');
+  els.lblCode = document.getElementById('lbl-code');
+  els.lblParams = document.getElementById('lbl-params');
+  els.lblLogTitle = document.getElementById('lbl-log-title');
+  els.dialogTitle = document.getElementById('dialog-title');
+
   els.viewportContainer = document.getElementById('viewport-container');
   els.viewportLoading = document.getElementById('viewport-loading');
   els.loadingText = document.getElementById('loading-text');
@@ -126,7 +146,7 @@ async function initScriptCatalog() {
     const resp = await fetch('./public/pyscripts_manifest.json');
     if (resp.ok) {
       allScriptCatalog = await resp.json();
-      updateStatus(`已加载 pyscripts 构件库资产 (${allScriptCatalog.length} 个构件)`, 'info');
+      updateStatus(t('status_catalog_loaded', { count: allScriptCatalog.length }), 'info');
     } else {
       throw new Error(`HTTP ${resp.status}`);
     }
@@ -146,11 +166,12 @@ async function initScriptCatalog() {
 }
 
 /**
- * 渲染构件下拉菜单 (按分类 optgroup 分组，支持关键字过滤)
+ * 渲染构件下拉菜单 (按分类 optgroup 分组，支持关键字过滤与中英双语标签)
  */
 function renderScriptDropdown(filterText = '') {
   const query = filterText.trim().toLowerCase();
   els.presetSelect.innerHTML = '';
+  const isEn = getLanguage() === LANG_EN;
 
   const filtered = allScriptCatalog.filter(item => {
     if (!query) return true;
@@ -165,7 +186,7 @@ function renderScriptDropdown(filterText = '') {
   if (filtered.length === 0) {
     const opt = document.createElement('option');
     opt.value = '';
-    opt.textContent = '未找到匹配构件';
+    opt.textContent = t('select_no_match');
     els.presetSelect.appendChild(opt);
     return;
   }
@@ -173,7 +194,10 @@ function renderScriptDropdown(filterText = '') {
   // 按类别分组
   const groups = {};
   for (let item of filtered) {
-    const cat = item.category || '通用构件';
+    let cat = item.category || '通用构件';
+    if (isEn && CATEGORY_NAMES_EN[cat]) {
+      cat = CATEGORY_NAMES_EN[cat];
+    }
     if (!groups[cat]) groups[cat] = [];
     groups[cat].push(item);
   }
@@ -184,7 +208,11 @@ function renderScriptDropdown(filterText = '') {
     for (let item of groups[cat]) {
       const opt = document.createElement('option');
       opt.value = item.id;
-      opt.textContent = item.title || item.name;
+      if (isEn) {
+        opt.textContent = item.name + (item.title && item.title !== item.name ? ` (${item.name})` : '');
+      } else {
+        opt.textContent = item.title || item.name;
+      }
       grp.appendChild(opt);
     }
     els.presetSelect.appendChild(grp);
@@ -223,7 +251,7 @@ async function loadScriptById(scriptId) {
     if (item.code) {
       els.codeEditor.value = item.code.trim();
     } else if (item.path) {
-      updateStatus(`正在读取构件脚本: ${item.name}...`, 'info');
+      updateStatus(t('status_reading_script', { name: item.name }), 'info');
       const fetchPath = item.path.startsWith('./') ? item.path : `./${item.path}`;
       const resp = await fetch(fetchPath);
       if (!resp.ok) throw new Error(`加载脚本失败: HTTP ${resp.status}`);
@@ -234,7 +262,7 @@ async function loadScriptById(scriptId) {
     await executeCurrentCode();
   } catch (err) {
     console.error('加载构件脚本失败:', err);
-    updateStatus(`加载失败: ${err.message}`, 'error');
+    updateStatus(t('status_model_error', { msg: err.message }), 'error');
   }
 }
 
@@ -441,7 +469,7 @@ function bindUIEvents() {
   if (els.btnClearLog) {
     els.btnClearLog.addEventListener('click', () => {
       if (els.logList) els.logList.innerHTML = '';
-      updateStatus('日志已清空', 'info');
+      updateStatus(t('status_log_cleared'), 'info');
     });
   }
 
@@ -449,13 +477,23 @@ function bindUIEvents() {
     els.btnToggleLog.addEventListener('click', () => {
       if (els.logPanel) {
         const isCollapsed = els.logPanel.classList.toggle('collapsed');
-        els.btnToggleLog.textContent = isCollapsed ? '展开' : '收起';
+        els.btnToggleLog.textContent = isCollapsed ? t('btn_toggle_expand') : t('btn_toggle_collapse');
         setTimeout(() => {
           onWindowResize();
         }, 160);
       }
     });
   }
+
+  if (els.btnLangZh) {
+    els.btnLangZh.addEventListener('click', () => setLanguage(LANG_ZH));
+  }
+  if (els.btnLangEn) {
+    els.btnLangEn.addEventListener('click', () => setLanguage(LANG_EN));
+  }
+  onLanguageChange(lang => {
+    applyLanguage(lang);
+  });
 
   if (els.tabPreviewClean) {
     els.tabPreviewClean.addEventListener('click', () => switchPreviewTab('clean'));
@@ -476,6 +514,121 @@ function bindUIEvents() {
 }
 
 /**
+ * 应用双语本地化翻译至全站界面元素
+ */
+function applyLanguage(lang) {
+  // 切换语言按钮高亮
+  if (lang === LANG_ZH) {
+    els.btnLangZh?.classList.add('active');
+    els.btnLangEn?.classList.remove('active');
+  } else {
+    els.btnLangZh?.classList.remove('active');
+    els.btnLangEn?.classList.add('active');
+  }
+
+  // 顶部标题
+  if (els.brandTitle) els.brandTitle.textContent = t('app_title');
+
+  // 左侧操作面板
+  if (els.scriptSearch) {
+    els.scriptSearch.placeholder = t('search_placeholder');
+    els.scriptSearch.title = t('search_title');
+  }
+  if (els.btnRun) {
+    els.btnRun.textContent = t('btn_run');
+    els.btnRun.title = t('btn_run_tip');
+  }
+  if (els.btnReset) {
+    els.btnReset.textContent = t('btn_reset');
+    els.btnReset.title = t('btn_reset_tip');
+  }
+  if (els.presetSelect) {
+    els.presetSelect.title = t('select_preset_title');
+  }
+  if (els.lblCode) els.lblCode.textContent = t('section_code');
+  if (els.codeEditor) els.codeEditor.placeholder = t('code_placeholder');
+  if (els.lblParams) els.lblParams.textContent = t('section_params');
+
+  // 视口工具栏分段按钮
+  if (els.btnIso) { els.btnIso.textContent = t('view_iso'); els.btnIso.title = t('view_iso_tip'); }
+  if (els.btnTop) { els.btnTop.textContent = t('view_top'); els.btnTop.title = t('view_top_tip'); }
+  if (els.btnFront) { els.btnFront.textContent = t('view_front'); els.btnFront.title = t('view_front_tip'); }
+  if (els.btnSide) { els.btnSide.textContent = t('view_side'); els.btnSide.title = t('view_side_tip'); }
+  if (els.btnFit) { els.btnFit.textContent = t('view_fit'); els.btnFit.title = t('view_fit_tip'); }
+
+  // 渲染模式下拉
+  if (els.renderModeSelect) {
+    els.renderModeSelect.title = t('render_mode_tip');
+    const opts = els.renderModeSelect.options;
+    if (opts.length >= 3) {
+      opts[0].textContent = t('render_shaded_edges');
+      opts[1].textContent = t('render_shaded');
+      opts[2].textContent = t('render_wireframe');
+    }
+  }
+
+  // 颜色下拉
+  if (els.colorSelect) {
+    els.colorSelect.title = t('color_select_tip');
+    const opts = els.colorSelect.options;
+    if (opts.length >= 5) {
+      opts[0].textContent = t('color_blue');
+      opts[1].textContent = t('color_gray');
+      opts[2].textContent = t('color_teal');
+      opts[3].textContent = t('color_orange');
+      opts[4].textContent = t('color_green');
+    }
+  }
+
+  // 生成预览图按钮
+  if (els.btnSnapshot) {
+    els.btnSnapshot.textContent = t('btn_snapshot');
+    els.btnSnapshot.title = t('btn_snapshot_tip');
+  }
+
+  // 日志面板与状态
+  if (els.lblLogTitle) els.lblLogTitle.textContent = t('log_title');
+  if (els.btnClearLog) {
+    els.btnClearLog.textContent = t('btn_clear_log');
+    els.btnClearLog.title = t('btn_clear_log_tip');
+  }
+  if (els.btnToggleLog) {
+    const isCollapsed = els.logPanel?.classList.contains('collapsed');
+    els.btnToggleLog.textContent = isCollapsed ? t('btn_toggle_expand') : t('btn_toggle_collapse');
+    els.btnToggleLog.title = t('btn_toggle_tip');
+  }
+  if (els.logStatusBadge) {
+    els.logStatusBadge.textContent = t('badge_ready');
+  }
+
+  // 出图对话框
+  if (els.dialogTitle) els.dialogTitle.textContent = t('dialog_title');
+  if (els.tabPreviewClean) {
+    els.tabPreviewClean.textContent = t('tab_clean');
+    els.tabPreviewClean.title = t('tab_clean_tip');
+  }
+  if (els.tabPreviewAnnotated) {
+    els.tabPreviewAnnotated.textContent = t('tab_annotated');
+    els.tabPreviewAnnotated.title = t('tab_annotated_tip');
+  }
+  if (els.btnCloseModal) els.btnCloseModal.textContent = t('btn_close');
+  if (els.btnDialogClose) els.btnDialogClose.textContent = t('btn_close');
+  if (els.btnDownloadSnapshot) els.btnDownloadSnapshot.textContent = t('btn_download_current');
+  if (els.btnDownloadAll) els.btnDownloadAll.textContent = t('btn_download_all');
+
+  // 重新渲染构件下拉菜单 (保持选中态与中英分类)
+  renderScriptDropdown(els.scriptSearch ? els.scriptSearch.value : '');
+
+  // 重新渲染当前参数面板 (若无参数显示对应语言的空提示)
+  refreshParameterPanel();
+
+  // 若弹窗打开，更新文字
+  if (currentSnapshots && currentSnapshots.compName) {
+    switchPreviewTab(currentSnapshots.activeTab || 'clean');
+  }
+}
+
+/**
  * 刷新动态参数输入面板
  */
 function refreshParameterPanel() {
@@ -485,7 +638,7 @@ function refreshParameterPanel() {
 
   els.paramContainer.innerHTML = '';
   if (!meta.params || meta.params.length === 0) {
-    els.paramContainer.innerHTML = '<div class="md-empty-tip">未检测到 @param 尺寸参数声明</div>';
+    els.paramContainer.innerHTML = `<div class="md-empty-tip">${t('params_empty')}</div>`;
     return;
   }
 
@@ -524,25 +677,25 @@ async function executeCurrentCode() {
   if (isRendering) return;
   isRendering = true;
   els.btnRun.classList.add('loading');
-  updateStatus('正在进行 OpenCASCADE 实体造型...', 'info');
+  updateStatus(t('loading_modeling'), 'info');
 
   try {
     const pyCode = els.codeEditor.value;
     const res = await runPlant3dScript(pyCode, currentParams, kernel);
 
     if (!res.success || !res.shape) {
-      throw new Error('脚本执行后未产生有效的实体模型！');
+      throw new Error(getLanguage() === LANG_EN ? 'Script execution produced no valid 3D solid!' : '脚本执行后未产生有效的实体模型！');
     }
 
     currentShape = res.shape;
     currentSession = res.session;
     currentMetadata = res.meta;
 
-    updateStatus('正在离散剖分 B-Rep 实体与边界特征线...', 'info');
+    updateStatus(t('loading_meshing'), 'info');
     const meshData = kernel.meshShape(res.shape, 0.5);
 
     if (!meshData) {
-      throw new Error('网格剖分未提取到有效三角面片！');
+      throw new Error(getLanguage() === LANG_EN ? 'B-Rep tessellation returned no valid triangles!' : '网格剖分未提取到有效三角面片！');
     }
 
     renderGeometryToScene(meshData);
@@ -567,11 +720,20 @@ async function executeCurrentCode() {
     const dimCount = currentSession && currentSession.dimensions ? currentSession.dimensions.length : 0;
     const portCount = currentSession && currentSession.ports ? currentSession.ports.length : 0;
     const bboxSize = `${Math.round(meshData.bbox.size[0])} × ${Math.round(meshData.bbox.size[1])} × ${Math.round(meshData.bbox.size[2])} mm`;
+    const compTitle = (getLanguage() === LANG_EN ? currentMetadata?.functionName : (res.meta.title || currentMetadata?.functionName)) || 'COMPONENT';
 
-    updateStatus(`构件 ${res.meta.title || currentMetadata?.functionName} 建模完成: 耗时 ${res.executionTimeMs} ms | 面数 ${meshData.faceCount} | 三角面 ${meshData.triangleCount.toLocaleString()} | 包络 ${bboxSize} | 端口 ${portCount} | 尺寸标注 ${dimCount}`, 'success');
+    updateStatus(t('status_model_completed', {
+      name: compTitle,
+      time: res.executionTimeMs,
+      faces: meshData.faceCount,
+      triangles: meshData.triangleCount.toLocaleString(),
+      bbox: bboxSize,
+      ports: portCount,
+      dims: dimCount
+    }), 'success');
   } catch (err) {
     console.error('建模执行异常:', err);
-    updateStatus(`执行错误: ${err.message}`, 'error');
+    updateStatus(t('status_model_error', { msg: err.message }), 'error');
   } finally {
     isRendering = false;
     hideLoading();
@@ -748,11 +910,11 @@ function setViewPreset(preset) {
  */
 async function generatePreviewSnapshot() {
   if (!currentMesh) {
-    alert('当前尚未生成有效的 3D 模型，请先运行建模！');
+    alert(t('alert_no_model'));
     return;
   }
 
-  showLoading('正在生成标准轴测与尺寸标注两套高清出图...');
+  showLoading(t('loading_snapshot'));
   await new Promise(r => setTimeout(r, 60));
 
   try {
@@ -835,16 +997,20 @@ function showSnapshotModal(cleanDataURL, annotatedDataURL) {
  */
 function switchPreviewTab(tabKey) {
   currentSnapshots.activeTab = tabKey;
+  const w = renderer ? renderer.domElement.width : 1440;
+  const h = renderer ? renderer.domElement.height : 671;
+  const name = currentSnapshots.compName || 'COMPONENT';
+
   if (tabKey === 'clean') {
     els.tabPreviewClean?.classList.add('active');
     els.tabPreviewAnnotated?.classList.remove('active');
     els.snapshotImg.src = currentSnapshots.clean;
-    els.snapshotInfo.textContent = `构件: ${currentSnapshots.compName} (标准轴测出图) | 分辨率: ${renderer.domElement.width} × ${renderer.domElement.height} px | 格式: PNG`;
+    els.snapshotInfo.textContent = t('snapshot_meta_clean', { name, w, h });
   } else {
     els.tabPreviewClean?.classList.remove('active');
     els.tabPreviewAnnotated?.classList.add('active');
     els.snapshotImg.src = currentSnapshots.annotated;
-    els.snapshotInfo.textContent = `构件: ${currentSnapshots.compName} (带工程尺寸标注) | 分辨率: ${renderer.domElement.width} × ${renderer.domElement.height} px | 格式: PNG`;
+    els.snapshotInfo.textContent = t('snapshot_meta_annotated', { name, w, h });
   }
 }
 
@@ -876,9 +1042,10 @@ function updateStatus(msg, type = 'info') {
     timeEl.className = 'md-log-time';
     timeEl.textContent = `[${timeStr}]`;
 
+    const isEn = getLanguage() === LANG_EN;
     const tagEl = document.createElement('span');
     tagEl.className = `md-log-tag ${type === 'error' ? 'err' : (type === 'success' ? 'ok' : (type === 'warn' ? 'warn' : 'info'))}`;
-    tagEl.textContent = type === 'error' ? '[错误]' : (type === 'success' ? '[成功]' : (type === 'warn' ? '[警告]' : '[信息]'));
+    tagEl.textContent = type === 'error' ? (isEn ? '[ERROR]' : '[错误]') : (type === 'success' ? (isEn ? '[OK]' : '[成功]') : (type === 'warn' ? (isEn ? '[WARN]' : '[警告]') : (isEn ? '[INFO]' : '[信息]')));
 
     const msgEl = document.createElement('span');
     msgEl.className = `md-log-msg ${type === 'success' || type === 'error' ? 'highlight' : ''}`;
@@ -903,6 +1070,6 @@ function updateStatus(msg, type = 'info') {
 
   if (els.logStatusBadge) {
     els.logStatusBadge.className = `md-badge md-badge-${type === 'error' ? 'error' : (type === 'success' ? 'success' : 'info')}`;
-    els.logStatusBadge.textContent = type === 'error' ? '错误' : (type === 'success' ? '就绪' : '运行');
+    els.logStatusBadge.textContent = type === 'error' ? t('badge_error') : (type === 'success' ? t('badge_ready') : t('badge_running'));
   }
 }
