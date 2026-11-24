@@ -254,7 +254,7 @@ function switchMode(mode) {
  */
 async function initScriptCatalog() {
   try {
-    const resp = await fetch('./public/pyscripts_manifest.json');
+    const resp = await fetch('./public/pyscripts_manifest.json?v=20261124');
     if (resp.ok) {
       const rawList = await resp.json();
       // 彻底排除原厂系统脚本 (system_defaults)
