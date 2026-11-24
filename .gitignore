@@ -17,10 +17,14 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 
-# ---- 打包与绘图产物 ----
-installer/output/*
-!installer/output/P3dPyPad-Setup-*.exe
-!installer/output/P3dPyPad-Plugin-Setup-*.exe
+# ---- 打包与安装发布产物 ----
+installer/output/
+installer/*.spec
+*.exe
+*.msi
+*.zip
+*.7z
+*.tar.gz
 test_output/
 cad_renders/
 **/cad_renders/

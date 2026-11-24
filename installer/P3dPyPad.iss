@@ -43,7 +43,9 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={#MyDefaultDirName}
-DisableDirPage=no
+DisableDirPage=yes
+DirExistsWarning=no
+AppendDefaultDirName=no
 #if PACKAGE_TYPE == "plugin"
 DisableProgramGroupPage=yes
 #else
@@ -66,6 +68,7 @@ AlwaysRestart=no
 
 [Languages]
 Name: "chinesesimp"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
+Name: "en"; MessagesFile: "compiler:Default.isl"
 
 #if PACKAGE_TYPE == "allinone"
 [Components]
