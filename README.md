@@ -67,19 +67,19 @@ P3dPyPad separates shared parametric script assets from three execution frontend
 
 Open a component script inside AutoCAD Plant 3D, edit parameters or Python code with AvalonEdit syntax highlighting, auto-load co-located `.csv` specification tables (such as `VALVE_GATE.csv`), and press `F5` to redraw the 3D solid immediately.
 
-![AutoCAD Plant 3D single component script pad window](docs/images/01_csharp_script_pad.png)
+![AutoCAD Plant 3D single component script pad window](docs/images/01_csharp_script_pad_en.png)
 
 ### Automated Batch Test Runner (`PYBATCH`)
 
 Scan a directory recursively to execute scripts in batch, generate isometric previews, and inspect full Python tracebacks on any failed component.
 
-![AutoCAD Plant 3D automated batch test runner window](docs/images/02_csharp_batch_test.png)
+![AutoCAD Plant 3D automated batch test runner window](docs/images/02_csharp_batch_test_en.png)
 
 ### PyOCC Standalone Workbench & Offscreen Preview
 
 Inspect and edit component geometry offline in the 3-column PySide6 workbench, then render shaded-with-edges previews and isometric dimension drawings using `plant3d_occ/catalog/preview.py`.
 
-![PyOCC standalone desktop workbench with 3D viewport](docs/images/04_python_workbench.png)
+![PyOCC standalone desktop workbench with 3D viewport](docs/images/04_python_workbench_en.png)
 
 ![PyOCC shaded and edge silhouette isometric preview](docs/images/05_exact_hlr_preview.png)
 
@@ -89,7 +89,21 @@ Publish validated scripts directly into `.acat`/`.pcat` catalogs, `.peqx` equipm
 
 | Publish Component | Publish Equipment | Catalog Manager |
 |---|---|---|
-| ![Publish Component dialog](docs/images/06_publish_component.png) | ![Publish Equipment dialog](docs/images/07_publish_equipment.png) | ![Catalog Manager dialog](docs/images/08_catalog_manager.png) |
+| ![Publish Component dialog](docs/images/06_publish_component_en.png) | ![Publish Equipment dialog](docs/images/07_publish_equipment_en.png) | ![Catalog Manager dialog](docs/images/08_catalog_manager_en.png) |
+
+## Open-Source Script Library (494 Scripts)
+
+P3dPyPad open-sources **494** parametric component scripts (with **313** co-located `.csv` specification tables) under [`pyscripts/`](./pyscripts/). See the [Complete Illustrated 494-Script Catalog](./docs/SCRIPTS.md) for every script's category contact sheet, file link, CSV table, and description.
+
+![P3dPyPad Open-Source Parametric Script Library Showcase](docs/images/scripts_showcase.png)
+
+| Library | Directory | Scripts | CSV Specs | Coverage | Full Illustrated List |
+|---|---|---:|---:|---|---|
+| Custom Engineering Components | `pyscripts/custom_scripts/` | 92 | 71 | Pipe fittings (3), flanges (1), industrial valves (25), process instruments (19), custom pipe supports (23), process equipment (21) | [View all 92](./docs/SCRIPTS.md#1-custom-engineering-components-92-scripts) |
+| Power Industry Pipe Supports (CD/ZD 2010) | `pyscripts/supports/cd_zd2010/` | 83 | 83 | Vol.1-Vol.8: pipe clamps, integral attachments, connectors, variable/constant springs, dynamic loads, structural frames | [View all 83](./docs/SCRIPTS.md#2-power-industry-pipe-supports---cdzd-2010-83-scripts) |
+| Chemical Industry Pipe Supports (HG/T 21629) | `pyscripts/supports/hgt_21629/` | 159 | 159 | Series A-Y: hangers, springs, embedments, guides, trunnions, pipe shoes, cold/hot insulated supports, dampers, U-bolts | [View all 159](./docs/SCRIPTS.md#3-chemical-industry-pipe-supports---hgt-21629-159-scripts) |
+| AutoCAD Plant 3D System Defaults | `pyscripts/system_defaults/` | 160 | 0 | Supports (49), fittings (36), flanges/gaskets/blinds (15), pipes/nozzles/olets (10), valves/actuators (33), instruments (9), equipment/pumps (8) | [View all 160](./docs/SCRIPTS.md#4-autocad-plant-3d-system-defaults-160-scripts) |
+| **Total** | **`pyscripts/`** | **494** | **313** | All 494 scripts verified with PyOCC 3D solid rendering | [Open Full Catalog](./docs/SCRIPTS.md) |
 
 ## Quick Install
 
@@ -237,6 +251,7 @@ Pushes to `main` touching `web/**` or `.github/workflows/pages.yml` automaticall
 
 | Topic | What it covers | Link |
 |---|---|---|
+| Open-source 494-script catalog | Complete illustrated index of all 494 parametric scripts with category contact sheets and CSV specs | [Open SCRIPTS.md](./docs/SCRIPTS.md) |
 | Parametric script authoring skill | Dual-end Python 2.7/3.x Plant 3D modeling rules, API references, and script templates | [Open SKILL.md](./skills/plant3d-python-cad-generator/SKILL.md) |
 | C# plugin build configuration | Multi-target .NET build paths, `CAD_LIB_*` overrides, and output layout | [Open Directory.Build.props](./Directory.Build.props) |
 | AutoCAD Autoloader manifest | Bundle registration for AutoCAD Plant 3D 2019-2026 | [Open PackageContents.xml](./installer/PackageContents.xml) |

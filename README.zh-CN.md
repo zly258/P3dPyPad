@@ -91,6 +91,20 @@ P3dPyPad 是一套面向 AutoCAD Plant 3D 参数化 Python 构件开发的工程
 |---|---|---|
 | ![发布构件对话框](docs/images/06_publish_component.png) | ![发布设备对话框](docs/images/07_publish_equipment.png) | ![元件库管理对话框](docs/images/08_catalog_manager.png) |
 
+## 开源构件脚本库（494 个脚本）
+
+P3dPyPad 在 [`pyscripts/`](./pyscripts/) 目录下共开源 **494** 个参数化构件脚本（附带 **313** 份同目录 `.csv` 规格参数表）。查看 [开源参数化构件脚本全量目录（带全部分类预览图）](./docs/SCRIPTS.zh-CN.md) 获取全部 494 个脚本的分类合集大图、文件链接、规格表与说明。
+
+![P3dPyPad 开源参数化构件脚本库总览](docs/images/scripts_showcase_zh.png)
+
+| 脚本库 | 目录路径 | 脚本数 | CSV 规格表 | 覆盖内容 | 全量图文清单 |
+|---|---|---:|---:|---|---|
+| 通用工程自定义构件库 | `pyscripts/custom_scripts/` | 92 | 71 | 管道管件（3）、法兰（1）、工业阀门（25）、过程仪表（19）、通用支吊架（23）、化工工艺设备（21） | [查看全部 92 个](./docs/SCRIPTS.zh-CN.md#1-通用工程自定义构件库92-个脚本) |
+| 电力行业支吊架标准库 (CD/ZD 2010) | `pyscripts/supports/cd_zd2010/` | 83 | 83 | 第 1~8 册：非整体/整体管部、中间连接件、根部结构、可变/恒力弹簧、动力荷载与辅助型钢 | [查看全部 83 个](./docs/SCRIPTS.zh-CN.md#2-电力行业支吊架标准库-cdzd-201083-个脚本) |
+| 化工行业支吊架标准库 (HG/T 21629) | `pyscripts/supports/hgt_21629/` | 159 | 159 | A~Y 全系列：刚性吊架、弹簧、预埋件、导向、耳轴、管鞋、保冷/高温支架、阻尼器、U 型螺栓等 | [查看全部 159 个](./docs/SCRIPTS.zh-CN.md#3-化工行业支吊架标准库-hgt-21629159-个脚本) |
+| AutoCAD Plant 3D 系统默认脚本 | `pyscripts/system_defaults/` | 160 | 0 | 支吊架（49）、管件（36）、法兰垫片盲板（15）、直管管嘴支管台（10）、阀门执行机构（33）、仪表（9）、设备泵（8） | [查看全部 160 个](./docs/SCRIPTS.zh-CN.md#4-autocad-plant-3d-system-defaults-系统默认脚本160-个脚本) |
+| **合计** | **`pyscripts/`** | **494** | **313** | 全部 494 个脚本均已通过 PyOCC 离屏三维实体渲染验证 | [打开全量图文目录](./docs/SCRIPTS.zh-CN.md) |
+
 ## 快速安装
 
 首先克隆仓库：
@@ -237,6 +251,7 @@ s.setLinearDimension("L", (0.0, 0.0, -r_flange), (L, 0.0, -r_flange))
 
 | 主题 | 内容说明 | 链接 |
 |---|---|---|
+| 开源 494 个脚本全量目录 | 全部 494 个参数化构件脚本的分类合集大图、文件索引与 CSV 规格表清单 | [查看 SCRIPTS.zh-CN.md](./docs/SCRIPTS.zh-CN.md) |
 | 参数化脚本生成技能 | 双端 Python 2.7/3.x 建模规则、API 参考与脚本模板 | [查看 SKILL.md](./skills/plant3d-python-cad-generator/SKILL.md) |
 | C# 插件构建配置 | 多目标 .NET 编译路径、`CAD_LIB_*` 变量覆盖与输出目录定义 | [查看 Directory.Build.props](./Directory.Build.props) |
 | AutoCAD 自动加载清单 | AutoCAD Plant 3D 2019-2026 Bundle 注册配置 | [查看 PackageContents.xml](./installer/PackageContents.xml) |
