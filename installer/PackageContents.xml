@@ -28,6 +28,8 @@
       <Commands GroupName="P3DPYPAD_CMDS">
         <Command Local="PYPAD" Global="PYPAD" />
         <Command Local="PYBATCH" Global="PYBATCH" />
+        <Command Local="PYEQCREATE" Global="PYEQCREATE" />
+        <Command Local="PYEQEDIT" Global="PYEQEDIT" />
         <Command Local="PYBATCH_RUN" Global="PYBATCH_RUN" />
         <Command Local="PYLANG" Global="PYLANG" />
         <Command Local="PYABOUT" Global="PYABOUT" />
@@ -51,6 +53,8 @@
       <Commands GroupName="P3DPYPAD_CMDS">
         <Command Local="PYPAD" Global="PYPAD" />
         <Command Local="PYBATCH" Global="PYBATCH" />
+        <Command Local="PYEQCREATE" Global="PYEQCREATE" />
+        <Command Local="PYEQEDIT" Global="PYEQEDIT" />
         <Command Local="PYBATCH_RUN" Global="PYBATCH_RUN" />
         <Command Local="PYLANG" Global="PYLANG" />
         <Command Local="PYABOUT" Global="PYABOUT" />

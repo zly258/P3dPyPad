@@ -25,6 +25,8 @@ namespace P3dPyPad
 
         private static readonly Color PadAccent = Color.FromRgb(0x25, 0x63, 0xEB);
         private static readonly Color BatchAccent = Color.FromRgb(0x7C, 0x3A, 0xED);
+        private static readonly Color EqCreateAccent = Color.FromRgb(0x05, 0x96, 0x69);
+        private static readonly Color EqEditAccent = Color.FromRgb(0xD9, 0x77, 0x06);
         private static readonly Color LanguageAccent = Color.FromRgb(0x47, 0x55, 0x69);
         private static readonly Color AboutAccent = Color.FromRgb(0x64, 0x74, 0x8B);
 
@@ -176,7 +178,24 @@ namespace P3dPyPad
                 "Icon.Geo.Copy",
                 "PYBATCH"));
 
-            // 面板二：设置（语言切换 / 关于）
+            // 面板二：设备（创建设备 / 编辑设备）
+            var panelEquipment = new RibbonPanelSource { Title = LocalizationManager.T("RibbonPanelEquipment") };
+            panelEquipment.Items.Add(CreateLargeButton(
+                "P3DPYPAD_CMD_EQCREATE",
+                LocalizationManager.T("RibbonBtnEqCreate"),
+                LocalizationManager.T("RibbonBtnEqCreateTip"),
+                EqCreateAccent,
+                "Icon.Geo.Plus",
+                "PYEQCREATE"));
+            panelEquipment.Items.Add(CreateLargeButton(
+                "P3DPYPAD_CMD_EQEDIT",
+                LocalizationManager.T("RibbonBtnEqEdit"),
+                LocalizationManager.T("RibbonBtnEqEditTip"),
+                EqEditAccent,
+                "Icon.Geo.Edit",
+                "PYEQEDIT"));
+
+            // 面板三：设置（语言切换 / 关于）
             var panelSettings = new RibbonPanelSource { Title = LocalizationManager.T("RibbonPanelSettings") };
             panelSettings.Items.Add(CreateLargeButton(
                 "P3DPYPAD_CMD_LANG",
@@ -200,6 +219,7 @@ namespace P3dPyPad
                 IsVisible = true
             };
             tab.Panels.Add(new RibbonPanel { Source = panelTest });
+            tab.Panels.Add(new RibbonPanel { Source = panelEquipment });
             tab.Panels.Add(new RibbonPanel { Source = panelSettings });
             ribbon.Tabs.Add(tab);
         }

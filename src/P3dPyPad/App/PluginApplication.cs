@@ -17,6 +17,7 @@ namespace P3dPyPad
     {
         private static ScriptPadWindow _window;
         private static BatchTestWindow _batchWindow;
+        private static EquipmentManagerWindow _equipmentWindow;
         private static bool _ribbonAttached;
         private static bool _bannerPrinted;
         private static bool _startupIdleHooked;
@@ -101,6 +102,7 @@ namespace P3dPyPad
             {
                 doc.Editor.WriteMessage(
                     "\nP3dPyPad 已加载。命令: PYPAD 单个测试 | PYBATCH 批量测试 | " +
+                    "PYEQCREATE 创建设备 | PYEQEDIT 编辑设备 | " +
                     "PYBATCH_RUN 无人值守批量测试 | PYLANG 切换语言 | PYABOUT 关于\n");
                 _bannerPrinted = true;
                 return true;
@@ -131,6 +133,11 @@ namespace P3dPyPad
                 _batchWindow.Close();
                 _batchWindow = null;
             }
+            if (_equipmentWindow != null)
+            {
+                _equipmentWindow.Close();
+                _equipmentWindow = null;
+            }
         }
 
         [CommandMethod("PYPAD", CommandFlags.Session)]
@@ -145,6 +152,20 @@ namespace P3dPyPad
         {
             if (!EnsurePlant3D()) return;
             OpenBatchTest(null);
+        }
+
+        [CommandMethod("PYEQCREATE", CommandFlags.Session)]
+        public void ShowEquipmentCreate()
+        {
+            if (!EnsurePlant3D()) return;
+            OpenEquipmentCreate();
+        }
+
+        [CommandMethod("PYEQEDIT", CommandFlags.Session | CommandFlags.UsePickSet)]
+        public void ShowEquipmentEdit()
+        {
+            if (!EnsurePlant3D()) return;
+            OpenEquipmentEdit();
         }
 
         /// <summary>
@@ -319,6 +340,60 @@ namespace P3dPyPad
             if (!string.IsNullOrEmpty(folderPath) && Directory.Exists(folderPath))
             {
                 _batchWindow.SetSourceDirectory(folderPath);
+            }
+        }
+
+        public static void OpenEquipmentCreate()
+        {
+            if (!ProductGuard.EnsurePlant3D()) return;
+
+            if (_equipmentWindow == null)
+            {
+                _equipmentWindow = new EquipmentManagerWindow(EquipmentDialogMode.Create);
+                _equipmentWindow.Closed += delegate { _equipmentWindow = null; };
+                AcadApp.ShowModelessWindow(_equipmentWindow);
+            }
+            else
+            {
+                _equipmentWindow.SwitchToCreateMode();
+                if (_equipmentWindow.WindowState == System.Windows.WindowState.Minimized)
+                {
+                    _equipmentWindow.WindowState = System.Windows.WindowState.Normal;
+                }
+                _equipmentWindow.Activate();
+            }
+        }
+
+        public static void OpenEquipmentEdit()
+        {
+            if (!ProductGuard.EnsurePlant3D()) return;
+
+            var doc = AcadApp.DocumentManager.MdiActiveDocument;
+            if (doc == null) return;
+
+            if (!EquipmentBridge.TrySelectAndLoadEquipmentForEdit(doc, null, out var session, out var err))
+            {
+                if (!string.IsNullOrEmpty(err))
+                {
+                    doc.Editor.WriteMessage("\n[P3dPyPad] " + err + "\n");
+                }
+                return;
+            }
+
+            if (_equipmentWindow == null)
+            {
+                _equipmentWindow = new EquipmentManagerWindow(EquipmentDialogMode.Edit, session);
+                _equipmentWindow.Closed += delegate { _equipmentWindow = null; };
+                AcadApp.ShowModelessWindow(_equipmentWindow);
+            }
+            else
+            {
+                _equipmentWindow.SwitchToEditMode(session);
+                if (_equipmentWindow.WindowState == System.Windows.WindowState.Minimized)
+                {
+                    _equipmentWindow.WindowState = System.Windows.WindowState.Normal;
+                }
+                _equipmentWindow.Activate();
             }
         }
 

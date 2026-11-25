@@ -45,6 +45,13 @@ EQUIPMENT_TYPES = {
     "HeatExchanger": ("HeatExchanger", "ShellTubeHeatExchanger"),
     "Heater": ("Heater", "FiredHeater"),
     "Strainer": ("StrainerEquipment", "General"),
+    "Filter": ("Filter", "General"),
+    "Cyclone": ("Cyclone", "General"),
+    "Centrifuge": ("Centrifuge", "General"),
+    "Compressor": ("Compressor", "General"),
+    "Column": ("Column", "General"),
+    "Scrubber": ("Scrubber", "General"),
+    "Mixer": ("Mixer", "General"),
 }
 
 # AutoCAD Plant 3D 官方原生设备大类与子分类中英对照字典
@@ -52,23 +59,36 @@ EQUIPMENT_CATEGORY_LABELS = {
     "Pump": u"泵 (Pump)",
     "Tank": u"储罐 (Tank)",
     "Vessel": u"容器 (Vessel)",
+    "Column": u"柱形容器 / 塔器 (Column)",
     "HeatExchanger": u"换热器 (HeatExchanger)",
-    "Heater": u"加热炉 (Heater)",
-    "StrainerEquipment": u"过滤器 (Strainer)",
+    "Heater": u"加热器 (Heater)",
+    "Filter": u"过滤器 (Filter)",
+    "StrainerEquipment": u"过滤设备 (Strainer)",
+    "Cyclone": u"旋风分离器 (Cyclone)",
+    "Centrifuge": u"离心机 (Centrifuge)",
+    "Compressor": u"压缩机 (Compressor)",
+    "Scrubber": u"洗涤器 (Scrubber)",
+    "Mixer": u"混合设备 (Mixer)",
 }
 
 EQUIPMENT_SUBTYPE_LABELS = {
     ("Pump", "HorizontalCentrifugalPump"): u"离心泵 (Centrifugal Pump)",
     ("Pump", "VerticalInlinePump"): u"立式管道泵 (Vertical Inline Pump)",
     ("Pump", "CentrifugalSumpPump"): u"潜污泵 (Sump Pump)",
-    ("Tank", "VerticalVessel"): u"立式储罐 (Vertical Tank)",
-    ("Tank", "GeneralVessel"): u"卧式储罐 (Horizontal Tank/Drum)",
+    ("Tank", "GeneralVessel"): u"储罐 (Tank/Drum)",
     ("Vessel", "GeneralVessel"): u"工艺容器/反应器 (Vessel/Reactor)",
+    ("Column", "General"): u"塔器 / 精馏塔 (Column)",
     ("HeatExchanger", "ShellTubeHeatExchanger"): u"管壳式换热器 (Shell & Tube HX)",
     ("HeatExchanger", "PlateAndFrameExchanger"): u"板式换热器 (Plate & Frame HX)",
-    ("HeatExchanger", "Reboiler"): u"重沸器 (Reboiler)",
+    ("HeatExchanger", "General1HeatExchanger"): u"重沸器 (Reboiler)",
     ("Heater", "FiredHeater"): u"管式加热炉 (Fired Heater)",
-    ("StrainerEquipment", "General"): u"工艺过滤器 (Strainer)",
+    ("Filter", "General"): u"过滤器 (Filter)",
+    ("StrainerEquipment", "General"): u"过滤设备 (Strainer)",
+    ("Cyclone", "General"): u"旋风分离器 (Cyclone)",
+    ("Centrifuge", "General"): u"离心机 (Centrifuge)",
+    ("Compressor", "General"): u"压缩机 (Compressor)",
+    ("Scrubber", "General"): u"洗涤吸收塔 (Scrubber)",
+    ("Mixer", "General"): u"静态/混合设备 (Mixer)",
 }
 
 
@@ -83,20 +103,26 @@ def get_equipment_type_display_label(part_type: str, part_sub_type: str) -> str:
     return cat_cn
 
 # 供界面下拉框使用的可选设备类型：(显示名, PartType, PartSubType)
-# 严格遵循官方自带 peqx 模板的标准枚举，杜绝任何非法未知分类
+# 严格遵循官方自带 peqx 模板与 Plant 3D 项目设备表的合法枚举
 EQUIPMENT_TYPE_CHOICES = [
     (u"全部设备大类 (ALL)", "", ""),
     (u"离心泵 (Centrifugal Pump)", "Pump", "HorizontalCentrifugalPump"),
     (u"立式管道泵 (Vertical Inline Pump)", "Pump", "VerticalInlinePump"),
     (u"潜污泵 (Sump Pump)", "Pump", "CentrifugalSumpPump"),
-    (u"立式容器 / 储罐 (Vertical Vessel)", "Tank", "VerticalVessel"),
-    (u"卧式容器 / 储罐 (Horizontal Vessel)", "Tank", "GeneralVessel"),
+    (u"储罐 (Tank / Drum)", "Tank", "GeneralVessel"),
     (u"通用工艺容器 (General Vessel)", "Vessel", "GeneralVessel"),
+    (u"柱形容器 / 塔器 (Column)", "Column", "General"),
     (u"管壳式换热器 (Shell & Tube HX)", "HeatExchanger", "ShellTubeHeatExchanger"),
     (u"板式换热器 (Plate & Frame HX)", "HeatExchanger", "PlateAndFrameExchanger"),
-    (u"重沸器 / 再沸器 (Reboiler)", "HeatExchanger", "Reboiler"),
+    (u"重沸器 / 再沸器 (Reboiler)", "HeatExchanger", "General1HeatExchanger"),
     (u"加热炉 (Fired Heater)", "Heater", "FiredHeater"),
-    (u"过滤器 (Strainer)", "StrainerEquipment", "General"),
+    (u"过滤器 (Filter)", "Filter", "General"),
+    (u"过滤设备 (Strainer)", "StrainerEquipment", "General"),
+    (u"旋风分离器 (Cyclone)", "Cyclone", "General"),
+    (u"离心机 (Centrifuge)", "Centrifuge", "General"),
+    (u"压缩机 (Compressor)", "Compressor", "General"),
+    (u"洗涤器 (Scrubber)", "Scrubber", "General"),
+    (u"混合设备 (Mixer)", "Mixer", "General"),
 ]
 
 # @param 类型 → peqx 的 ParameterInfo @Type
@@ -459,17 +485,39 @@ def resolve_equipment_type(info, part_type=None, part_sub_type=None):
     all_str = (nm_up + " " + grp_str).lower()
 
     if "pump" in all_str or nm_up.startswith("CAP"):
+        if "sump" in all_str:
+            return ("Pump", "CentrifugalSumpPump")
+        if "inline" in all_str or "vertical" in all_str:
+            return ("Pump", "VerticalInlinePump")
         return ("Pump", "HorizontalCentrifugalPump")
     if "drum" in all_str or "tank" in all_str:
         return ("Tank", "GeneralVessel")
-    if "heat" in all_str or "exch" in all_str or "reboiler" in all_str:
+    if "reboiler" in all_str:
+        return ("HeatExchanger", "General1HeatExchanger")
+    if "plate" in all_str and ("heat" in all_str or "exch" in all_str):
+        return ("HeatExchanger", "PlateAndFrameExchanger")
+    if "heat" in all_str or "exch" in all_str or "evaporator" in all_str:
         return ("HeatExchanger", "ShellTubeHeatExchanger")
-    if "reactor" in all_str or "vessel" in all_str:
-        return ("Vessel", "GeneralVessel")
-    if "heater" in all_str:
-        return ("Heater", "FiredHeater")
+    if "scrubber" in all_str:
+        return ("Scrubber", "General")
+    if "column" in all_str or "tower" in all_str:
+        return ("Column", "General")
+    if "cyclone" in all_str:
+        return ("Cyclone", "General")
+    if "centrifuge" in all_str:
+        return ("Centrifuge", "General")
+    if "compressor" in all_str:
+        return ("Compressor", "General")
+    if "mixer" in all_str:
+        return ("Mixer", "General")
+    if "filter" in all_str:
+        return ("Filter", "General")
     if "strainer" in all_str:
         return ("StrainerEquipment", "General")
+    if "heater" in all_str:
+        return ("Heater", "FiredHeater")
+    if "reactor" in all_str or "vessel" in all_str:
+        return ("Vessel", "GeneralVessel")
     return ("Vessel", "GeneralVessel")
 
 
