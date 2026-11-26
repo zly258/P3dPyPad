@@ -10,6 +10,7 @@ from aqa.math import *
 from varmain.primitiv import *
 from varmain.var_basic import *
 from varmain.custom import *
+from varmain.divsub.cnut6_001 import *
 
 @activate(Group="Reducer",
           TooltipShort=u"锻钢六角内外丝补芯 Hex Bushing",

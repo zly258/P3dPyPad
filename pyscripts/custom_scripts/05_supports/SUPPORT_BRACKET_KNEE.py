@@ -11,6 +11,7 @@ from aqa.math import *
 from varmain.primitiv import *
 from varmain.var_basic import *
 from varmain.custom import *
+from varmain.divsub.cste_l import *
 
 @activate(Group="Support",
           TooltipShort=u"角钢三角形牛腿支架",

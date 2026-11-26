@@ -11,6 +11,7 @@ from aqa.math import *
 from varmain.primitiv import *
 from varmain.var_basic import *
 from varmain.custom import *
+from varmain.divsub.cste_u import *
 
 @activate(Group="Support",
           TooltipShort=u"门式双吊杆横担架 (HG/T 21629 H3)",

@@ -10,6 +10,7 @@ from aqa.math import *
 from varmain.primitiv import *
 from varmain.var_basic import *
 from varmain.custom import *
+from varmain.divsub.cnut6_001 import *
 
 @activate(Group="Coupling",
           TooltipShort=u"锻钢承插焊活接头 Union (GB/T 14383)",
