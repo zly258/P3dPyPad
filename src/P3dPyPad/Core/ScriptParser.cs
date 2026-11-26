@@ -236,9 +236,12 @@ namespace P3dPyPad
             builder.AppendLine("    fn = globals().get(ACP_ENTRY)");
             builder.AppendLine("    if fn is None:");
             builder.AppendLine("        raise RuntimeError('script function not found: %s' % ACP_ENTRY)");
-            builder.AppendLine("    code = fn.func_code");
+            builder.AppendLine("    code = getattr(fn, '__code__', None) or getattr(fn, 'func_code')");
             builder.AppendLine("    names = code.co_varnames[:code.co_argcount]");
-            builder.AppendLine("    defaults = fn.func_defaults or ()");
+            builder.AppendLine("    defaults = getattr(fn, '__defaults__', None)");
+            builder.AppendLine("    if defaults is None:");
+            builder.AppendLine("        defaults = getattr(fn, 'func_defaults', None)");
+            builder.AppendLine("    defaults = defaults or ()");
             builder.AppendLine("    first = len(names) - len(defaults)");
             builder.AppendLine("    has_kw = bool(code.co_flags & 8)");
             builder.AppendLine("    packed = ACP_ARGS or {}");
