@@ -4,7 +4,7 @@
 
 P3dPyPad 在 [`pyscripts/`](../pyscripts/) 目录下共开源 **494** 个 AutoCAD Plant 3D 参数化 Python 构件脚本（附带 **313** 份同目录 `.csv` 规格参数表）。全部脚本均已通过 PyOCC 离屏三维建模验证，可在 AutoCAD Plant 3D 插件（Python 2.7）、PyOCC 离线桌面工作台（Python 3 + OpenCASCADE）以及 WebAssembly 浏览器三维工作台中直接运行。
 
-![P3dPyPad 开源参数化构件脚本库总览](./images/scripts_showcase_zh.png)
+![P3dPyPad 开源参数化构件脚本库总览](./images/scripts_showcase.png)
 
 ## 脚本库分类汇总
 

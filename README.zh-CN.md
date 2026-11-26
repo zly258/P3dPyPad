@@ -95,7 +95,7 @@ P3dPyPad 是一套面向 AutoCAD Plant 3D 参数化 Python 构件开发的工程
 
 P3dPyPad 在 [`pyscripts/`](./pyscripts/) 目录下共开源 **572** 个参数化构件脚本（附带 **412** 份同目录 `.csv` 规格参数表）。查看 [化工行业 170 套元件库双语说明](./pyscripts/custom_scripts/README.md)、[AutoCAD Plant 3D 2026 成品库安装使用说明](./docs/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E(AutoCAD%20Plant%203D%202026).md) 以及 [在线三维工作台与报告页面](https://zly258.github.io/P3dPyPad/) 获取详细清单、下载包与使用说明。
 
-![P3dPyPad 开源参数化构件脚本库总览](docs/images/scripts_showcase_zh.png)
+![P3dPyPad 开源参数化构件脚本库总览](docs/images/scripts_showcase.png)
 
 | 脚本库 | 目录路径 | 脚本数 | CSV 规格表 | 覆盖内容 | 说明与清单 |
 |---|---|---:|---:|---|---|
