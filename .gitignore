@@ -18,6 +18,7 @@ __pycache__/
 *.egg-info/
 
 # ---- 打包与安装发布产物 ----
+dist/
 installer/output/
 installer/*.spec
 *.exe
