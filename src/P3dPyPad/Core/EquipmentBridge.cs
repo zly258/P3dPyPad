@@ -339,6 +339,47 @@ namespace P3dPyPad
             }
         }
 
+        private static EquipmentEditSession _pendingSession;
+        private static Action<bool, ObjectId, string> _pendingCallback;
+
+        /// <summary>
+        /// 注册待放置的设备会话与完成回调，供文档命令上下文中的 PYEQPLACE 消费，
+        /// 避免在非模态 WPF 按钮事件中直接启动 EntityJig 导致视图中键平移与透明缩放失效。
+        /// </summary>
+        public static void SetPendingPlacement(EquipmentEditSession session, Action<bool, ObjectId, string> onCompleted)
+        {
+            _pendingSession = session;
+            _pendingCallback = onCompleted;
+        }
+
+        /// <summary>
+        /// 在 AutoCAD 标准文档命令上下文中执行待放置设备的 3D 拖拽与旋转交互。
+        /// </summary>
+        public static void ExecutePendingPlacement(Document doc)
+        {
+            var session = _pendingSession;
+            var callback = _pendingCallback;
+            _pendingSession = null;
+            _pendingCallback = null;
+
+            if (doc == null || session == null)
+            {
+                return;
+            }
+
+            try
+            {
+                Autodesk.AutoCAD.ApplicationServices.Application.MainWindow?.Focus();
+            }
+            catch
+            {
+                // 忽略焦点切换异常
+            }
+
+            var ok = PlaceNewEquipment(doc, session, out var createdId, out var errorMessage);
+            callback?.Invoke(ok, createdId, errorMessage);
+        }
+
         /// <summary>
         /// 在图面上带 3D 实时预览（平移 Jig + 旋转 Jig）交互式定位并创建原生 Plant 3D 设备实体。
         /// </summary>

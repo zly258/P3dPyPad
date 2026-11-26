@@ -163,6 +163,18 @@ namespace P3dPyPad
         }
 
         /// <summary>
+        /// 设备交互放置内部命令（运行在标准文档命令上下文中，支持拖拽期间中键平移、滚轮缩放与透明命令）。
+        /// </summary>
+        [CommandMethod("PYEQPLACE")]
+        public void PlacePendingEquipment()
+        {
+            if (!EnsurePlant3D()) return;
+            var doc = AcadApp.DocumentManager.MdiActiveDocument;
+            if (doc == null) return;
+            EquipmentBridge.ExecutePendingPlacement(doc);
+        }
+
+        /// <summary>
         /// 无人值守自动化批量测试入口：支持从命令行、LISP 或 COM 自动化静默调用，无需人工点开窗口。
         /// 可通过环境变量 P3D_BATCH_SRC / P3D_BATCH_OUT 覆盖输入输出目录。
         /// 执行完毕后自动写入 batch_report.json 与 unattended_done.flag。

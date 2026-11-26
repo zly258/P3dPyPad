@@ -304,39 +304,51 @@ namespace P3dPyPad
                 return;
             }
 
+            // 先隐藏窗口并把焦点交还 AutoCAD，通过文档命令 PYEQPLACE 启动交互 Jig，
+            // 确保放置设备过程中可以正常使用鼠标中键平移、滚轮缩放及透明命令。
             Hide();
-            var created = false;
             try
             {
-                if (EquipmentBridge.PlaceNewEquipment(doc, _session, out var createdId, out var createErr))
-                {
-                    created = true;
-                    SavePreferences();
-                    doc.Editor.WriteMessage(string.Format(
-                        "\n[P3dPyPad] 已创建设备：{0}（句柄 {1}）\n",
-                        _session.DisplayName,
-                        createdId.Handle));
-                    Close();
-                    return;
-                }
-
-                if (!string.IsNullOrEmpty(createErr))
-                {
-                    StatusText.Text = createErr;
-                    Show();
-                    Activate();
-                    MessageBox.Show(this, createErr, Title, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
+                AcadApp.MainWindow?.Focus();
             }
-            finally
+            catch
             {
-                if (!created && IsLoaded)
-                {
-                    Show();
-                    Activate();
-                }
+                // 忽略焦点切换异常
             }
+
+            EquipmentBridge.SetPendingPlacement(_session, (created, createdId, createErr) =>
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (created)
+                    {
+                        SavePreferences();
+                        doc.Editor.WriteMessage(string.Format(
+                            "\n[P3dPyPad] 已创建设备：{0}（句柄 {1}）\n",
+                            _session.DisplayName,
+                            createdId.Handle));
+                        if (IsLoaded)
+                        {
+                            Close();
+                        }
+                        return;
+                    }
+
+                    if (IsLoaded)
+                    {
+                        Show();
+                        Activate();
+                    }
+
+                    if (!string.IsNullOrEmpty(createErr))
+                    {
+                        StatusText.Text = createErr;
+                        MessageBox.Show(this, createErr, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }));
+            });
+
+            doc.SendStringToExecute("_.PYEQPLACE ", true, false, false);
         }
 
         private void Close_Click(object sender, RoutedEventArgs e) => Close();
