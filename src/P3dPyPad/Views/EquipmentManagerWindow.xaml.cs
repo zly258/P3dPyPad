@@ -11,10 +11,7 @@ using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 namespace P3dPyPad
 {
     /// <summary>
-    /// 两栏式现代化 Plant 3D 设备创建与编辑窗口。
-    /// 支持：
-    /// 1. 创建模式：左栏搜索/分类/卡片选型 + 右栏高清可缩放预览图与尺寸/特性/管嘴独立 Tab；
-    /// 2. 编辑模式：左栏超大高清可缩放预览图 + 右栏位号/标高与尺寸/特性/管嘴独立 Tab，支持不关窗实时应用刷新。
+    /// 两栏式 Plant 3D 设备创建窗口（仅保留设备选择、可缩放示意图、标高/旋转与尺寸参数）。
     /// </summary>
     public partial class EquipmentManagerWindow : Window
     {
@@ -25,97 +22,35 @@ namespace P3dPyPad
             public override string ToString() => Label;
         }
 
-        private EquipmentDialogMode _mode;
         private List<EquipmentTemplateItem> _allTemplates = new List<EquipmentTemplateItem>();
         private EquipmentEditSession _session;
         private string _equipmentFolder = string.Empty;
 
-        // 预览图缩放与平移状态
         private double _zoom = 1.0;
         private bool _isPanning;
         private Point _panStart;
         private double _panOriginX;
         private double _panOriginY;
 
-        public EquipmentManagerWindow()
-            : this(EquipmentDialogMode.Create, null)
-        {
-        }
+        private bool _isRestoringState;
+        private static bool _prefsLoaded;
+        private static string _lastSourceFilter = "All";
+        private static string _lastCategoryKey = string.Empty;
+        private static string _lastTemplateName = string.Empty;
+        private static string _lastElevation = string.Empty;
+        private static string _lastRotation = string.Empty;
+        private static readonly Dictionary<string, Dictionary<string, string>> _savedParamsByTemplate =
+            new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
 
-        public EquipmentManagerWindow(EquipmentDialogMode mode, EquipmentEditSession initialSession = null)
+        public EquipmentManagerWindow()
         {
             LocalizationManager.EnsureInitialized(this);
             InitializeComponent();
-            _mode = mode;
-
-            ApplyModeLayout();
-            if (_mode == EquipmentDialogMode.Create)
-            {
-                LoadCatalog();
-            }
-            else if (initialSession != null)
-            {
-                BindSession(initialSession);
-            }
-        }
-
-        public void SwitchToCreateMode()
-        {
-            _mode = EquipmentDialogMode.Create;
-            ApplyModeLayout();
-            if (_allTemplates.Count == 0)
-            {
-                LoadCatalog();
-            }
-            else if (TemplateListBox.SelectedItem is EquipmentTemplateItem tpl)
-            {
-                var session = EquipmentBridge.CreateSessionFromTemplate(tpl);
-                BindSession(session);
-            }
-        }
-
-        public void SwitchToEditMode(EquipmentEditSession session)
-        {
-            _mode = EquipmentDialogMode.Edit;
-            ApplyModeLayout();
-            BindSession(session);
-        }
-
-        private void ApplyModeLayout()
-        {
-            var isEdit = _mode == EquipmentDialogMode.Edit;
-
-            Title = isEdit
-                ? LocalizationManager.T("EqWinTitleEdit", "Plant 3D 编辑设备 (PYEQEDIT)", "Plant 3D Edit Equipment (PYEQEDIT)")
-                : LocalizationManager.T("EqWinTitleCreate", "Plant 3D 创建设备 (PYEQCREATE)", "Plant 3D Create Equipment (PYEQCREATE)");
-
-            ModeBadge.Background = new SolidColorBrush(isEdit
-                ? Color.FromRgb(0xD9, 0x77, 0x06)
-                : Color.FromRgb(0x25, 0x63, 0xEB));
-            ModeBadgeText.Text = isEdit
-                ? LocalizationManager.T("EqModeEdit", "编辑设备", "Edit Equipment")
-                : LocalizationManager.T("EqModeCreate", "创建设备", "Create Equipment");
-
-            CreateCatalogPanel.Visibility = isEdit ? Visibility.Collapsed : Visibility.Visible;
-            EditPreviewPanel.Visibility = isEdit ? Visibility.Visible : Visibility.Collapsed;
-
-            CreateTopCard.Visibility = isEdit ? Visibility.Collapsed : Visibility.Visible;
-            CreatePreviewSplitter.Visibility = isEdit ? Visibility.Collapsed : Visibility.Visible;
-            CreatePreviewRow.Height = isEdit ? new GridLength(0) : new GridLength(235);
-            CreatePreviewRow.MinHeight = isEdit ? 0 : 170;
-            CreatePreviewSplitterRow.Height = isEdit ? new GridLength(0) : new GridLength(6);
-
-            EditGeneralBar.Visibility = isEdit ? Visibility.Visible : Visibility.Collapsed;
-            PickEquipmentButton.Visibility = isEdit ? Visibility.Visible : Visibility.Collapsed;
-            RefreshCatalogButton.Visibility = isEdit ? Visibility.Collapsed : Visibility.Visible;
-
-            ApplyButton.Visibility = isEdit ? Visibility.Visible : Visibility.Collapsed;
-            PrimaryActionButton.Content = isEdit
-                ? LocalizationManager.T("EqBtnOkUpdate", "确定并更新", "OK & Update")
-                : LocalizationManager.T("EqBtnCreatePlace", "在图面创建放置", "Create & Place");
-
-            AddNozzleButton.IsEnabled = isEdit;
-            EditNozzleButton.IsEnabled = isEdit;
+            Title = LocalizationManager.T("EqWinTitleCreate", "创建设备", "Create Equipment");
+            EnsurePrefsLoaded();
+            RestoreSourceFilter();
+            LoadCatalog();
+            Closing += (s, e) => SavePreferences();
         }
 
         private void LoadCatalog()
@@ -125,16 +60,17 @@ namespace P3dPyPad
             ApplyTemplateFilter();
 
             StatusText.Text = string.IsNullOrEmpty(_equipmentFolder)
-                ? LocalizationManager.T("EqStatusNoDir", "未检测到 Plant 3D equipment 目录，请先打开 Plant 3D 项目。", "Plant 3D equipment directory not found.")
+                ? LocalizationManager.T("EqStatusNoDir", "未找到设备目录", "Equipment directory not found")
                 : string.Format(
-                    LocalizationManager.T("EqStatusLoaded", "已加载 {0} 台设备模板（目录：{1}）", "Loaded {0} equipment templates ({1})"),
-                    _allTemplates.Count,
-                    _equipmentFolder);
+                    LocalizationManager.T("EqStatusLoaded", "共 {0} 台设备", "{0} equipment templates"),
+                    _allTemplates.Count);
         }
 
         private void RebuildCategoryFilter()
         {
-            var prevKey = (CategoryComboBox.SelectedItem as CategoryFilterItem)?.Key ?? string.Empty;
+            var prevKey = _isRestoringState
+                ? _lastCategoryKey
+                : ((CategoryComboBox.SelectedItem as CategoryFilterItem)?.Key ?? _lastCategoryKey ?? string.Empty);
             var items = new List<CategoryFilterItem>
             {
                 new CategoryFilterItem
@@ -206,22 +142,14 @@ namespace P3dPyPad
             }).ToList();
 
             var prevName = (TemplateListBox.SelectedItem as EquipmentTemplateItem)?.Name;
+            if (string.IsNullOrEmpty(prevName)) prevName = _lastTemplateName;
             TemplateListBox.ItemsSource = filtered;
-
-            if (CatalogCountText != null)
-            {
-                var customCount = filtered.Count(t => t.IsCustom);
-                CatalogCountText.Text = string.Format(
-                    LocalizationManager.T("EqListCount", "显示 {0} / {1} 台设备（自定义 {2} 台）", "Showing {0} / {1} (Custom: {2})"),
-                    filtered.Count,
-                    _allTemplates.Count,
-                    customCount);
-            }
 
             if (filtered.Count > 0)
             {
                 var toSelect = filtered.FirstOrDefault(t => string.Equals(t.Name, prevName, StringComparison.OrdinalIgnoreCase)) ?? filtered[0];
                 TemplateListBox.SelectedItem = toSelect;
+                TemplateListBox.ScrollIntoView(toSelect);
             }
             else
             {
@@ -237,87 +165,32 @@ namespace P3dPyPad
             if (session == null)
             {
                 HeaderTitleText.Text = LocalizationManager.T("EqNoneSelected", "未选择设备", "No equipment selected");
-                HeaderSubtitleText.Text = string.Empty;
                 ParamsGrid.ItemsSource = null;
-                PropsGrid.ItemsSource = null;
-                NozzlesGrid.ItemsSource = null;
                 SetPreviewImage(null);
+                ParamsGroupBox.Header = LocalizationManager.T("EqTabParamsSimple", "尺寸参数", "Dimensions");
                 return;
             }
 
             HeaderTitleText.Text = session.DisplayName ?? session.EquipmentName;
-            HeaderSubtitleText.Text = string.Format("{0}  |  {1}  |  {2}",
-                session.CategoryDisplayName,
-                session.EquipmentName,
-                session.LengthUnit);
+            SetPreviewImage(session.Template?.FullPreview);
 
-            var img = session.Template?.FullPreview;
-            SetPreviewImage(img);
-
-            if (_mode == EquipmentDialogMode.Edit)
-            {
-                EditTagTextBox.Text = session.EquipmentTag ?? string.Empty;
-                EditElevationTextBox.Text = session.Elevation.ToString("0.###", CultureInfo.InvariantCulture);
-                EditElevationUnitText.Text = session.LengthUnit;
-                EditSummaryName.Text = session.DisplayName;
-                EditSummaryMeta.Text = string.Format("分类：{0}\n脚本代号：{1}\n图元句柄：{2}",
-                    session.CategoryDisplayName,
-                    session.EquipmentName,
-                    session.TargetObjectId.IsNull ? "-" : session.TargetObjectId.Handle.ToString());
-            }
-            else
-            {
-                TagTextBox.Text = session.EquipmentTag ?? string.Empty;
-                ElevationTextBox.Text = session.Elevation.ToString("0.###", CultureInfo.InvariantCulture);
-                ElevationUnitText.Text = session.LengthUnit;
-                RotationTextBox.Text = session.RotationDegrees.ToString("0.##", CultureInfo.InvariantCulture);
-            }
+            ElevationTextBox.Text = session.Elevation.ToString("0.###", CultureInfo.InvariantCulture);
+            ElevationUnitText.Text = session.LengthUnit;
+            RotationTextBox.Text = session.RotationDegrees.ToString("0.##", CultureInfo.InvariantCulture);
 
             ParamsGrid.ItemsSource = session.Parameters;
-            NozzlesGrid.ItemsSource = session.Nozzles;
-            ApplyPropertyFilter();
-
-            ParamsTab.Header = string.Format(LocalizationManager.T("EqTabParams", "尺寸参数 ({0})", "Dimensions ({0})"), session.Parameters.Count);
-            PropsTab.Header = string.Format(LocalizationManager.T("EqTabProps", "工程特性 ({0})", "Properties ({0})"), session.Properties.Count);
-            NozzlesTab.Header = string.Format(LocalizationManager.T("EqTabNozzles", "管嘴信息 ({0})", "Nozzles ({0})"), session.Nozzles.Count);
+            ParamsGroupBox.Header = string.Format(
+                LocalizationManager.T("EqTabParams", "尺寸参数 ({0})", "Dimensions ({0})"),
+                session.Parameters.Count);
         }
 
         private void SetPreviewImage(ImageSource img)
         {
             CreatePreviewImage.Source = img;
-            EditPreviewImage.Source = img;
-            var emptyVis = img == null ? Visibility.Visible : Visibility.Collapsed;
-            CreatePreviewEmptyText.Visibility = emptyVis;
-            EditPreviewEmptyText.Visibility = emptyVis;
+            CreatePreviewEmptyText.Visibility = img == null ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void ApplyPropertyFilter()
-        {
-            if (_session == null || PropsGrid == null) return;
-            var q = (PropSearchBox?.Text ?? string.Empty).Trim();
-            if (PropSearchPlaceholder != null)
-            {
-                PropSearchPlaceholder.Visibility = string.IsNullOrEmpty(q) ? Visibility.Visible : Visibility.Collapsed;
-            }
-            var commonOnly = CommonPropsOnlyCheck?.IsChecked == true;
-
-            var filtered = _session.Properties.Where(p =>
-            {
-                if (commonOnly && !p.IsCommon) return false;
-                if (!string.IsNullOrEmpty(q))
-                {
-                    var m1 = (p.LabelText ?? string.Empty).IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0;
-                    var m2 = (p.Name ?? string.Empty).IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0;
-                    var m3 = (p.Value ?? string.Empty).IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0;
-                    if (!m1 && !m2 && !m3) return false;
-                }
-                return true;
-            }).ToList();
-
-            PropsGrid.ItemsSource = filtered;
-        }
-
-        private bool SyncGeneralInputsToSession(out string validationError)
+        private bool SyncInputsToSession(out string validationError)
         {
             validationError = null;
             if (_session == null)
@@ -326,42 +199,23 @@ namespace P3dPyPad
                 return false;
             }
 
-            // 提交 DataGrid 正在编辑的单元格
             ParamsGrid.CommitEdit(DataGridEditingUnit.Cell, true);
             ParamsGrid.CommitEdit(DataGridEditingUnit.Row, true);
-            PropsGrid.CommitEdit(DataGridEditingUnit.Cell, true);
-            PropsGrid.CommitEdit(DataGridEditingUnit.Row, true);
-            NozzlesGrid.CommitEdit(DataGridEditingUnit.Cell, true);
-            NozzlesGrid.CommitEdit(DataGridEditingUnit.Row, true);
 
-            if (_mode == EquipmentDialogMode.Edit)
+            if (!double.TryParse((ElevationTextBox.Text ?? "0").Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var elev))
             {
-                _session.EquipmentTag = (EditTagTextBox.Text ?? string.Empty).Trim();
-                if (!double.TryParse((EditElevationTextBox.Text ?? "0").Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var elev))
-                {
-                    validationError = LocalizationManager.T("EqErrBadElev", "标高必须是有效数字。", "Elevation must be a valid number.");
-                    return false;
-                }
-                _session.Elevation = elev;
+                validationError = LocalizationManager.T("EqErrBadElev", "标高必须是有效数字。", "Elevation must be a valid number.");
+                return false;
             }
-            else
+            if (!double.TryParse((RotationTextBox.Text ?? "0").Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var rot))
             {
-                _session.EquipmentTag = (TagTextBox.Text ?? string.Empty).Trim();
-                if (!double.TryParse((ElevationTextBox.Text ?? "0").Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var elev))
-                {
-                    validationError = LocalizationManager.T("EqErrBadElev", "标高必须是有效数字。", "Elevation must be a valid number.");
-                    return false;
-                }
-                if (!double.TryParse((RotationTextBox.Text ?? "0").Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var rot))
-                {
-                    validationError = LocalizationManager.T("EqErrBadRot", "旋转角度必须是有效数字。", "Rotation angle must be a valid number.");
-                    return false;
-                }
-                _session.Elevation = elev;
-                _session.RotationDegrees = rot;
+                validationError = LocalizationManager.T("EqErrBadRot", "旋转角度必须是有效数字。", "Rotation angle must be a valid number.");
+                return false;
             }
 
-            // 校验数值型尺寸参数
+            _session.Elevation = elev;
+            _session.RotationDegrees = rot;
+
             foreach (var p in _session.Parameters)
             {
                 var pt = (p.ParamType ?? string.Empty).ToLowerInvariant();
@@ -387,10 +241,9 @@ namespace P3dPyPad
             return true;
         }
 
-        // ==================== 事件处理 ====================
-
         private void FilterChanged(object sender, EventArgs e)
         {
+            if (_isRestoringState) return;
             ApplyTemplateFilter();
         }
 
@@ -400,50 +253,23 @@ namespace P3dPyPad
             SearchBox.Focus();
         }
 
-        private void PropFilterChanged(object sender, EventArgs e)
-        {
-            ApplyPropertyFilter();
-        }
-
         private void TemplateListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_mode != EquipmentDialogMode.Create) return;
+            if (_session != null && !_isRestoringState)
+            {
+                CaptureCurrentSessionToMemory();
+            }
+
             if (TemplateListBox.SelectedItem is EquipmentTemplateItem tpl)
             {
+                _lastTemplateName = tpl.Name ?? string.Empty;
                 var session = EquipmentBridge.CreateSessionFromTemplate(tpl);
+                ApplySavedParamsToSession(session);
                 BindSession(session);
             }
         }
 
-        private void RefreshCatalog_Click(object sender, RoutedEventArgs e)
-        {
-            LoadCatalog();
-        }
-
-        private void PickEquipment_Click(object sender, RoutedEventArgs e)
-        {
-            var doc = AcadApp.DocumentManager.MdiActiveDocument;
-            if (doc == null) return;
-
-            Hide();
-            try
-            {
-                if (EquipmentBridge.TrySelectAndLoadEquipmentForEdit(doc, _allTemplates, out var session, out var err))
-                {
-                    BindSession(session);
-                    StatusText.Text = LocalizationManager.T("EqStatusPicked", "已加载所选设备参数，可直接修改。", "Loaded selected equipment.");
-                }
-                else if (!string.IsNullOrEmpty(err))
-                {
-                    StatusText.Text = err;
-                }
-            }
-            finally
-            {
-                Show();
-                Activate();
-            }
-        }
+        private void RefreshCatalog_Click(object sender, RoutedEventArgs e) => LoadCatalog();
 
         private void ResetParams_Click(object sender, RoutedEventArgs e)
         {
@@ -455,32 +281,17 @@ namespace P3dPyPad
                     p.Value = p.DefaultValue;
                 }
             }
-            StatusText.Text = LocalizationManager.T("EqStatusReset", "已恢复所有尺寸参数为默认值。", "Restored default dimensions.");
-        }
-
-        private void ApplyEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (!SyncGeneralInputsToSession(out var err))
+            if (!string.IsNullOrEmpty(_session.Template?.Name))
             {
-                MessageBox.Show(this, err, Title, MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                _savedParamsByTemplate.Remove(_session.Template?.Name);
+                SaveParamsDictionary();
             }
-
-            var doc = AcadApp.DocumentManager.MdiActiveDocument;
-            if (EquipmentBridge.ApplyEditToEquipment(doc, _session, out var updateErr))
-            {
-                StatusText.Text = LocalizationManager.T("EqStatusUpdated", "设备已实时更新到当前图形。", "Equipment updated in drawing.");
-            }
-            else
-            {
-                StatusText.Text = updateErr ?? "更新失败";
-                MessageBox.Show(this, updateErr ?? "更新失败", Title, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            StatusText.Text = LocalizationManager.T("EqStatusReset", "已恢复默认尺寸", "Default dimensions restored");
         }
 
         private void PrimaryAction_Click(object sender, RoutedEventArgs e)
         {
-            if (!SyncGeneralInputsToSession(out var err))
+            if (!SyncInputsToSession(out var err))
             {
                 MessageBox.Show(this, err, Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -493,85 +304,51 @@ namespace P3dPyPad
                 return;
             }
 
-            if (_mode == EquipmentDialogMode.Edit)
-            {
-                if (EquipmentBridge.ApplyEditToEquipment(doc, _session, out var updateErr))
-                {
-                    Close();
-                }
-                else
-                {
-                    StatusText.Text = updateErr ?? "更新失败";
-                    MessageBox.Show(this, updateErr ?? "更新失败", Title, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                return;
-            }
-
-            // 创建模式：临时隐藏窗口让用户在 CAD 图面点选放置点与旋转角
             Hide();
+            var created = false;
             try
             {
                 if (EquipmentBridge.PlaceNewEquipment(doc, _session, out var createdId, out var createErr))
                 {
-                    StatusText.Text = string.Format(
-                        LocalizationManager.T("EqStatusCreated", "已成功创建设备：{0}（句柄 {1}）", "Created equipment: {0} (Handle {1})"),
+                    created = true;
+                    SavePreferences();
+                    doc.Editor.WriteMessage(string.Format(
+                        "\n[P3dPyPad] 已创建设备：{0}（句柄 {1}）\n",
                         _session.DisplayName,
-                        createdId.Handle);
-                    // 重新刷新一次新会话以准备连续创建（保留同一模板）
-                    if (_session.Template != null)
-                    {
-                        var next = EquipmentBridge.CreateSessionFromTemplate(_session.Template);
-                        next.RotationDegrees = _session.RotationDegrees;
-                        next.Elevation = _session.Elevation;
-                        BindSession(next);
-                    }
+                        createdId.Handle));
+                    Close();
+                    return;
                 }
-                else if (!string.IsNullOrEmpty(createErr))
+
+                if (!string.IsNullOrEmpty(createErr))
                 {
                     StatusText.Text = createErr;
+                    Show();
+                    Activate();
                     MessageBox.Show(this, createErr, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
             }
             finally
             {
-                Show();
-                Activate();
+                if (!created && IsLoaded)
+                {
+                    Show();
+                    Activate();
+                }
             }
         }
 
-        private void AddNozzle_Click(object sender, RoutedEventArgs e)
-        {
-            var doc = AcadApp.DocumentManager.MdiActiveDocument;
-            if (doc == null) return;
-            Close();
-            doc.SendStringToExecute("_PLANTNOZZLEADD ", true, false, false);
-        }
+        private void Close_Click(object sender, RoutedEventArgs e) => Close();
 
-        private void EditNozzle_Click(object sender, RoutedEventArgs e)
-        {
-            var doc = AcadApp.DocumentManager.MdiActiveDocument;
-            if (doc == null) return;
-            Close();
-            doc.SendStringToExecute("_PLANTNOZZLEEDIT ", true, false, false);
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        // ==================== 预览图滚轮缩放 / 拖拽平移 / 全屏看图 ====================
+        // ==================== 预览图缩放 / 平移 / 大图 ====================
 
         private void SetZoom(double newZoom)
         {
             _zoom = Math.Max(0.5, Math.Min(6.0, newZoom));
             CreatePreviewScale.ScaleX = _zoom;
             CreatePreviewScale.ScaleY = _zoom;
-            EditPreviewScale.ScaleX = _zoom;
-            EditPreviewScale.ScaleY = _zoom;
-            var pct = string.Format("{0:0}%", _zoom * 100);
-            CreateZoomResetButton.Content = pct;
-            EditZoomResetButton.Content = pct;
+            CreateZoomResetButton.Content = string.Format("{0:0}%", _zoom * 100);
         }
 
         private void ResetZoom()
@@ -579,8 +356,6 @@ namespace P3dPyPad
             SetZoom(1.0);
             CreatePreviewTranslate.X = 0;
             CreatePreviewTranslate.Y = 0;
-            EditPreviewTranslate.X = 0;
-            EditPreviewTranslate.Y = 0;
         }
 
         private void ZoomIn_Click(object sender, RoutedEventArgs e) => SetZoom(_zoom * 1.25);
@@ -604,8 +379,8 @@ namespace P3dPyPad
             if (el == null) return;
             _isPanning = true;
             _panStart = e.GetPosition(el);
-            _panOriginX = _mode == EquipmentDialogMode.Edit ? EditPreviewTranslate.X : CreatePreviewTranslate.X;
-            _panOriginY = _mode == EquipmentDialogMode.Edit ? EditPreviewTranslate.Y : CreatePreviewTranslate.Y;
+            _panOriginX = CreatePreviewTranslate.X;
+            _panOriginY = CreatePreviewTranslate.Y;
             el.CaptureMouse();
         }
 
@@ -615,18 +390,8 @@ namespace P3dPyPad
             var el = sender as UIElement;
             if (el == null) return;
             var cur = e.GetPosition(el);
-            var dx = cur.X - _panStart.X;
-            var dy = cur.Y - _panStart.Y;
-            if (_mode == EquipmentDialogMode.Edit)
-            {
-                EditPreviewTranslate.X = _panOriginX + dx;
-                EditPreviewTranslate.Y = _panOriginY + dy;
-            }
-            else
-            {
-                CreatePreviewTranslate.X = _panOriginX + dx;
-                CreatePreviewTranslate.Y = _panOriginY + dy;
-            }
+            CreatePreviewTranslate.X = _panOriginX + (cur.X - _panStart.X);
+            CreatePreviewTranslate.Y = _panOriginY + (cur.Y - _panStart.Y);
         }
 
         private void Preview_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -643,7 +408,7 @@ namespace P3dPyPad
 
             var viewer = new Window
             {
-                Title = (_session.DisplayName ?? _session.EquipmentName) + " — 高清示意图",
+                Title = _session.DisplayName ?? _session.EquipmentName,
                 Width = 860,
                 Height = 760,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
@@ -709,6 +474,200 @@ namespace P3dPyPad
 
             viewer.Content = border;
             viewer.ShowDialog();
+        }
+
+        // ==================== 记忆上次选择与参数 ====================
+
+        private static string GetParamsPrefsPath()
+        {
+            return System.IO.Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "P3dPyPad",
+                "equipment_params.json");
+        }
+
+        private static void EnsurePrefsLoaded()
+        {
+            if (_prefsLoaded) return;
+            _prefsLoaded = true;
+            _lastSourceFilter = UserSettings.Get("EqLastSource", "All") ?? "All";
+            _lastCategoryKey = UserSettings.Get("EqLastCategory", string.Empty) ?? string.Empty;
+            _lastTemplateName = UserSettings.Get("EqLastTemplate", string.Empty) ?? string.Empty;
+            _lastElevation = UserSettings.Get("EqLastElevation", string.Empty) ?? string.Empty;
+            _lastRotation = UserSettings.Get("EqLastRotation", string.Empty) ?? string.Empty;
+            LoadParamsDictionary();
+        }
+
+        private void RestoreSourceFilter()
+        {
+            _isRestoringState = true;
+            try
+            {
+                if (string.Equals(_lastSourceFilter, "Custom", StringComparison.OrdinalIgnoreCase) && FilterCustomRadio != null)
+                {
+                    FilterCustomRadio.IsChecked = true;
+                }
+                else if (string.Equals(_lastSourceFilter, "BuiltIn", StringComparison.OrdinalIgnoreCase) && FilterBuiltInRadio != null)
+                {
+                    FilterBuiltInRadio.IsChecked = true;
+                }
+                else if (FilterAllRadio != null)
+                {
+                    FilterAllRadio.IsChecked = true;
+                }
+            }
+            finally
+            {
+                _isRestoringState = false;
+            }
+        }
+
+        private void CaptureCurrentSessionToMemory()
+        {
+            if (_session == null || string.IsNullOrEmpty(_session.Template?.Name)) return;
+
+            // 提交 DataGrid 中正在编辑的单元格
+            if (ParamsGrid != null)
+            {
+                ParamsGrid.CommitEdit(DataGridEditingUnit.Cell, true);
+                ParamsGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            }
+
+            var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var p in _session.Parameters)
+            {
+                if (!string.IsNullOrEmpty(p.Name) && !string.Equals(p.Value, p.DefaultValue, StringComparison.Ordinal))
+                {
+                    dict[p.Name] = p.Value ?? string.Empty;
+                }
+            }
+
+            if (dict.Count > 0)
+            {
+                _savedParamsByTemplate[_session.Template?.Name] = dict;
+            }
+            else
+            {
+                _savedParamsByTemplate.Remove(_session.Template?.Name);
+            }
+
+            if (ElevationTextBox != null && !string.IsNullOrWhiteSpace(ElevationTextBox.Text))
+            {
+                _lastElevation = ElevationTextBox.Text.Trim();
+            }
+            if (RotationTextBox != null && !string.IsNullOrWhiteSpace(RotationTextBox.Text))
+            {
+                _lastRotation = RotationTextBox.Text.Trim();
+            }
+        }
+
+        private void ApplySavedParamsToSession(EquipmentEditSession session)
+        {
+            if (session == null) return;
+
+            if (!string.IsNullOrEmpty(session.Template?.Name) &&
+                _savedParamsByTemplate.TryGetValue(session.Template?.Name, out var saved) &&
+                saved != null)
+            {
+                foreach (var p in session.Parameters)
+                {
+                    if (!string.IsNullOrEmpty(p.Name) && saved.TryGetValue(p.Name, out var val) && !string.IsNullOrEmpty(val))
+                    {
+                        p.Value = val;
+                    }
+                }
+            }
+
+            if (double.TryParse(_lastElevation, NumberStyles.Float, CultureInfo.InvariantCulture, out var elev))
+            {
+                session.Elevation = elev;
+            }
+            if (double.TryParse(_lastRotation, NumberStyles.Float, CultureInfo.InvariantCulture, out var rot))
+            {
+                session.RotationDegrees = rot;
+            }
+        }
+
+        private void SavePreferences()
+        {
+            try
+            {
+                CaptureCurrentSessionToMemory();
+
+                _lastSourceFilter = FilterCustomRadio?.IsChecked == true ? "Custom"
+                    : FilterBuiltInRadio?.IsChecked == true ? "BuiltIn"
+                    : "All";
+                _lastCategoryKey = (CategoryComboBox?.SelectedItem as CategoryFilterItem)?.Key ?? string.Empty;
+                _lastTemplateName = (TemplateListBox?.SelectedItem as EquipmentTemplateItem)?.Name ?? _lastTemplateName ?? string.Empty;
+
+                UserSettings.Set("EqLastSource", _lastSourceFilter);
+                UserSettings.Set("EqLastCategory", _lastCategoryKey);
+                UserSettings.Set("EqLastTemplate", _lastTemplateName);
+                UserSettings.Set("EqLastElevation", _lastElevation);
+                UserSettings.Set("EqLastRotation", _lastRotation);
+                SaveParamsDictionary();
+            }
+            catch
+            {
+                // 忽略偏好保存异常，避免影响主流程
+            }
+        }
+
+        private static void LoadParamsDictionary()
+        {
+            try
+            {
+                var path = GetParamsPrefsPath();
+                if (!System.IO.File.Exists(path)) return;
+
+                var serializer = new System.Runtime.Serialization.Json.DataContractJsonSerializer(
+                    typeof(Dictionary<string, Dictionary<string, string>>));
+                using (var fs = System.IO.File.OpenRead(path))
+                {
+                    if (serializer.ReadObject(fs) is Dictionary<string, Dictionary<string, string>> data)
+                    {
+                        _savedParamsByTemplate.Clear();
+                        foreach (var kv in data)
+                        {
+                            if (!string.IsNullOrEmpty(kv.Key) && kv.Value != null)
+                            {
+                                _savedParamsByTemplate[kv.Key] = new Dictionary<string, string>(kv.Value, StringComparer.OrdinalIgnoreCase);
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // 忽略损坏的缓存文件
+            }
+        }
+
+        private static void SaveParamsDictionary()
+        {
+            try
+            {
+                var path = GetParamsPrefsPath();
+                var dir = System.IO.Path.GetDirectoryName(path);
+                if (!string.IsNullOrEmpty(dir)) System.IO.Directory.CreateDirectory(dir);
+
+                var plain = new Dictionary<string, Dictionary<string, string>>();
+                foreach (var kv in _savedParamsByTemplate)
+                {
+                    plain[kv.Key] = new Dictionary<string, string>(kv.Value);
+                }
+
+                var serializer = new System.Runtime.Serialization.Json.DataContractJsonSerializer(
+                    typeof(Dictionary<string, Dictionary<string, string>>));
+                using (var fs = System.IO.File.Create(path))
+                {
+                    serializer.WriteObject(fs, plain);
+                }
+            }
+            catch
+            {
+                // 忽略写入异常
+            }
         }
     }
 }

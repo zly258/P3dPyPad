@@ -268,10 +268,12 @@ namespace P3dPyPad
             { "AboutDesc", "AutoCAD Plant 3D 参数化构件开发与批量测试工具箱" },
             { "AboutVersion", "版本: v1.0.0 (2026.11)" },
             { "AboutLinksHeader", "项目与支持" },
+            { "AboutDevLabel", "开发者：" },
             { "AboutRepoLabel", "仓库地址：" },
             { "AboutEmailLabel", "联系邮箱：" },
             { "AboutSponsorLabel", "赞助地址：" },
             { "AboutSponsorText", "爱发电 (Afdian)" },
+            { "AboutLicenseLabel", "开源协议：" },
         };
 
         private static readonly Dictionary<string, string> StringsEn = new Dictionary<string, string>(StringComparer.Ordinal)
@@ -327,10 +329,12 @@ namespace P3dPyPad
             { "AboutDesc", "AutoCAD Plant 3D Parametric Component Dev & Batch Test Suite" },
             { "AboutVersion", "Version: v1.0.0 (2026.11)" },
             { "AboutLinksHeader", "Links & Support" },
+            { "AboutDevLabel", "Developer: " },
             { "AboutRepoLabel", "Repository: " },
             { "AboutEmailLabel", "Email: " },
             { "AboutSponsorLabel", "Sponsor: " },
             { "AboutSponsorText", "Afdian (爱发电)" },
+            { "AboutLicenseLabel", "License: " },
         };
 
         #endregion
