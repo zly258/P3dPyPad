@@ -93,17 +93,17 @@ Publish validated scripts directly into `.acat`/`.pcat` catalogs, `.peqx` equipm
 
 ## Open-Source Script Library (494 Scripts)
 
-P3dPyPad open-sources **494** parametric component scripts (with **313** co-located `.csv` specification tables) under [`pyscripts/`](./pyscripts/). See the [Complete Illustrated 494-Script Catalog](./docs/SCRIPTS.md) for every script's category contact sheet, file link, CSV table, and description.
+P3dPyPad open-sources **572** parametric component scripts (with **412** co-located `.csv` specification tables) under [`pyscripts/`](./pyscripts/). See the [Chemical Industry 170-Script Library README](./pyscripts/custom_scripts/README.md) (bilingual EN/ZH-CN), the [Plant 3D 2026 Ready-to-Use Bundle Guide](./docs/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E(AutoCAD%20Plant%203D%202026).md), and the [Online 3D Workbench & Report](https://zly258.github.io/P3dPyPad/) for catalog details and direct usage.
 
 ![P3dPyPad Open-Source Parametric Script Library Showcase](docs/images/scripts_showcase.png)
 
-| Library | Directory | Scripts | CSV Specs | Coverage | Full Illustrated List |
+| Library | Directory | Scripts | CSV Specs | Coverage | Full List / Guide |
 |---|---|---:|---:|---|---|
-| Custom Engineering Components | `pyscripts/custom_scripts/` | 92 | 71 | Pipe fittings (3), flanges (1), industrial valves (25), process instruments (19), custom pipe supports (23), process equipment (21) | [View all 92](./docs/SCRIPTS.md#1-custom-engineering-components-92-scripts) |
+| Chemical Industry Custom Components | `pyscripts/custom_scripts/` | 170 | 170 | Flanges & blinds (22), pipe fittings & olets (28), valves (27), instruments (22), supports (19), equipment (29), specialty items (23) — 1,876 spec rows | [Custom Scripts README (EN/ZH)](./pyscripts/custom_scripts/README.md) |
 | Power Industry Pipe Supports (CD/ZD 2010) | `pyscripts/supports/cd_zd2010/` | 83 | 83 | Vol.1-Vol.8: pipe clamps, integral attachments, connectors, variable/constant springs, dynamic loads, structural frames | [View all 83](./docs/SCRIPTS.md#2-power-industry-pipe-supports---cdzd-2010-83-scripts) |
 | Chemical Industry Pipe Supports (HG/T 21629) | `pyscripts/supports/hgt_21629/` | 159 | 159 | Series A-Y: hangers, springs, embedments, guides, trunnions, pipe shoes, cold/hot insulated supports, dampers, U-bolts | [View all 159](./docs/SCRIPTS.md#3-chemical-industry-pipe-supports---hgt-21629-159-scripts) |
 | AutoCAD Plant 3D System Defaults | `pyscripts/system_defaults/` | 160 | 0 | Supports (49), fittings (36), flanges/gaskets/blinds (15), pipes/nozzles/olets (10), valves/actuators (33), instruments (9), equipment/pumps (8) | [View all 160](./docs/SCRIPTS.md#4-autocad-plant-3d-system-defaults-160-scripts) |
-| **Total** | **`pyscripts/`** | **494** | **313** | All 494 scripts verified with PyOCC 3D solid rendering | [Open Full Catalog](./docs/SCRIPTS.md) |
+| **Total** | **`pyscripts/`** | **572** | **412** | Verified with PyOCC 3D solid rendering and Plant 3D catalog inspection | [Custom Scripts README](./pyscripts/custom_scripts/README.md) |
 
 ## Quick Install
 
@@ -175,7 +175,7 @@ Open `http://127.0.0.1:3000/` in a modern browser. Select any component from the
 python plant3d_occ/main.py
 
 # Or open a specific component script directly
-python plant3d_occ/main.py pyscripts/custom_scripts/03_valves/VALVE_GATE.py
+python plant3d_occ/main.py pyscripts/custom_scripts/03_valves/VALVE_GATE_GBT12221.py
 ```
 
 ### Run inside AutoCAD Plant 3D
@@ -183,7 +183,7 @@ python plant3d_occ/main.py pyscripts/custom_scripts/03_valves/VALVE_GATE.py
 After deploying `P3dPyPad.bundle` and launching AutoCAD Plant 3D:
 
 1. Type `PYPAD` on the AutoCAD command line (or use the P3dPyPad Ribbon tab).
-2. Load a script such as `pyscripts/custom_scripts/03_valves/VALVE_GATE.py`.
+2. Load a script such as `pyscripts/custom_scripts/03_valves/VALVE_GATE_GBT12221.py`.
 3. Press `F5` to generate or hot-reload the 3D component solid in the active drawing.
 
 ## Commands

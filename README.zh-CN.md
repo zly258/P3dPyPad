@@ -93,17 +93,17 @@ P3dPyPad 是一套面向 AutoCAD Plant 3D 参数化 Python 构件开发的工程
 
 ## 开源构件脚本库（494 个脚本）
 
-P3dPyPad 在 [`pyscripts/`](./pyscripts/) 目录下共开源 **494** 个参数化构件脚本（附带 **313** 份同目录 `.csv` 规格参数表）。查看 [开源参数化构件脚本全量目录（带全部分类预览图）](./docs/SCRIPTS.zh-CN.md) 获取全部 494 个脚本的分类合集大图、文件链接、规格表与说明。
+P3dPyPad 在 [`pyscripts/`](./pyscripts/) 目录下共开源 **572** 个参数化构件脚本（附带 **412** 份同目录 `.csv` 规格参数表）。查看 [化工行业 170 套元件库双语说明](./pyscripts/custom_scripts/README.md)、[AutoCAD Plant 3D 2026 成品库安装使用说明](./docs/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E(AutoCAD%20Plant%203D%202026).md) 以及 [在线三维工作台与报告页面](https://zly258.github.io/P3dPyPad/) 获取详细清单、下载包与使用说明。
 
 ![P3dPyPad 开源参数化构件脚本库总览](docs/images/scripts_showcase_zh.png)
 
-| 脚本库 | 目录路径 | 脚本数 | CSV 规格表 | 覆盖内容 | 全量图文清单 |
+| 脚本库 | 目录路径 | 脚本数 | CSV 规格表 | 覆盖内容 | 说明与清单 |
 |---|---|---:|---:|---|---|
-| 通用工程自定义构件库 | `pyscripts/custom_scripts/` | 92 | 71 | 管道管件（3）、法兰（1）、工业阀门（25）、过程仪表（19）、通用支吊架（23）、化工工艺设备（21） | [查看全部 92 个](./docs/SCRIPTS.zh-CN.md#1-通用工程自定义构件库92-个脚本) |
+| 化工行业自定义元件库 | `pyscripts/custom_scripts/` | 170 | 170 | 法兰盲板垫片（22）、管件支管台（28）、阀门（27）、仪表（22）、支吊架（19）、工艺设备（29）、特种件（23），共 1,876 档规格 | [元件库双语说明 (中/英)](./pyscripts/custom_scripts/README.md) |
 | 电力行业支吊架标准库 (CD/ZD 2010) | `pyscripts/supports/cd_zd2010/` | 83 | 83 | 第 1~8 册：非整体/整体管部、中间连接件、根部结构、可变/恒力弹簧、动力荷载与辅助型钢 | [查看全部 83 个](./docs/SCRIPTS.zh-CN.md#2-电力行业支吊架标准库-cdzd-201083-个脚本) |
 | 化工行业支吊架标准库 (HG/T 21629) | `pyscripts/supports/hgt_21629/` | 159 | 159 | A~Y 全系列：刚性吊架、弹簧、预埋件、导向、耳轴、管鞋、保冷/高温支架、阻尼器、U 型螺栓等 | [查看全部 159 个](./docs/SCRIPTS.zh-CN.md#3-化工行业支吊架标准库-hgt-21629159-个脚本) |
 | AutoCAD Plant 3D 系统默认脚本 | `pyscripts/system_defaults/` | 160 | 0 | 支吊架（49）、管件（36）、法兰垫片盲板（15）、直管管嘴支管台（10）、阀门执行机构（33）、仪表（9）、设备泵（8） | [查看全部 160 个](./docs/SCRIPTS.zh-CN.md#4-autocad-plant-3d-system-defaults-系统默认脚本160-个脚本) |
-| **合计** | **`pyscripts/`** | **494** | **313** | 全部 494 个脚本均已通过 PyOCC 离屏三维实体渲染验证 | [打开全量图文目录](./docs/SCRIPTS.zh-CN.md) |
+| **合计** | **`pyscripts/`** | **572** | **412** | 已通过 PyOCC 离屏三维实体渲染与 Plant 3D 目录解析校验 | [查看自定义元件库说明](./pyscripts/custom_scripts/README.md) |
 
 ## 快速安装
 
@@ -175,7 +175,7 @@ npm start
 python plant3d_occ/main.py
 
 # 或直接打开指定构件脚本
-python plant3d_occ/main.py pyscripts/custom_scripts/03_valves/VALVE_GATE.py
+python plant3d_occ/main.py pyscripts/custom_scripts/03_valves/VALVE_GATE_GBT12221.py
 ```
 
 ### 在 AutoCAD Plant 3D 中运行
@@ -183,7 +183,7 @@ python plant3d_occ/main.py pyscripts/custom_scripts/03_valves/VALVE_GATE.py
 部署 `P3dPyPad.bundle` 并启动 AutoCAD Plant 3D 后：
 
 1. 在命令行输入 `PYPAD`（或点击 P3dPyPad Ribbon 面板按钮）。
-2. 加载脚本（例如 `pyscripts/custom_scripts/03_valves/VALVE_GATE.py`）。
+2. 加载脚本（例如 `pyscripts/custom_scripts/03_valves/VALVE_GATE_GBT12221.py`）。
 3. 按 `F5` 在当前图纸中即时生成或热更新三维构件实体。
 
 ## 命令参考
