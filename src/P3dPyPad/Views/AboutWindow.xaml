@@ -6,81 +6,94 @@
         SizeToContent="Height"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        ShowInTaskbar="False">
+        ShowInTaskbar="False"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/P3dPyPad;component/Theme/Theme.xaml" />
+                <ResourceDictionary Source="/P3dPyPad;component/Theme/DefaultMetrics.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Background="{StaticResource Brush.WindowBackground}">
+    <Grid Margin="12">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Header Card -->
-        <Border Grid.Row="0"
-                Background="{StaticResource Brush.Surface}"
-                BorderBrush="{StaticResource Brush.Border}"
-                BorderThickness="0,0,0,1"
-                Padding="{StaticResource Layout.HeaderPadding}">
+        <Border Grid.Row="0" Style="{StaticResource Panel.Card}" Margin="0,0,0,8">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="P3dPyPad"
-                           FontSize="{StaticResource FontSize.Display}"
-                           FontWeight="Bold"
-                           Foreground="{StaticResource Brush.Accent}" />
-                <TextBlock Text="{DynamicResource Loc.AboutDesc}"
-                           Style="{StaticResource Text.Body}"
-                           Margin="0,4,0,2" />
-                <TextBlock Text="{DynamicResource Loc.AboutVersion}"
-                           Style="{StaticResource Text.Caption}"
-                           Foreground="{StaticResource Brush.Text.Secondary}" />
+                <TextBlock Text="P3dPyPad" FontSize="16" FontWeight="SemiBold" />
+                <TextBlock Text="{DynamicResource Loc.AboutDesc}" Margin="0,4,0,2" />
+                <TextBlock Text="{DynamicResource Loc.AboutVersion}" Foreground="{x:Static SystemColors.GrayTextBrush}" />
             </StackPanel>
         </Border>
 
-        <!-- Feature List -->
-        <Border Grid.Row="1"
-                Background="{StaticResource Brush.SurfaceAlt}"
-                BorderBrush="{StaticResource Brush.Border}"
-                BorderThickness="0,0,0,1"
-                Padding="{StaticResource Layout.StatusBarPadding}">
+        <GroupBox Grid.Row="1" Header="核心功能" Margin="0,0,0,8">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="核心功能："
-                           FontWeight="SemiBold"
-                           Style="{StaticResource Text.Caption}"
-                           Margin="0,0,0,6" />
-                <TextBlock Text="• 脚本测试 (PYPAD)：单件参数化脚本热更新与 3D 实时建模"
-                           Style="{StaticResource Text.Caption}"
-                           Margin="0,2" />
-                <TextBlock Text="• 批量测试 (PYBATCH)：构件目录全自动批量运行、截图检验与测试报告"
-                           Style="{StaticResource Text.Caption}"
-                           Margin="0,2" />
-                <TextBlock Text="• 双语切换 (PYLANG)：中英文界面即时切换，无缝适配多语言"
-                           Style="{StaticResource Text.Caption}"
-                           Margin="0,2" />
+                <TextBlock Text="• 脚本测试 (PYPAD)：参数化脚本热更新与 3D 实时建模" Margin="0,2" />
+                <TextBlock Text="• 批量测试 (PYBATCH)：构件目录自动批量运行与出图检验" Margin="0,2" />
+                <TextBlock Text="• 创建设备 (PYEQCREATE)：搜索选型、缩放预览与 3D 实时放置设备" Margin="0,2" />
+                <TextBlock Text="• 双语切换 (PYLANG)：中英文界面即时切换" Margin="0,2" />
             </StackPanel>
-        </Border>
+        </GroupBox>
 
-        <!-- Bottom Action Bar -->
-        <Border Grid.Row="2"
-                Background="{StaticResource Brush.Surface}"
-                Padding="{StaticResource Layout.StatusBarPadding}">
-            <DockPanel LastChildFill="False">
-                <TextBlock Text="Plant 3D Parametric Components Toolset"
-                           Style="{StaticResource Text.Caption}"
-                           Foreground="{StaticResource Brush.Text.Secondary}"
-                           VerticalAlignment="Center"
-                           DockPanel.Dock="Left" />
-                <Button Content="{DynamicResource Loc.Close}"
-                        Style="{StaticResource Button.Primary}"
-                        Height="{StaticResource Layout.ControlHeight}"
-                        Click="OkButton_Click"
-                        DockPanel.Dock="Right" />
-            </DockPanel>
-        </Border>
+        <GroupBox Grid.Row="2" Header="{DynamicResource Loc.AboutLinksHeader}" Margin="0,0,0,10">
+            <Grid Margin="2,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="{DynamicResource Loc.AboutRepoLabel}"
+                           Foreground="{x:Static SystemColors.GrayTextBrush}"
+                           Margin="0,3,6,3" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,3" TextWrapping="Wrap">
+                    <Hyperlink NavigateUri="https://github.com/zly258/P3dPyPad"
+                               RequestNavigate="Hyperlink_RequestNavigate">https://github.com/zly258/P3dPyPad</Hyperlink>
+                </TextBlock>
+
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="{DynamicResource Loc.AboutEmailLabel}"
+                           Foreground="{x:Static SystemColors.GrayTextBrush}"
+                           Margin="0,3,6,3" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,3" TextWrapping="Wrap">
+                    <Hyperlink NavigateUri="mailto:zhangly1403@gmail.com"
+                               RequestNavigate="Hyperlink_RequestNavigate">zhangly1403@gmail.com</Hyperlink>
+                </TextBlock>
+
+                <TextBlock Grid.Row="2" Grid.Column="0"
+                           Text="{DynamicResource Loc.AboutSponsorLabel}"
+                           Foreground="{x:Static SystemColors.GrayTextBrush}"
+                           Margin="0,3,6,3" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,3" TextWrapping="Wrap">
+                    <Hyperlink NavigateUri="https://ifdian.net/order/create?user_id=3db8e630e6dc11f1b37452540025c377"
+                               ToolTip="https://ifdian.net/order/create?user_id=3db8e630e6dc11f1b37452540025c377"
+                               RequestNavigate="Hyperlink_RequestNavigate">
+                        <Run Text="{DynamicResource Loc.AboutSponsorText}" />
+                    </Hyperlink>
+                </TextBlock>
+            </Grid>
+        </GroupBox>
+
+        <DockPanel Grid.Row="3" LastChildFill="False">
+            <TextBlock Text="AutoCAD Plant 3D 2019–2026"
+                       Foreground="{x:Static SystemColors.GrayTextBrush}"
+                       DockPanel.Dock="Left" />
+            <Button Content="{DynamicResource Loc.Close}"
+                    IsCancel="True"
+                    Click="OkButton_Click"
+                    DockPanel.Dock="Right" />
+        </DockPanel>
     </Grid>
 </Window>
