@@ -10,10 +10,27 @@
 import os
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from ..catalog.manager import load_catalog_config, save_catalog_config
+from ..catalog.destinations import (
+    LOCKED_SUPPORT_CATALOG_FILE,
+    LOCKED_SUPPORT_SPEC_FILE,
+    PREFERRED_SUPPORT_SPEC_FILE,
+    is_support_catalog,
+    locked_catalog_reason,
+    locked_spec_reason,
+    spec_filename,
+)
+from ..catalog.manager import (
+    create_project_spec,
+    create_user_catalog,
+    list_spec_files,
+    load_catalog_config,
+    save_catalog_config,
+)
 from ..catalog.model import inspect_script, iter_scripts
 from ..catalog.publish import REGISTER_HINT
+from .content_dir_box import ContentDirBox
 from .i18n import tr
+from .new_spec_dialog import ask_new_spec
 from .page_layout import make_action_bar, make_action_button
 from .progress import ThreadTask
 from .publish_process import PublishProcess
@@ -62,6 +79,7 @@ class ComponentPublishPage(QtWidgets.QWidget):
 
     def ensure_loaded(self):
         if not self._loaded:
+            self._refresh_destinations()
             self.reload_scripts()
 
     def set_scripts_root(self, root_dir: str):
@@ -84,8 +102,8 @@ class ComponentPublishPage(QtWidgets.QWidget):
         self.lbl_content_dir.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
         row.addWidget(self.lbl_content_dir)
 
-        self.txt_content = QtWidgets.QLineEdit(self._cfg.get("content_dir", ""), self)
-        self.txt_content.setFixedHeight(26)
+        self.txt_content = ContentDirBox(self._cfg.get("content_dir", ""), self)
+        self.txt_content.editingFinished.connect(self._on_content_changed)
         row.addWidget(self.txt_content, stretch=1)
 
         self.btn_browse = QtWidgets.QPushButton(tr("tree_btn_browse"), self)
@@ -93,6 +111,37 @@ class ComponentPublishPage(QtWidgets.QWidget):
         self.btn_browse.clicked.connect(self._browse_content)
         row.addWidget(self.btn_browse)
         box.addLayout(row)
+
+        dest = QtWidgets.QHBoxLayout()
+        dest.setSpacing(6)
+        self.lbl_catalog = QtWidgets.QLabel("元件库:", self)
+        dest.addWidget(self.lbl_catalog)
+        self.combo_catalog = QtWidgets.QComboBox(self)
+        self.combo_catalog.setFixedHeight(26)
+        self.combo_catalog.setMinimumWidth(220)
+        self.combo_catalog.currentIndexChanged.connect(self._update_dest_hint)
+        dest.addWidget(self.combo_catalog, stretch=1)
+        self.btn_new_catalog = QtWidgets.QPushButton("新建元件库", self)
+        self.btn_new_catalog.setFixedHeight(26)
+        self.btn_new_catalog.clicked.connect(self._new_catalog)
+        dest.addWidget(self.btn_new_catalog)
+        self.lbl_spec = QtWidgets.QLabel("等级库:", self)
+        dest.addWidget(self.lbl_spec)
+        self.combo_spec = QtWidgets.QComboBox(self)
+        self.combo_spec.setFixedHeight(26)
+        self.combo_spec.setMinimumWidth(220)
+        self.combo_spec.currentIndexChanged.connect(self._update_dest_hint)
+        dest.addWidget(self.combo_spec, stretch=1)
+        self.btn_new_spec = QtWidgets.QPushButton("新建等级库", self)
+        self.btn_new_spec.setFixedHeight(26)
+        self.btn_new_spec.clicked.connect(self._new_spec)
+        dest.addWidget(self.btn_new_spec)
+        box.addLayout(dest)
+
+        self.lbl_dest_hint = QtWidgets.QLabel("", self)
+        self.lbl_dest_hint.setWordWrap(True)
+        self.lbl_dest_hint.setObjectName("actionHint")
+        box.addWidget(self.lbl_dest_hint)
 
         # 2. 紧凑工具栏：构件类型筛选 + 全选/全不选/反选 + 实时搜索 + 重新扫描
         #    (全选/全不选/反选位置与发布设备页一致)
@@ -150,7 +199,7 @@ class ComponentPublishPage(QtWidgets.QWidget):
         # 3. 操作栏：所有页面统一放在表格上方，主操作按钮固定在右侧
         action_bar = make_action_bar()
         self.lbl_action_hint = QtWidgets.QLabel(
-            "发布后自动写入对应元件库，无需再手动入库", self)
+            "支吊架元件库仍进 SUPPORTS Catalog metric；等级跟上面的选择走，例如 PipeSupports", self)
         self.lbl_action_hint.setObjectName("actionHint")
         action_bar.addWidget(self.lbl_action_hint)
         action_bar.addStretch()
@@ -194,6 +243,7 @@ class ComponentPublishPage(QtWidgets.QWidget):
         self.log.setFixedHeight(85)
         self.log.setReadOnly(True)
         box.addWidget(self.log)
+        self._refresh_destinations()
 
     def _populate_type_combo(self):
         cur_data = self.filter_box.currentData() if self.filter_box.count() > 0 else "ALL"
@@ -471,13 +521,138 @@ class ComponentPublishPage(QtWidgets.QWidget):
                 for r in range(self.table.rowCount())
                 if self.table.item(r, 0).checkState() == QtCore.Qt.Checked]
 
+    def _content_dir(self):
+        return self.txt_content.text().strip()
+
+    def _project_spec_dir(self):
+        cfg = load_catalog_config()
+        return cfg.get("project_spec_dir") or ""
+
+    def _refresh_destinations(self):
+        content = self._content_dir()
+        prev_catalog = self.combo_catalog.currentData()
+        prev_spec = self.combo_spec.currentData()
+        self.combo_catalog.blockSignals(True)
+        self.combo_spec.blockSignals(True)
+        self.combo_catalog.clear()
+        if content and os.path.isdir(content):
+            for fn in sorted(os.listdir(content)):
+                if not fn.lower().endswith((".pcat", ".acat")):
+                    continue
+                path = os.path.join(content, fn)
+                if not os.path.isfile(path):
+                    continue
+                label = fn
+                reason = locked_catalog_reason(fn)
+                if reason:
+                    label += "  （固定）"
+                self.combo_catalog.addItem(label, path)
+        preferred = os.path.join(content, "CustomParts Metric Catalog.pcat") if content else ""
+        idx = self.combo_catalog.findData(prev_catalog) if prev_catalog else -1
+        if idx < 0 and preferred:
+            idx = self.combo_catalog.findData(preferred)
+        if idx >= 0:
+            self.combo_catalog.setCurrentIndex(idx)
+
+        self.combo_spec.clear()
+        self.combo_spec.addItem("不加入等级库", "")
+        spec_dir = self._project_spec_dir()
+        for item in list_spec_files(content, spec_dir, include_content_dir=False):
+            label = item["file"]
+            if locked_spec_reason(item["file"]):
+                label += "  （固定）"
+            self.combo_spec.addItem(label, item["path"])
+        if prev_spec is None:
+            for prefer in (PREFERRED_SUPPORT_SPEC_FILE, LOCKED_SUPPORT_SPEC_FILE):
+                for i in range(self.combo_spec.count()):
+                    path = self.combo_spec.itemData(i) or ""
+                    if os.path.basename(path).lower() == prefer.lower():
+                        self.combo_spec.setCurrentIndex(i)
+                        prefer = ""
+                        break
+                if not prefer:
+                    break
+        else:
+            idx = self.combo_spec.findData(prev_spec)
+            if idx >= 0:
+                self.combo_spec.setCurrentIndex(idx)
+        self.combo_catalog.blockSignals(False)
+        self.combo_spec.blockSignals(False)
+        self._update_dest_hint()
+
+    def _update_dest_hint(self, _index=0):
+        catalog = os.path.basename(self.combo_catalog.currentData() or "")
+        spec = os.path.basename(self.combo_spec.currentData() or "") or "不加入"
+        spec_dir = self._project_spec_dir()
+        where = spec_dir or "（还没选项目，请先到等级库页指定）"
+        self.lbl_dest_hint.setText(
+            "元件库只放在 CPak Common。固定库不能改名，可以另建。"
+            "等级只放在项目等级表：%s。当前：元件库 %s，等级 %s。"
+            "支吊架元件库始终写入 %s，不跟元件库下拉走。等级用当前选择；"
+            "选「不加入」时，支吊架才回退到项目里的 %s。"
+            % (where, catalog or "未选", spec, LOCKED_SUPPORT_CATALOG_FILE, LOCKED_SUPPORT_SPEC_FILE)
+        )
+
+    def _new_catalog(self):
+        content = self._content_dir()
+        if not content or not os.path.isdir(content):
+            self.log.appendPlainText("请先填写 CPak Common 目录。")
+            return
+        name, ok = QtWidgets.QInputDialog.getText(
+            self, "新建元件库", "名称（放在 CPak Common，不要用原厂固定名）:")
+        if not ok or not name.strip():
+            return
+        kind = "instrumentation" if "instrument" in name.lower() else "piping"
+        try:
+            info = create_user_catalog(content, name.strip(), kind=kind)
+        except Exception as exc:
+            QtWidgets.QMessageBox.warning(self, "新建元件库", str(exc))
+            return
+        self._refresh_destinations()
+        idx = self.combo_catalog.findData(info["catalog_path"])
+        if idx >= 0:
+            self.combo_catalog.setCurrentIndex(idx)
+        self.log.appendPlainText("已新建元件库 " + info["catalog_file"])
+
+    def _new_spec(self):
+        spec_dir = self._project_spec_dir()
+        if not spec_dir or not os.path.isdir(spec_dir):
+            QtWidgets.QMessageBox.information(
+                self, "新建等级库", "请先在「等级库管理」页指定项目或等级库工作表目录。")
+            return
+        asked = ask_new_spec(self)
+        if not asked:
+            return
+        name, include_pipe = asked
+        try:
+            spec_filename(name)
+            info = create_project_spec(spec_dir, name, include_pipe=include_pipe)
+        except Exception as exc:
+            QtWidgets.QMessageBox.warning(self, "新建等级库", str(exc))
+            return
+        self._refresh_destinations()
+        idx = self.combo_spec.findData(info["spec_path"])
+        if idx >= 0:
+            self.combo_spec.setCurrentIndex(idx)
+        note = "已新建等级库 " + info["spec_file"]
+        if info.get("pipe_note"):
+            note += "。" + info["pipe_note"]
+        self.log.appendPlainText(note)
+
+    def _on_content_changed(self):
+        folder = self._content_dir()
+        if not folder:
+            return
+        save_catalog_config({"content_dir": folder})
+        self._refresh_destinations()
+        self.reload_scripts()
+
     def _browse_content(self):
         folder = QtWidgets.QFileDialog.getExistingDirectory(
             self, "选择 CPak Common", self.txt_content.text())
         if folder:
             self.txt_content.setText(folder)
-            save_catalog_config({"content_dir": folder})
-            self.reload_scripts()
+            self._on_content_changed()
 
     def _publish(self):
         paths = self._selected_paths()
@@ -488,10 +663,19 @@ class ComponentPublishPage(QtWidgets.QWidget):
         if not content:
             self.log.appendPlainText("请填写 CPak Common 内容目录。")
             return
+        catalog_path = self.combo_catalog.currentData() or ""
+        catalog_file = os.path.basename(catalog_path)
+        catalog_name = os.path.splitext(catalog_file)[0]
+        if is_support_catalog(catalog_file):
+            catalog_file = ""
+            catalog_name = ""
+        project_spec = self.combo_spec.currentData() or ""
+        spec_dir = self._project_spec_dir()
         save_catalog_config({
             "content_dir": content,
             "auto_generate_sizes": True,
             "write_preview": True,
+            "piping_catalog": catalog_file or "CustomParts Metric Catalog.pcat",
         })
 
         self.btn_run.setEnabled(False)
@@ -503,7 +687,9 @@ class ComponentPublishPage(QtWidgets.QWidget):
         # 否则会原生 access violation 闪退。
         self._publish_task = PublishProcess(
             paths, content, include_equipment=False,
-            auto_generate_sizes=True, write_preview=True, parent=self)
+            auto_generate_sizes=True, write_preview=True, parent=self,
+            catalog_file=catalog_file, catalog_name=catalog_name,
+            project_spec=project_spec, project_spec_dir=spec_dir)
         self._publish_task.progress.connect(self._on_publish_progress)
         self._publish_task.finished.connect(self._on_publish_finished)
         self._publish_task.failed.connect(self._on_publish_failed)

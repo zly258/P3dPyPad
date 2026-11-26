@@ -538,6 +538,9 @@ class Plant3dOccAppWindow(QtWidgets.QMainWindow):
         self.main_tabs.addTab(self.catalog_page, tr("tab_manage_catalog", "元件库管理"))
         self.main_tabs.addTab(self.spec_page, tr("tab_manage_spec", "等级库管理"))
         self.main_tabs.currentChanged.connect(self._on_tab_changed)
+        for page in (self.catalog_page, self.spec_page):
+            if hasattr(page, "status_message"):
+                page.status_message.connect(self._on_page_status)
 
     def _on_tab_changed(self, idx: int):
         """Tab 切换时按需惰性加载数据，切回 3D 视口时平滑同步尺寸，防止任何卡顿与闪退。"""
@@ -579,6 +582,12 @@ class Plant3dOccAppWindow(QtWidgets.QMainWindow):
     def _scripts_root(self):
         """发布/管理页共用的脚本根目录。"""
         return get_default_scripts_dir()
+
+    def _on_page_status(self, message: str):
+        """各页操作结果都进窗口左下角任务栏，不跟当前 Tab 走。"""
+        text = str(message or "").strip()
+        if text:
+            self.lbl_status.setText(text)
 
     def _begin_loading(self, message: str, done: int = None, total: int = None):
         """开启底部任务状态栏与窗口 Loading；总量已知时显示确定进度百分比，未知时流动条。"""

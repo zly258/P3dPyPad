@@ -80,6 +80,7 @@ class TestProjectSpecManager(unittest.TestCase):
                 "CUSTOM_SPEC_01",
                 donor_spec_path=donor_source,
                 description="Custom Petrochem Spec 01",
+                include_pipe=False,
             )
             self.assertTrue(res["ok"])
             self.assertEqual(res["spec_file"], "CUSTOM_SPEC_01.pspc")

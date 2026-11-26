@@ -23,6 +23,7 @@ from ..catalog.manager import (
 )
 from ..catalog.model import inspect_script, iter_scripts
 from ..catalog.publish import REGISTER_HINT
+from .content_dir_box import ContentDirBox
 from .i18n import tr
 from .page_layout import make_action_bar, make_action_button
 from .progress import ThreadTask
@@ -76,8 +77,8 @@ class EquipmentPublishPage(QtWidgets.QWidget):
         self.lbl_content_dir.setFixedWidth(135)
         self.lbl_content_dir.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
         row.addWidget(self.lbl_content_dir)
-        self.txt_content = QtWidgets.QLineEdit(self._cfg.get("content_dir", ""), self)
-        self.txt_content.setFixedHeight(26)
+        self.txt_content = ContentDirBox(self._cfg.get("content_dir", ""), self)
+        self.txt_content.editingFinished.connect(self._on_content_changed)
         row.addWidget(self.txt_content, stretch=1)
         self.btn_browse = QtWidgets.QPushButton(tr("tree_btn_browse"), self)
         self.btn_browse.setFixedSize(65, 26)
@@ -391,13 +392,19 @@ class EquipmentPublishPage(QtWidgets.QWidget):
                 for r in range(self.table.rowCount())
                 if self.table.item(r, 0).checkState() == QtCore.Qt.Checked]
 
+    def _on_content_changed(self):
+        folder = self.txt_content.text().strip()
+        if not folder:
+            return
+        save_catalog_config({"content_dir": folder})
+        self._fill_table()
+
     def _browse_content(self):
         folder = QtWidgets.QFileDialog.getExistingDirectory(
             self, "选择 CPak Common", self.txt_content.text())
         if folder:
             self.txt_content.setText(folder)
-            save_catalog_config({"content_dir": folder})
-            self._fill_table()
+            self._on_content_changed()
 
     def _publish(self):
         paths = self._selected_paths()

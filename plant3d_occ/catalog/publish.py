@@ -27,16 +27,41 @@ class PublishResult(object):
         self.catalog = catalog
 
 
+def _sync_published_spec(job, catalog_path, project_spec, project_spec_dir,
+                         content_dir, state, on_progress):
+    """选了项目等级就写入那一份，支吊架也同样。
+
+    规格查看器能打开任意等级（例如 PipeSupports）。只有没选等级时，
+    支吊架才回退到 PipeSupportsSpec，因为功能区「添加支吊架」默认找这个名字。
+    """
+    spec_path = project_spec or ""
+    if not spec_path and job.get("domain") == "support" and project_spec_dir:
+        if not state.get("support"):
+            from .destinations import LOCKED_SUPPORT_SPEC_FILE
+            from .manager import ensure_project_spec_copy
+            state["support"] = ensure_project_spec_copy(
+                project_spec_dir, content_dir, LOCKED_SUPPORT_SPEC_FILE)
+        spec_path = state.get("support") or ""
+        if not spec_path:
+            return "。未选等级，且项目里没有 PipeSupportsSpec，支吊架只写进了 CPak Common"
+    if not spec_path:
+        return ""
+    try:
+        from .manager import add_catalog_item_to_spec
+        add_catalog_item_to_spec(catalog_path, spec_path, job["stem"])
+        return "。已加入项目等级 " + os.path.basename(spec_path)
+    except Exception as exc:
+        _tell(on_progress, "加入等级失败 %s：%s" % (job["stem"], exc))
+        return "。加入等级失败: " + str(exc)
+
+
 def _support_spec_override():
-    """读取用户配置里的支吊架等级文件名（如 PipeSupports.pspc），未配置时返回 None 用原厂默认。"""
-    return _fixed_spec_override("support_spec")
+    """不再用配置项 support_spec 覆盖等级。界面选了哪一份就写哪一份；没选才回退 PipeSupportsSpec。"""
+    return None
 
 
 def _instrument_spec_override():
-    """读取用户配置里的仪表等级文件名，未配置时返回 None 用原厂默认 Instrumentation Metric.pspc。
-
-    仪表等级是固定的：不允许用户随意指定其他等级，仪表永远进仪表库。
-    """
+    """仪表等级不是 Plant 写死的。保留配置读取，仅当用户显式配置时才用。"""
     return _fixed_spec_override("instrument_spec")
 
 
@@ -101,6 +126,10 @@ def publish_scripts(
     auto_generate_sizes=True,
     equipment_type=None,
     include_equipment=True,
+    catalog_file=None,
+    catalog_name=None,
+    project_spec=None,
+    project_spec_dir=None,
 ):
     """把若干脚本写入元件库和等级库（设备则生成 .peqx），并自动生成带字母标注的轴测预览图与注册元数据。
 
@@ -108,10 +137,11 @@ def publish_scripts(
     用于在设备发布时由用户显式指定设备类型；传 None 时按脚本 Group 自动推断。
     include_equipment：是否允许处理设备脚本（生成 .peqx）。发布构件页传 False
     ——设备与构件分链路发布，设备脚本一律在「发布设备」页处理，绝不写元件库。
-    支吊架等级文件名由配置 support_spec 决定（默认 PipeSupportsSpec.pspc，
-    用户可改成 PipeSupports.pspc 等任意项目等级）；仪表等级由 instrument_spec
-    决定（默认 Instrumentation Metric.pspc）。这两个等级是固定的，发布时不
-    跟随界面上的"目标项目等级库"下拉；管件/阀门才写入用户自选等级。
+    catalog_file：配管、阀门、仪表写入这个元件库（须在 content_dir 下）。空则用该领域原厂库。
+    支吊架忽略它，始终写入 SUPPORTS Catalog metric。
+    project_spec：发布成功后把零件加入这个项目等级（.pspc 全路径），支吊架也同样。
+    空则配管/仪表只写元件库；支吊架改写入项目里的 PipeSupportsSpec。
+    project_spec_dir：项目等级表目录，供上述回退复制 PipeSupportsSpec。
     """
     plant_root = plant_root or PLANT_CONTENT
     if content_dir is None:
@@ -121,20 +151,8 @@ def publish_scripts(
             os.makedirs(content_dir, exist_ok=True)
         except OSError as exc:
             _tell(on_progress, "无法创建内容目录 %s：%s" % (content_dir, exc))
-    # 支吊架与仪表等级是固定的（分别由 support_spec / instrument_spec 决定），
-    # 不随用户在界面上选的"目标项目等级库"变化；管件/阀门才走用户自选等级。
-    support_spec = _support_spec_override()
-    if support_spec:
-        try:
-            _ensure_support_spec_available(content_dir, support_spec, on_progress)
-        except Exception as exc:
-            _tell(on_progress, "准备支吊架等级库失败（继续发布）：" + str(exc))
-    instrument_spec = _instrument_spec_override()
-    if instrument_spec:
-        try:
-            _ensure_support_spec_available(content_dir, instrument_spec, on_progress)
-        except Exception as exc:
-            _tell(on_progress, "准备仪表等级库失败（继续发布）：" + str(exc))
+    # 等级不读 support_spec / instrument_spec。选了项目等级就进那一份；
+    # 支吊架没选等级时才回退到项目里的 PipeSupportsSpec。
     preview_display = display
     owns_preview_display = False
     if write_preview and preview_display is None:
@@ -149,6 +167,7 @@ def publish_scripts(
 
     results = []
     sessions = {}
+    pending_sync = []
     try:
         for path in paths:
             job = inspect_script(path, auto_generate_sizes=auto_generate_sizes)
@@ -218,23 +237,25 @@ def publish_scripts(
                 continue
 
             try:
-                session = sessions.get(job["domain"])
+                use_custom = bool(catalog_file) and job["domain"] != "support"
+                session_key = (job["domain"], catalog_file if use_custom else "")
+                session = sessions.get(session_key)
                 if session is None:
-                    # 等级固定分流：支吊架→support_spec，仪表→instrument_spec，
-                    # 其余（管件/阀门）用领域默认 CustomParts Metric.pspc
-                    spec_override = None
-                    if job["domain"] == "support":
-                        spec_override = support_spec
-                    elif job["domain"] == "instrumentation":
-                        spec_override = instrument_spec
+                    # 有项目等级可写时，支吊架只更新元件库，避免改写 CPak Common 里的等级母本。
+                    support_catalog_only = job["domain"] == "support" and bool(project_spec or project_spec_dir)
                     session = LibrarySession(
                         content_dir, plant_root, job["domain"],
-                        spec_file_override=spec_override,
+                        catalog_file_override=(catalog_file if use_custom else None),
+                        catalog_name_override=(catalog_name if use_custom else None),
+                        catalog_only=True if support_catalog_only else None,
                     )
                     session.open()
-                    sessions[job["domain"]] = session
-                    _tell(on_progress, "已准备 " + session.info["catalog_name"]
-                          + " -> " + os.path.basename(session.spec_path))
+                    sessions[session_key] = session
+                    if session.spec is None:
+                        _tell(on_progress, "已准备元件库 " + session.info["catalog_name"])
+                    else:
+                        _tell(on_progress, "已准备 " + session.info["catalog_name"]
+                              + " -> " + os.path.basename(session.spec_path))
                 session.mark()
                 try:
                     family = session.write_family(job)
@@ -263,7 +284,9 @@ def publish_scripts(
                         note += "。预览图失败: " + str(exc)
                 elif write_preview:
                     note += "。未生成预览图"
-                results.append(PublishResult(path, "published", note, session.info["catalog_name"]))
+                result = PublishResult(path, "published", note, session.info["catalog_name"])
+                results.append(result)
+                pending_sync.append((result, job, session.catalog_path))
                 _tell(on_progress, "完成 %s" % job["stem"])
             except Exception as exc:
                 results.append(PublishResult(path, "failed", str(exc)))
@@ -273,6 +296,15 @@ def publish_scripts(
             session.close()
         if owns_preview_display and preview_display is not None:
             close_display(preview_display)
+    # 等元件库事务提交后再读，否则加入等级会撞上未提交的写锁。
+    sync_state = {}
+    for result, job, catalog_path in pending_sync:
+        extra = _sync_published_spec(
+            job, catalog_path, project_spec, project_spec_dir,
+            content_dir, sync_state, on_progress)
+        if extra:
+            result.message += extra
+            _tell(on_progress, job["stem"] + extra)
     if any(item.status == "published" for item in results):
         _tell(on_progress, REGISTER_HINT)
     return results

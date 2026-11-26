@@ -16,6 +16,7 @@ from ..catalog.manager import (
     query_published_items,
     save_catalog_config,
 )
+from .content_dir_box import ContentDirBox
 from .i18n import tr
 from .page_layout import make_action_bar, make_action_button
 from .progress import InlineProgressBar, ThreadTask
@@ -67,10 +68,7 @@ class CatalogManagerPage(QtWidgets.QWidget):
         self.lbl_content_dir.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
         cfg.addWidget(self.lbl_content_dir)
 
-        self.txt_content_dir = QtWidgets.QLineEdit(
-            self._config.get("content_dir", ""), self)
-        self.txt_content_dir.setFixedHeight(26)
-        self.txt_content_dir.setPlaceholderText(tr("cat_txt_placeholder"))
+        self.txt_content_dir = ContentDirBox(self._config.get("content_dir", ""), self)
         self.txt_content_dir.editingFinished.connect(self._on_content_dir_changed)
         cfg.addWidget(self.txt_content_dir, stretch=1)
 
@@ -159,6 +157,12 @@ class CatalogManagerPage(QtWidgets.QWidget):
         self.table_items.setColumnWidth(4, 85)
         hdr.setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
 
+        self.log = QtWidgets.QPlainTextEdit(self)
+        self.log.setFixedHeight(85)
+        self.log.setReadOnly(True)
+        self.log.setPlaceholderText("本页操作日志")
+        root.addWidget(self.log)
+
         self.progress_bar_widget = InlineProgressBar(self)
         root.addWidget(self.progress_bar_widget)
 
@@ -208,7 +212,17 @@ class CatalogManagerPage(QtWidgets.QWidget):
     def _on_refresh_clicked(self):
         self.refresh_catalog_data(force=True, show_progress=True)
 
+    def _note(self, message):
+        text = str(message or "").strip()
+        if not text:
+            return
+        if hasattr(self, "log"):
+            self.log.appendPlainText(text)
+        self.status_message.emit(text)
+
     def _show_progress(self, text, done=0, total=0):
+        if text:
+            self.status_message.emit(text)
         if total and total > 0:
             self.progress_bar_widget.set_progress(text, done, total)
         else:
@@ -277,7 +291,7 @@ class CatalogManagerPage(QtWidgets.QWidget):
         self.btn_refresh.setEnabled(True)
         self._hide_progress()
         self.lbl_summary.setText("元件库检索失败，请检查目录与数据库是否被占用")
-        self.status_message.emit("元件库检索失败: " + detail.strip().splitlines()[-1])
+        self._note("元件库检索失败: " + detail.strip().splitlines()[-1])
 
     def _apply_filter(self):
         q = self.txt_search.text().strip().lower()
@@ -462,8 +476,9 @@ class CatalogManagerPage(QtWidgets.QWidget):
         deleted = summary.get("deleted", 0)
         total_rows = summary.get("total_rows", 0)
         errors = summary.get("errors") or []
-        self.status_message.emit(
-            f"已从元件库移除 {deleted} 个构件（共 {total_rows} 条记录）")
+        self._note(f"已从元件库移除 {deleted} 个构件（共 {total_rows} 条记录）")
+        if errors:
+            self._note("部分失败: " + "；".join(errors[:5]))
         if errors:
             QtWidgets.QMessageBox.warning(
                 self, "部分移除失败", "\n".join(errors[:10]))
@@ -474,6 +489,7 @@ class CatalogManagerPage(QtWidgets.QWidget):
         self.btn_refresh.setEnabled(True)
         self.btn_remove.setEnabled(True)
         self._hide_progress()
+        self._note("移除失败: " + detail.strip().splitlines()[-1])
         QtWidgets.QMessageBox.critical(
             self, "移除失败", "删除过程中发生异常:\n" + detail[-1200:])
 

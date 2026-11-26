@@ -11,8 +11,17 @@ from typing import List
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
+from ..catalog.destinations import (
+    LOCKED_SUPPORT_SPEC_FILE,
+    PREFERRED_SUPPORT_SPEC_FILE,
+    is_support_catalog,
+    locked_catalog_reason,
+    locked_spec_reason,
+    spec_filename,
+)
 from ..catalog.manager import (
     add_catalog_item_to_spec,
+    create_project_spec,
     list_spec_files,
     load_catalog_config,
     remove_item_from_spec,
@@ -20,7 +29,9 @@ from ..catalog.manager import (
     save_catalog_config,
 )
 from ..catalog.model import inspect_script
+from .content_dir_box import ContentDirBox
 from .i18n import tr
+from .new_spec_dialog import ask_new_spec
 from .page_layout import make_action_bar, make_action_button
 from .progress import InlineProgressBar, ThreadTask
 from .thumbnails import find_script_thumbnail, make_thumbnail_item
@@ -135,9 +146,7 @@ class SpecManagerPage(QtWidgets.QWidget):
         self.lbl_content_dir.setFixedWidth(135)
         self.lbl_content_dir.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
         cfg.addWidget(self.lbl_content_dir)
-        self.txt_content_dir = QtWidgets.QLineEdit(
-            self._config.get("content_dir", ""), self)
-        self.txt_content_dir.setFixedHeight(26)
+        self.txt_content_dir = ContentDirBox(self._config.get("content_dir", ""), self)
         self.txt_content_dir.editingFinished.connect(self._on_content_dir_changed)
         cfg.addWidget(self.txt_content_dir, stretch=1)
         self.btn_browse = QtWidgets.QPushButton(tr("tree_btn_browse"), self)
@@ -184,6 +193,10 @@ class SpecManagerPage(QtWidgets.QWidget):
         self.combo_spec.setMinimumWidth(230)
         self.combo_spec.currentIndexChanged.connect(self._on_selector_changed)
         tools.addWidget(self.combo_spec)
+        self.btn_new_spec = QtWidgets.QPushButton("新建等级库", self)
+        self.btn_new_spec.setFixedHeight(26)
+        self.btn_new_spec.clicked.connect(self._new_spec)
+        tools.addWidget(self.btn_new_spec)
 
         self.btn_select_all = QtWidgets.QPushButton("全选", self)
         self.btn_select_all.setFixedHeight(26)
@@ -212,9 +225,14 @@ class SpecManagerPage(QtWidgets.QWidget):
         tools.addWidget(self.lbl_count)
         root.addLayout(tools)
 
+        self.lbl_rule = QtWidgets.QLabel("", self)
+        self.lbl_rule.setWordWrap(True)
+        self.lbl_rule.setObjectName("actionHint")
+        root.addWidget(self.lbl_rule)
+
         action_bar = make_action_bar()
         self.lbl_action_hint = QtWidgets.QLabel(
-            "勾选构件后，可批量加入所选等级库或从等级库移除", self)
+            "勾选后加入当前等级，或从当前等级移除。元件库里的记录不动。", self)
         self.lbl_action_hint.setObjectName("actionHint")
         action_bar.addWidget(self.lbl_action_hint)
         action_bar.addStretch()
@@ -252,6 +270,12 @@ class SpecManagerPage(QtWidgets.QWidget):
         hdr.setSectionResizeMode(4, QtWidgets.QHeaderView.Fixed)
         self.table.setColumnWidth(4, 110)
         hdr.setSectionResizeMode(5, QtWidgets.QHeaderView.Stretch)
+
+        self.log = QtWidgets.QPlainTextEdit(self)
+        self.log.setFixedHeight(85)
+        self.log.setReadOnly(True)
+        self.log.setPlaceholderText("本页操作日志")
+        root.addWidget(self.log)
 
         self.progress_bar_widget = InlineProgressBar(self)
         root.addWidget(self.progress_bar_widget)
@@ -344,7 +368,10 @@ class SpecManagerPage(QtWidgets.QWidget):
         self.combo_catalog.blockSignals(True)
         self.combo_catalog.clear()
         for item in catalogs:
-            self.combo_catalog.addItem(item["file"], item["path"])
+            label = item["file"]
+            if locked_catalog_reason(item["file"]):
+                label += "  （固定名）"
+            self.combo_catalog.addItem(label, item["path"])
         if prev_catalog:
             idx = self.combo_catalog.findData(prev_catalog)
             if idx >= 0:
@@ -353,22 +380,89 @@ class SpecManagerPage(QtWidgets.QWidget):
 
         specs = list_spec_files(
             content_dir=content,
-            project_spec_dir=self._project_spec_dir)
+            project_spec_dir=self._project_spec_dir,
+            include_content_dir=False)
         prev_spec = self.combo_spec.currentData()
         self.combo_spec.blockSignals(True)
         self.combo_spec.clear()
         for item in specs:
             label = item["file"]
-            if item.get("is_project"):
-                label += "  (项目)"
+            if locked_spec_reason(item["file"]):
+                label += "  （固定）"
             self.combo_spec.addItem(label, item["path"])
         if prev_spec:
             idx = self.combo_spec.findData(prev_spec)
             if idx >= 0:
                 self.combo_spec.setCurrentIndex(idx)
+        elif self.combo_spec.count():
+            for prefer in (PREFERRED_SUPPORT_SPEC_FILE, LOCKED_SUPPORT_SPEC_FILE):
+                hit = -1
+                for i in range(self.combo_spec.count()):
+                    path = self.combo_spec.itemData(i) or ""
+                    if os.path.basename(path).lower() == prefer.lower():
+                        hit = i
+                        break
+                if hit >= 0:
+                    self.combo_spec.setCurrentIndex(hit)
+                    break
         self.combo_spec.blockSignals(False)
+        self._apply_destination_lock()
+
+    def _apply_destination_lock(self):
+        """不锁等级下拉。规格查看器能打开任意等级，包括 PipeSupports。"""
+        catalog = os.path.basename(self.combo_catalog.currentData() or "")
+        self.combo_spec.setEnabled(True)
+        if hasattr(self, "btn_new_spec"):
+            self.btn_new_spec.setEnabled(True)
+        where = self._project_spec_dir or "还没指定项目"
+        extra = ""
+        if is_support_catalog(catalog):
+            extra = (
+                "功能区「添加支吊架」默认只自动打开 %s；"
+                "规格查看器里的 PipeSupports 等其他等级可以插入、也可以做成工具选项板。"
+                % LOCKED_SUPPORT_SPEC_FILE
+            )
+        self.lbl_rule.setText(
+            "这里只选择已有元件库，新建元件库在「发布构件」页。"
+            "等级只放在项目等级表（%s）：可以新建，也可以加入已有。%s"
+            % (where, extra)
+        )
+
+    def _note(self, message, to_log=True):
+        text = str(message or "").strip()
+        if not text:
+            return
+        if to_log and hasattr(self, "log"):
+            self.log.appendPlainText(text)
+        self.status_message.emit(text)
+
+    def _new_spec(self):
+        if not self._project_spec_dir or not os.path.isdir(self._project_spec_dir):
+            QtWidgets.QMessageBox.information(
+                self, "新建等级库", "请先指定项目根目录或等级库工作表目录。")
+            return
+        asked = ask_new_spec(self)
+        if not asked:
+            return
+        name, include_pipe = asked
+        try:
+            spec_filename(name)
+            info = create_project_spec(
+                self._project_spec_dir, name, include_pipe=include_pipe)
+        except Exception as exc:
+            QtWidgets.QMessageBox.warning(self, "新建等级库", str(exc))
+            return
+        self._populate_selectors()
+        idx = self.combo_spec.findData(info["spec_path"])
+        if idx >= 0:
+            self.combo_spec.setCurrentIndex(idx)
+        note = "已新建等级库 " + info["spec_file"]
+        if info.get("pipe_note"):
+            note += "。" + info["pipe_note"]
+        self._note(note)
 
     def _on_selector_changed(self, _index):
+        self._apply_destination_lock()
         if self._loaded:
             self.reload_items()
 
@@ -443,7 +537,7 @@ class SpecManagerPage(QtWidgets.QWidget):
         self.btn_refresh.setEnabled(True)
         self._hide_progress()
         self.lbl_count.setText("检索失败")
-        self.status_message.emit("等级库检索失败: " + detail.strip().splitlines()[-1])
+        self._note("等级库检索失败: " + detail.strip().splitlines()[-1])
 
     def _apply_filter(self):
         q = self.txt_search.text().strip().lower()
@@ -675,8 +769,9 @@ class SpecManagerPage(QtWidgets.QWidget):
         msg = "完成：成功 %d 个构件，共 %d 行" % (ok, rows)
         if skipped:
             msg += "，跳过 %d 个" % skipped
-        self.status_message.emit(msg)
+        self._note(msg)
         if errors:
+            self._note("部分失败: " + "；".join(errors[:5]))
             QtWidgets.QMessageBox.warning(
                 self, "部分操作失败", "\n".join(errors[:10]))
         self._checked_stems.clear()
@@ -688,10 +783,12 @@ class SpecManagerPage(QtWidgets.QWidget):
         self.btn_remove.setEnabled(True)
         self.btn_refresh.setEnabled(True)
         self._hide_progress()
+        self._note("等级库写入失败: " + detail.strip().splitlines()[-1])
         QtWidgets.QMessageBox.critical(
             self, "操作失败", "等级库写入失败:\n" + detail[-1200:])
 
     def _show_progress(self, text, done=0, total=0):
+        self.status_message.emit(text)
         if total and total > 0:
             self.progress_bar_widget.set_progress(text, done, total)
         else:

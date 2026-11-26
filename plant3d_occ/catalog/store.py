@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """写入 Plant 3D 元件库和等级库。
 
-支吊架不能自取名字：放置命令认的等级文件是 PipeSupportsSpec，
-公制元件库的 Name 必须是 SUPPORTS Catalog metric。这两处只追加，不整库替换。
+功能区「添加支吊架」默认打开 PipeSupportsSpec。规格查看器可以打开任意等级，
+例如项目里的 PipeSupports。原厂公制元件库的 Name 是 SUPPORTS Catalog metric，
+已有零件靠这个名字找库；新建元件库可以用别的 Name，只要等级行的 CatalogId 一致。
+原厂库只追加，不整库替换。
 """
 import datetime
 import os
@@ -14,31 +16,10 @@ import zipfile
 from .model import braced_guid, guid_blob, guid_text, stable_uuid
 
 def detect_plant_content_dir():
-    """按版本探测 Plant 3D 内容目录：C:\\AutoCAD Plant 3D <版本> Content\\CPak Common。
-
-    版本号不写死——先用通配匹配 C 盘下任意 "AutoCAD Plant 3D * Content"，
-    再按年份从新到旧兜底，这样换了年份或补丁版也能自己找到。
-    """
-    candidates = []
-    try:
-        import glob
-        # 通配结果按名字倒序，2026 会排在 2019 前面
-        candidates.extend(sorted(
-            glob.glob(os.path.join("C:\\", "AutoCAD Plant 3D * Content", "CPak Common")),
-            reverse=True))
-    except Exception:
-        pass
-    for year in ("2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019"):
-        candidates.append(os.path.join("C:\\", "AutoCAD Plant 3D %s Content" % year, "CPak Common"))
-    seen = set()
-    for cand in candidates:
-        key = cand.lower()
-        if key in seen:
-            continue
-        seen.add(key)
-        if os.path.isdir(cand):
-            return cand
-    return ""
+    """本机最新一份 CPak Common。先读注册表 PLANTCONTENTFOLDER，再扫磁盘。"""
+    from .content_dirs import list_cpak_common_dirs
+    found = list_cpak_common_dirs()
+    return found[0]["path"] if found else ""
 
 
 def _default_plant_content():
@@ -81,9 +62,9 @@ _VALVE_SQL = (
 
 _DOMAINS = {
     "support": {
-        # 支吊架等级库文件名可通过配置文件 support_spec 覆盖（如 PipeSupports.pspc）；
-        # 未配置时用原厂默认 PipeSupportsSpec.pspc。公制元件库的 CatalogId 始终是
-        # "SUPPORTS Catalog metric"——放置命令认的是元件库名，不是等级文件名。
+        # 内容目录里的支吊架等级母本仍是 PipeSupportsSpec.pspc。
+        # 项目里用哪一份（PipeSupports、PipeSupportsSpec 或其他）由发布时的等级选择决定。
+        # 原厂公制元件库 Name 是 SUPPORTS Catalog metric。
         "catalog_name": "SUPPORTS Catalog metric",
         "catalog_file": "SUPPORTS Catalog metric.acat",
         "spec_file": "PipeSupportsSpec.pspc",
@@ -218,21 +199,47 @@ def preview_paths(content_dir, catalog_file, image_prefix, family_uuid):
     return paths
 
 
+def _factory_database(path):
+    """原厂库（描述里没有 P3dPyPad）只能追加，不能清空重写。"""
+    if not path or not os.path.isfile(path):
+        return False
+    try:
+        con = sqlite3.connect("file:%s?mode=ro" % path.replace("\\", "/"), uri=True)
+        try:
+            row = con.execute("SELECT Description FROM RepositoryDescriptor").fetchone()
+        finally:
+            con.close()
+    except sqlite3.Error:
+        return True
+    text = row[0] if row and row[0] else ""
+    return "P3dPyPad" not in str(text)
+
+
 class LibrarySession(object):
     """一次发布里打开的一对元件库和等级库。
 
-    spec_file_override：可选，覆盖该领域的等级库文件名（如用户习惯把支吊架
-    发布进 PipeSupports.pspc 而不是原厂默认的 PipeSupportsSpec.pspc）。
-    元件库 (.acat) 的名字不变——放置命令认的是元件库，等级只决定放置对话框里
-    能选到哪些规格。
+    spec_file_override：可选，覆盖该领域的等级库文件名。支吊架不要改，
+    Plant 只打开 PipeSupportsSpec。
+    catalog_file_override：配管/仪表可写入用户自建元件库。支吊架忽略这个参数，
+    避免把支吊架写进没有 Support 表的管件库。
     """
 
-    def __init__(self, content_dir, plant_root, domain, spec_file_override=None):
-        info = domain_info(domain)
+    def __init__(self, content_dir, plant_root, domain, spec_file_override=None,
+                 catalog_file_override=None, catalog_name_override=None,
+                 catalog_only=None):
+        info = dict(domain_info(domain))
+        if catalog_only is not None:
+            info["catalog_only"] = bool(catalog_only)
         if spec_file_override:
-            info = dict(info)
             info["spec_file"] = spec_file_override
             info["pspx_file"] = os.path.splitext(spec_file_override)[0] + ".pspx"
+        if catalog_file_override and domain != "support":
+            info["catalog_file"] = catalog_file_override
+            info["catalog_name"] = catalog_name_override or os.path.splitext(catalog_file_override)[0]
+            dest = os.path.join(content_dir or "", info["catalog_file"])
+            # 原厂库没有 P3dPyPad 印记，只能追加；新建或本工具建的库走复制/续写。
+            info["append"] = _factory_database(dest)
+            info["catalog_only"] = True
         self.info = info
         self.domain = domain
         self.catalog_path = os.path.join(content_dir, info["catalog_file"])

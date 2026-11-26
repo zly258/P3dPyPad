@@ -180,6 +180,10 @@ def _run_publish_job(job_file):
         validate=bool(job.get("validate", True)),
         include_equipment=bool(job.get("include_equipment", True)),
         equipment_type=equipment_type,
+        catalog_file=job.get("catalog_file") or None,
+        catalog_name=job.get("catalog_name") or None,
+        project_spec=job.get("project_spec") or None,
+        project_spec_dir=job.get("project_spec_dir") or None,
         on_progress=_tell,
     )
     payload = [

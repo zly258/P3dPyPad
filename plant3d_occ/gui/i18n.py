@@ -257,7 +257,7 @@ STRINGS: Dict[str, Dict[str, str]] = {
     },
     "cat_lbl_content_dir": {"zh": "CPak Common 目录:", "en": "CPak Common Dir:"},
     "cat_txt_placeholder": {
-        "zh": "选择 AutoCAD Plant 3D Content 下的 CPak Common 目录...",
+        "zh": "下拉选择已安装版本的 CPak Common，或手动填写路径...",
         "en": "Select CPak Common folder under AutoCAD Plant 3D Content...",
     },
     "cat_btn_save_cfg": {"zh": "保存配置", "en": "Save Config"},
@@ -353,8 +353,8 @@ STRINGS: Dict[str, Dict[str, str]] = {
     },
     "pub_hint": {
         "zh": (
-            "• 支吊架 (Support) → 自动写入 SUPPORTS Catalog metric.acat\n"
-            "• 管件/管道/阀门 (Piping) → 自动写入 CustomParts Metric Catalog.pcat  |  仪表 (Instrument) → Instrumentation Metric.pcat\n"
+            "• 支吊架元件库写入 SUPPORTS Catalog metric.acat；等级跟界面选择走（如 PipeSupports）。没选等级时才回退 PipeSupportsSpec\n"
+            "• 管件/阀门/仪表可写入已有或新建的元件库（放在 CPak Common），等级可新建或加入已有\n"
             "• 设备与泵 (Equipment) → 自动打包生成 CPak Common/equipment/<脚本名>.peqx 模板包 + CustomScripts/<脚本名>.py\n"
             "• 自动生成 PyOCC 3D 外形 + 轴测字母尺寸标注图 (640/200/64/32px) 及 CustomScripts 注册 XML。"
         ),

@@ -33,7 +33,9 @@ class PublishProcess(QtCore.QObject):
 
     def __init__(self, paths, content_dir, include_equipment=True,
                  auto_generate_sizes=True, equipment_type=None,
-                 write_preview=True, validate=True, parent=None):
+                 write_preview=True, validate=True, parent=None,
+                 catalog_file="", catalog_name="", project_spec="",
+                 project_spec_dir=""):
         super(PublishProcess, self).__init__(parent)
         self._paths = list(paths or [])
         self._content_dir = content_dir or ""
@@ -42,6 +44,10 @@ class PublishProcess(QtCore.QObject):
         self._equipment_type = equipment_type
         self._write_preview = bool(write_preview)
         self._validate = bool(validate)
+        self._catalog_file = catalog_file or ""
+        self._catalog_name = catalog_name or ""
+        self._project_spec = project_spec or ""
+        self._project_spec_dir = project_spec_dir or ""
         self._proc = None
         self._buffer = ""
         self._done = False
@@ -71,6 +77,10 @@ class PublishProcess(QtCore.QObject):
             "equipment_type": list(self._equipment_type) if self._equipment_type else None,
             "write_preview": self._write_preview,
             "validate": self._validate,
+            "catalog_file": self._catalog_file,
+            "catalog_name": self._catalog_name,
+            "project_spec": self._project_spec,
+            "project_spec_dir": self._project_spec_dir,
             "result_path": self._result_file,
         }
         with open(self._job_file, "w", encoding="utf-8") as fp:

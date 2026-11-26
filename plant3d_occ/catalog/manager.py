@@ -968,6 +968,7 @@ def create_project_spec(
     spec_name: str,
     donor_spec_path: Optional[str] = None,
     description: str = "",
+    include_pipe: bool = True,
 ) -> dict:
     """在项目等级库工作表目录下创建全新的等级库 (.pspc) 及配对的打包外壳 (.pspx)。"""
     from .store import SPEC_TYPE, _stamp, _wipe_parts, _write_pspx
@@ -1057,13 +1058,104 @@ def create_project_spec(
             except Exception:
                 pass
 
+    pipe_rows = 0
+    pipe_note = ""
+    if include_pipe:
+        pipe_rows, pipe_note = _seed_metric_pipes(target_pspc)
     return {
         "ok": True,
         "spec_name": clean_name,
         "spec_file": clean_name + ".pspc",
         "spec_path": target_pspc,
         "pspx_path": target_pspx,
+        "pipe_rows": pipe_rows,
+        "pipe_note": pipe_note,
     }
+
+
+def _seed_metric_pipes(spec_path: str):
+    """把公制直管 CPP 从 CustomParts Metric 元件库抄进新等级，否则无法布管。"""
+    content = detect_default_content_dir()
+    candidates = [
+        os.path.join(content or "", "CustomParts Metric Catalog.pcat"),
+        os.path.join(content or "", "CustomPartsSpecs", "CustomParts Metric.pspc"),
+    ]
+    catalog = next((path for path in candidates if path and os.path.isfile(path)), "")
+    if not catalog:
+        return 0, "未找到公制管子库 CustomParts Metric Catalog.pcat，等级里没有管子"
+    try:
+        added = add_catalog_item_to_spec(catalog, spec_path, "CPP")
+    except Exception as exc:
+        return 0, "写入默认管子失败: " + str(exc)
+    rows = int(added.get("added_rows") or 0)
+    if rows <= 0:
+        return 0, "公制管子库里没有 CPP 直管"
+    return rows, "已写入 %d 条公制直管（CPP，mm）" % rows
+
+
+def create_user_catalog(content_dir: str, catalog_name: str, kind: str = "piping") -> dict:
+    """在 CPak Common 里新建元件库。固定库名拒绝覆盖。
+
+    配管/阀门用 CustomParts Metric Catalog 做表结构；仪表用 Instrumentation Metric。
+    新建库是空的，内部 Name 等于文件名（不含扩展名），等级行的 CatalogId 就写这个名字。
+    """
+    from .destinations import catalog_filename
+    from .store import CATALOG_TYPE, _stamp, _wipe_parts
+
+    if not content_dir or not os.path.isdir(content_dir):
+        raise ValueError("请先指定 CPak Common 目录。")
+    filename, stem = catalog_filename(catalog_name, kind=kind)
+    target = os.path.join(content_dir, filename)
+    if os.path.isfile(target):
+        raise RuntimeError("元件库已存在: " + filename)
+
+    if kind == "instrumentation":
+        donor_names = ("Instrumentation Metric.pcat",)
+        content_type = "Standard"
+    else:
+        donor_names = ("CustomParts Metric Catalog.pcat", "Instrumentation Metric.pcat")
+        content_type = "Custom Parts"
+    donor = ""
+    for cand in donor_names:
+        path = os.path.join(content_dir, cand)
+        if os.path.isfile(path):
+            donor = path
+            break
+    if not donor:
+        raise RuntimeError("找不到用作表结构的原厂元件库（CustomParts Metric Catalog.pcat）。")
+
+    shutil.copy2(donor, target)
+    con = sqlite3.connect(target)
+    try:
+        _wipe_parts(con)
+        _stamp(con, stem, CATALOG_TYPE, content_type, "catalog")
+        con.commit()
+    finally:
+        con.close()
+    clear_catalog_caches()
+    return {"ok": True, "catalog_file": filename, "catalog_name": stem, "catalog_path": target}
+
+
+def ensure_project_spec_copy(spec_dir: str, content_dir: str, spec_file: str) -> str:
+    """项目等级表里没有这份固定等级时，从 CPak Common 原样复制，不清空零件。"""
+    if not spec_dir:
+        return ""
+    os.makedirs(spec_dir, exist_ok=True)
+    dest = os.path.join(spec_dir, spec_file)
+    if os.path.isfile(dest) and os.path.getsize(dest) > 0:
+        return dest
+    src = os.path.join(content_dir or "", spec_file)
+    if not os.path.isfile(src):
+        nested = os.path.join(content_dir or "", "CPak Common", spec_file)
+        if os.path.isfile(nested):
+            src = nested
+    if not os.path.isfile(src):
+        return ""
+    shutil.copy2(src, dest)
+    src_pspx = os.path.splitext(src)[0] + ".pspx"
+    if os.path.isfile(src_pspx):
+        shutil.copy2(src_pspx, os.path.splitext(dest)[0] + ".pspx")
+    return dest
 
 
 def detect_spec_unit(spec_path: str, script_name: str = "") -> str:
@@ -1289,13 +1381,11 @@ def list_spec_files(content_dir: str = None, project_spec_dir: str = None,
 def default_spec_for_catalog(content_dir: str, catalog_file: str) -> str:
     """根据元件库文件名自动匹配对应的默认等级库 (.pspc) 路径。
 
-    支吊架等级名不写死：优先取配置的 support_spec（如 PipeSupports.pspc），
-    找不到再回退到原厂默认 PipeSupportsSpec.pspc，最后回退到目录下任意支吊架等级。
+    支吊架功能区命令默认找 PipeSupportsSpec.pspc。规格查看器不限制等级名。
     """
     cf = (catalog_file or "").lower()
     if "support" in cf:
-        cfg = load_catalog_config().get("support_spec", "")
-        targets = [cfg, "PipeSupportsSpec.pspc", "PipeSupports.pspc"]
+        targets = ["PipeSupportsSpec.pspc"]
     elif "instrument" in cf:
         targets = ["Instrumentation Metric.pspc"]
     else:
