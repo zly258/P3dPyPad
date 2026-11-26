@@ -22,7 +22,7 @@ for _stream in (sys.stdout, sys.stderr):
         _stream.reconfigure(encoding="utf-8", errors="replace")
 
 APP_NAME = "Plant3dOcc"
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.1.0"
 
 # 精准保留的 OpenCASCADE 必需核心 DLL 清单 (仅 19 个核心 TK 库 + 3 个三方依赖)
 ESSENTIAL_DLL_PATTERNS = [

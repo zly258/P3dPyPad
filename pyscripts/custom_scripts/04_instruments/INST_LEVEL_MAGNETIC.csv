@@ -1,0 +1,5 @@
+PartNumber,DN,L_C2C,D_CHAMBER,L_NOZ,D_FL,C_FL,EndType,EndType2,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+MLG_C800_DN25_PN16,25,800,96,140,115,18,FL,FL,PN16,RF,,HG/T 21584-1995,INST,侧装双法兰磁翻板液位计 (HG/T 21584),侧装双法兰磁翻板液位计 (HG/T 21584) DN25 PN16 HG/T 21584-1995,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+MLG_C600_DN25_PN16,25,600,89,135,115,18,FL,FL,PN16,RF,,HG/T 21584-1995,INST,侧装双法兰磁翻板液位计 (HG/T 21584),侧装双法兰磁翻板液位计 (HG/T 21584) DN25 PN16 HG/T 21584-1995,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+MLG_C1000_DN25_PN40,25,1000,104,150,115,18,FL,FL,PN40,RF,,HG/T 21584-1995,INST,侧装双法兰磁翻板液位计 (HG/T 21584),侧装双法兰磁翻板液位计 (HG/T 21584) DN25 PN40 HG/T 21584-1995,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+MLG_C1200_DN25_PN40,25,1200,114,155,115,18,FL,FL,PN40,RF,,HG/T 21584-1995,INST,侧装双法兰磁翻板液位计 (HG/T 21584),侧装双法兰磁翻板液位计 (HG/T 21584) DN25 PN40 HG/T 21584-1995,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)

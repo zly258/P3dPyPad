@@ -2,88 +2,97 @@
 import sys
 try:
     reload(sys)
-    sys.setdefaultencoding("utf-8")
+    sys.setdefaultencoding('utf-8')
 except (NameError, AttributeError):
     pass
-from varmain.primitiv import *
-from varmain.custom import *
+
 from aqa.math import *
-import math
+from varmain.primitiv import *
+from varmain.var_basic import *
+from varmain.custom import *
 
-@activate(Group="Valve", Ports=2, TooltipShort=u"直通升降式法兰止回阀 (H41H / GB/T 12235)", TooltipLong=u"化工标准 GB/T 12235 直通升降式钢制法兰止回阀 (Lift Check Valve)，带球形流道阀体、螺栓连接平顶阀盖与中心活塞导向筒帽", LengthUnit="mm")
-@group("MainDimensions", TooltipLong=u"升降止回阀主要结构尺寸：结构长度、阀盖顶高与法兰规格")
-@param(D=LENGTH, TooltipShort=u"管道外径 D", Ask4Dist=True, TooltipLong=u"连接管道公称外径 OD")
-@param(L=LENGTH, TooltipShort=u"结构长度 L", Ask4Dist=True, TooltipLong=u"两端法兰密封面间距 L")
-@param(H=LENGTH, TooltipShort=u"中心至阀盖高 H", Ask4Dist=True, TooltipLong=u"管道中心至阀盖导向帽顶部高度 H")
-@param(FL_OD=LENGTH, TooltipShort=u"法兰外径", TooltipLong=u"连接法兰外圆直径")
-@param(FL_T=LENGTH, TooltipShort=u"法兰厚度", TooltipLong=u"连接法兰盘厚度")
-@param(NBOLTS=INT, TooltipShort=u"法兰螺栓数", TooltipLong=u"单端法兰螺栓孔数")
-@param(ID=STRING, TooltipShort=u"阀门位号", TooltipLong=u"安装位号，如 CV-102")
-def VALVE_CHECK_LIFT(s, D=114.3, L=300.0, H=215.0, FL_OD=220.0, FL_T=22.0, NBOLTS=8, ID=u"H41H-16C-DN100", **kw):
-    D = max(20.0, float(D))
-    L = max(130.0, float(L))
-    H = max(100.0, float(H))
-    FL_OD = max(D + 50.0, float(FL_OD))
-    FL_T = max(12.0, float(FL_T))
-    NBOLTS = max(4, int(NBOLTS))
+@activate(Group="Valve",
+          TooltipShort=u"法兰升降式止回阀 (GB/T 12235)",
+          TooltipLong=u"法兰钢制升降式止回阀，含突面端法兰、球形阀体、圆形螺栓中法兰与加高圆柱导向阀盖",
+          LengthUnit="mm",
+          Ports="2",
+          FirstPortEndtypes="FL")
+@group("MainDimensions", TooltipLong=u"法兰升降式止回阀外形尺寸")
+@param(D=LENGTH, TooltipShort=u"公称管径外径", TooltipLong=u"连接管道外径 D (mm)")
+@param(L_FACE=LENGTH, TooltipShort=u"结构长度", TooltipLong=u"法兰端面至端面结构长度 L (mm)", Ask4Dist=True)
+@param(D_FL=LENGTH, TooltipShort=u"法兰外径", TooltipLong=u"端法兰外径 (mm)")
+@param(C_FL=LENGTH, TooltipShort=u"法兰厚度", TooltipLong=u"端法兰总厚度含突面 (mm)")
+@param(H_TOP=LENGTH, TooltipShort=u"顶盖总高", TooltipLong=u"管道中心至加高导向顶盖顶面高度 H (mm)", Ask4Dist=True)
+def VALVE_CHECK_LIFT(
+    s,
+    D=88.9,
+    L_FACE=241.0,
+    D_FL=200.0,
+    C_FL=20.0,
+    H_TOP=210.0,
+    ID=u"VALVE_CHECK_LIFT",
+    **kw
+):
+    D = max(25.0, float(D))
+    L_FACE = float(L_FACE)
+    if L_FACE < 1.0:
+        L_FACE = 1.0
+    D_FL = max(D + 40.0, float(D_FL))
+    C_FL = max(14.0, float(C_FL))
+    H_TOP = float(H_TOP)
+    if H_TOP < 1.0:
+        H_TOP = 1.0
 
+    half_l = L_FACE / 2.0
     r_pipe = D / 2.0
-    r_bore = r_pipe * 0.86
-    r_fl = FL_OD / 2.0
-    rf_r = r_pipe + (r_fl - r_pipe) * 0.36
+    r_fl = D_FL / 2.0
     rf_t = 2.5
+    r_rf = max(r_pipe + 8.0, r_fl * 0.72)
+    fl_t = max(10.0, C_FL - rf_t)
 
-    # 1. 直通管段 + 两端 RF 法兰
-    o_v = CYLINDER(s, R=r_pipe * 1.08, H=L - 2.0 * rf_t, O=0.0).rotateY(90.0).translate((-(L * 0.5 - rf_t), 0.0, 0.0))
-    for sx in (-1.0, 1.0):
-        x_rf = -L * 0.5 if sx < 0 else (L * 0.5 - rf_t - 1.0)
-        c_rf = CYLINDER(s, R=rf_r, H=rf_t + 1.0, O=0.0).rotateY(90.0).translate((x_rf, 0.0, 0.0))
-        o_v.uniteWith(c_rf); c_rf.erase()
-        x_fl = (-L * 0.5 + rf_t) if sx < 0 else (L * 0.5 - rf_t - FL_T)
-        c_fl = CYLINDER(s, R=r_fl, H=FL_T, O=0.0).rotateY(90.0).translate((x_fl, 0.0, 0.0))
-        o_v.uniteWith(c_fl); c_fl.erase()
+    # 1. 左右突面端法兰
+    o_main = CYLINDER(s, R=r_rf, H=rf_t + 2.0, O=0.0).rotateY(90.0).translate((-half_l, 0.0, 0.0))
+    o_fl1 = CYLINDER(s, R=r_fl, H=fl_t, O=0.0).rotateY(90.0).translate((-half_l + rf_t, 0.0, 0.0))
+    o_main.uniteWith(o_fl1)
+    o_fl1.erase()
 
-    # 2. 中部球肚阀体 (与截止阀同源的 S 形球腔)
-    r_globe = r_pipe * 1.52
-    o_top_g = ELLIPSOIDHEAD(s, R=r_globe, H=r_globe * 0.90)
-    o_bot_g = ELLIPSOIDHEAD(s, R=r_globe, H=r_globe * 0.85).rotateX(180.0)
-    o_v.uniteWith(o_top_g); o_top_g.erase()
-    o_v.uniteWith(o_bot_g); o_bot_g.erase()
+    o_rf2 = CYLINDER(s, R=r_rf, H=rf_t + 2.0, O=0.0).rotateY(90.0).translate((half_l - rf_t - 2.0, 0.0, 0.0))
+    o_main.uniteWith(o_rf2)
+    o_rf2.erase()
+    o_fl2 = CYLINDER(s, R=r_fl, H=fl_t, O=0.0).rotateY(90.0).translate((half_l - C_FL, 0.0, 0.0))
+    o_main.uniteWith(o_fl2)
+    o_fl2.erase()
 
-    # 3. 顶部中法兰 + 螺栓圈 + 活塞导向筒帽（无手轮，区别于截止阀与旋启式止回阀）
-    z_bfl = r_globe * 0.68
-    r_bfl = r_globe * 1.08
-    t_bfl = 32.0
-    o_bfl = CYLINDER(s, R=r_bfl, H=t_bfl, O=0.0).translate((0.0, 0.0, z_bfl))
-    o_v.uniteWith(o_bfl); o_bfl.erase()
+    # 2. 流道颈 + 球形阀体 (与截止阀阀体同源)
+    o_pipe = CYLINDER(s, R=r_pipe * 1.14, H=L_FACE - 2.0 * C_FL + 6.0, O=0.0).rotateY(90.0).translate((-(half_l - C_FL + 3.0), 0.0, 0.0))
+    o_main.uniteWith(o_pipe)
+    o_pipe.erase()
 
-    r_bbcd = r_bfl * 0.78
-    for i in range(8):
-        ang = math.radians(i * 45.0)
-        bt = CYLINDER(s, R=max(5.5, r_pipe * 0.11), H=t_bfl + 14.0, O=0.0).translate((r_bbcd * math.cos(ang), r_bbcd * math.sin(ang), z_bfl - 4.0))
-        o_v.uniteWith(bt); bt.erase()
+    r_globe = min(half_l - C_FL - 6.0, r_pipe * 1.62)
+    o_sph = SPHERE(s, R=r_globe)
+    o_main.uniteWith(o_sph)
+    o_sph.erase()
 
-    z_cap = z_bfl + t_bfl - 2.0
-    h_cap = max(24.0, H - z_cap)
-    o_cap = CYLINDER(s, R=r_globe * 0.48, H=h_cap, O=0.0).translate((0.0, 0.0, z_cap))
-    o_hex = BOX(s, L=r_globe * 0.55, W=16.0, H=r_globe * 0.55).translate((0.0, 0.0, H - 8.0))
-    o_v.uniteWith(o_cap); o_cap.erase()
-    o_v.uniteWith(o_hex); o_hex.erase()
+    # 3. 圆形中法兰 + 加高圆柱形阀瓣导向顶盖
+    z_mf = r_globe * 0.85
+    mf_t = max(24.0, C_FL * 1.3)
+    r_mf = r_globe * 1.08
+    o_mf = CYLINDER(s, R=r_mf, H=mf_t, O=0.0).translate((0.0, 0.0, z_mf))
+    o_main.uniteWith(o_mf)
+    o_mf.erase()
 
-    # 4. 贯通流道与两端法兰螺栓孔
-    o_bore = CYLINDER(s, R=r_bore, H=L + 10.0, O=0.0).rotateY(90.0).translate((-(L * 0.5 + 5.0), 0.0, 0.0))
-    o_v.subtractFrom(o_bore); o_bore.erase()
-    r_bcd = r_pipe + (r_fl - r_pipe) * 0.66
-    r_hole = max(5.0, min(13.0, (r_fl - r_pipe) * 0.14))
-    for i in range(NBOLTS):
-        ang = (2.0 * math.pi * i) / NBOLTS + math.pi / NBOLTS
-        by, bz = r_bcd * math.cos(ang), r_bcd * math.sin(ang)
-        hl = CYLINDER(s, R=r_hole, H=FL_T + rf_t + 6.0, O=0.0).rotateY(90.0).translate((-(L * 0.5 + 2.0), by, bz))
-        o_v.subtractFrom(hl); hl.erase()
-        hr = CYLINDER(s, R=r_hole, H=FL_T + rf_t + 6.0, O=0.0).rotateY(90.0).translate((L * 0.5 - FL_T - rf_t - 4.0, by, bz))
-        o_v.subtractFrom(hr); hr.erase()
+    z_bon_start = z_mf + mf_t - 4.0
+    bon_h = max(48.0, H_TOP - z_bon_start - 18.0)
+    o_bon = CYLINDER(s, R=r_mf * 0.62, H=bon_h, O=0.0).translate((0.0, 0.0, z_bon_start))
+    o_main.uniteWith(o_bon)
+    o_bon.erase()
 
-    s.setPoint((-L / 2.0, 0.0, 0.0), (-1.0, 0.0, 0.0))
-    s.setPoint((L / 2.0, 0.0, 0.0), (1.0, 0.0, 0.0))
-    s.setLinearDimension("L", (-L / 2.0, 0.0, -r_fl), (L / 2.0, 0.0, -r_fl))
-    s.setLinearDimension("H", (-L / 2.0, 0.0, 0.0), (-L / 2.0, 0.0, H))
+    # 顶部封闭压帽 (六角/圆帽感)
+    o_cap = CYLINDER(s, R=r_mf * 0.45, H=20.0, O=0.0).translate((0.0, 0.0, z_bon_start + bon_h - 4.0))
+    o_main.uniteWith(o_cap)
+    o_cap.erase()
+
+    s.setPoint((-half_l, 0.0, 0.0), (-1.0, 0.0, 0.0))
+    s.setPoint((half_l, 0.0, 0.0), (1.0, 0.0, 0.0))
+    s.setLinearDimension('L_FACE', (-half_l, 0.0, 0.0), (half_l, 0.0, 0.0))
+    s.setLinearDimension('H_TOP', (0.0, 0.0, 0.0), (0.0, 0.0, H_TOP))

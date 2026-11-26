@@ -1,0 +1,6 @@
+PartNumber,DN,D,R_BEND,WT,N_SEG,EndType,EndType2,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+MITER90_DN300_4SEG,300,323.9,457.2,8.0,4,BV,BV,,BW,,HG/T 20553,ELBW,90°多节虾米腰弯头 (Miter Elbow),90°多节虾米腰弯头 (Miter Elbow) DN300 HG/T 20553,工程参考模板(需按项目图校核)
+MITER90_DN200_3SEG,200,219.1,304.8,6.4,3,BV,BV,,BW,,HG/T 20553,ELBW,90°多节虾米腰弯头 (Miter Elbow),90°多节虾米腰弯头 (Miter Elbow) DN200 HG/T 20553,工程参考模板(需按项目图校核)
+MITER90_DN400_4SEG,400,406.4,609.6,9.5,4,BV,BV,,BW,,HG/T 20553,ELBW,90°多节虾米腰弯头 (Miter Elbow),90°多节虾米腰弯头 (Miter Elbow) DN400 HG/T 20553,工程参考模板(需按项目图校核)
+MITER90_DN500_5SEG,500,508.0,762.0,10.0,5,BV,BV,,BW,,HG/T 20553,ELBW,90°多节虾米腰弯头 (Miter Elbow),90°多节虾米腰弯头 (Miter Elbow) DN500 HG/T 20553,工程参考模板(需按项目图校核)
+MITER90_DN600_5SEG,600,609.6,914.4,12.0,5,BV,BV,,BW,,HG/T 20553,ELBW,90°多节虾米腰弯头 (Miter Elbow),90°多节虾米腰弯头 (Miter Elbow) DN600 HG/T 20553,工程参考模板(需按项目图校核)

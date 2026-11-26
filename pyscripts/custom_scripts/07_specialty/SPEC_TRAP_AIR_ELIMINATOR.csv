@@ -1,0 +1,4 @@
+PartNumber,DN,D,D_FL,C_FL,D_BODY,H_TOTAL,D_CAP,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+AIR_ELIM_DN50_PN16,50,60.3,165,18,159,380,76,FL,PN16,RF,,HG/T 20592,SPCL,自动排气阀 / 空气消除器,自动排气阀 / 空气消除器 DN50 PN16 HG/T 20592,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+AIR_ELIM_DN80_PN16,80,88.9,200,20,219,460,95,FL,PN16,RF,,HG/T 20592,SPCL,自动排气阀 / 空气消除器,自动排气阀 / 空气消除器 DN80 PN16 HG/T 20592,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+AIR_ELIM_DN100_PN16,100,114.3,220,20,273,540,114,FL,PN16,RF,,HG/T 20592,SPCL,自动排气阀 / 空气消除器,自动排气阀 / 空气消除器 DN100 PN16 HG/T 20592,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)

@@ -1,0 +1,6 @@
+PartNumber,DN,D,BOLT_D,L_LEG,PLT_L,PLT_B,T_PLT,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+UBOLT_DN100_M12,100,114.3,12,100,80,180,10,Undefined_ET,,,,HG/T 21629-2021,SKID,U型螺栓管卡 (HG/T 21629 J1),U型螺栓管卡 (HG/T 21629 J1) DN100 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+UBOLT_DN50_M10,50,60.3,10,75,60,120,8,Undefined_ET,,,,HG/T 21629-2021,SKID,U型螺栓管卡 (HG/T 21629 J1),U型螺栓管卡 (HG/T 21629 J1) DN50 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+UBOLT_DN80_M10,80,88.9,10,90,70,150,8,Undefined_ET,,,,HG/T 21629-2021,SKID,U型螺栓管卡 (HG/T 21629 J1),U型螺栓管卡 (HG/T 21629 J1) DN80 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+UBOLT_DN150_M16,150,168.3,16,140,100,250,12,Undefined_ET,,,,HG/T 21629-2021,SKID,U型螺栓管卡 (HG/T 21629 J1),U型螺栓管卡 (HG/T 21629 J1) DN150 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+UBOLT_DN200_M16,200,219.1,16,165,120,300,12,Undefined_ET,,,,HG/T 21629-2021,SKID,U型螺栓管卡 (HG/T 21629 J1),U型螺栓管卡 (HG/T 21629 J1) DN200 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)

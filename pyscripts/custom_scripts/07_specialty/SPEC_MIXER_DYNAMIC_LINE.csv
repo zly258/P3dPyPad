@@ -1,0 +1,5 @@
+PartNumber,DN,D,L_FACE,D_FL,C_FL,D_CHAMBER,H_DRIVE,D_MOTOR,EndType,EndType2,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+MIXER_DYN_DN50_PN16,50,60.3,450,165,18,168.3,420,160,FL,FL,PN16,RF,,HG/T 20592,SPCL,管道在线动态混合器,管道在线动态混合器 DN50 PN16 HG/T 20592,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+MIXER_DYN_DN80_PN16,80,88.9,550,200,20,219.1,480,180,FL,FL,PN16,RF,,HG/T 20592,SPCL,管道在线动态混合器,管道在线动态混合器 DN80 PN16 HG/T 20592,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+MIXER_DYN_DN100_PN16,100,114.3,650,220,20,273.0,540,200,FL,FL,PN16,RF,,HG/T 20592,SPCL,管道在线动态混合器,管道在线动态混合器 DN100 PN16 HG/T 20592,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+MIXER_DYN_DN150_PN16,150,168.3,800,285,22,323.9,650,225,FL,FL,PN16,RF,,HG/T 20592,SPCL,管道在线动态混合器,管道在线动态混合器 DN150 PN16 HG/T 20592,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)

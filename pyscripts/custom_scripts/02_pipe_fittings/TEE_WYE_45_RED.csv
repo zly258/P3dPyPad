@@ -1,0 +1,6 @@
+PartNumber,DN,DN2,DN3,D1,D2,L1,L2,L_BR,WT1,WT2,EndType,EndType2,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+WYE45_RED_DN100x50,100,100,50,114.3,60.3,76.0,229.0,229.0,6.0,3.9,BV,BV,,BW,,ASME B16.9 / 工程参考,TEBW,45°异径斜三通 (Reducing Lateral Tee),45°异径斜三通 (Reducing Lateral Tee) DN100 ASME B16.9 / 工程参考,工程参考模板(需按项目图校核)
+WYE45_RED_DN100x80,100,100,80,114.3,88.9,76.0,229.0,229.0,6.0,5.5,BV,BV,,BW,,ASME B16.9 / 工程参考,TEBW,45°异径斜三通 (Reducing Lateral Tee),45°异径斜三通 (Reducing Lateral Tee) DN100 ASME B16.9 / 工程参考,工程参考模板(需按项目图校核)
+WYE45_RED_DN150x100,150,150,100,168.3,114.3,89.0,292.0,292.0,7.1,6.0,BV,BV,,BW,,ASME B16.9 / 工程参考,TEBW,45°异径斜三通 (Reducing Lateral Tee),45°异径斜三通 (Reducing Lateral Tee) DN150 ASME B16.9 / 工程参考,工程参考模板(需按项目图校核)
+WYE45_RED_DN200x100,200,200,100,219.1,114.3,102.0,343.0,343.0,8.2,6.0,BV,BV,,BW,,ASME B16.9 / 工程参考,TEBW,45°异径斜三通 (Reducing Lateral Tee),45°异径斜三通 (Reducing Lateral Tee) DN200 ASME B16.9 / 工程参考,工程参考模板(需按项目图校核)
+WYE45_RED_DN200x150,200,200,150,219.1,168.3,114.0,368.0,368.0,8.2,7.1,BV,BV,,BW,,ASME B16.9 / 工程参考,TEBW,45°异径斜三通 (Reducing Lateral Tee),45°异径斜三通 (Reducing Lateral Tee) DN200 ASME B16.9 / 工程参考,工程参考模板(需按项目图校核)

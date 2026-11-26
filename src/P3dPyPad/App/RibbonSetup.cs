@@ -23,12 +23,17 @@ namespace P3dPyPad
         private static bool _hooksRegistered;
         private static bool _idlePending;
 
-        private static readonly Color PadAccent = Color.FromRgb(0x25, 0x63, 0xEB);
-        private static readonly Color BatchAccent = Color.FromRgb(0x7C, 0x3A, 0xED);
-        private static readonly Color EqCreateAccent = Color.FromRgb(0x05, 0x96, 0x69);
-        private static readonly Color EqEditAccent = Color.FromRgb(0xD9, 0x77, 0x06);
-        private static readonly Color LanguageAccent = Color.FromRgb(0x47, 0x55, 0x69);
-        private static readonly Color AboutAccent = Color.FromRgb(0x64, 0x74, 0x8B);
+        /// <summary>
+        /// 统一采用蓝色背景填充 + 白色轮廓图标，保持全选项卡风格一致。
+        /// </summary>
+        private static readonly Color UniformBlueAccent = Color.FromRgb(0x25, 0x63, 0xEB);
+        private static readonly Color UniformBlueBorder = Color.FromRgb(0x1D, 0x4E, 0xD8);
+
+        private static readonly Color PadAccent = UniformBlueAccent;
+        private static readonly Color BatchAccent = UniformBlueAccent;
+        private static readonly Color EqCreateAccent = UniformBlueAccent;
+        private static readonly Color LanguageAccent = UniformBlueAccent;
+        private static readonly Color AboutAccent = UniformBlueAccent;
 
         static RibbonSetup()
         {
@@ -178,7 +183,7 @@ namespace P3dPyPad
                 "Icon.Geo.Copy",
                 "PYBATCH"));
 
-            // 面板二：设备（创建设备 / 编辑设备）
+            // 面板二：设备（创建设备）
             var panelEquipment = new RibbonPanelSource { Title = LocalizationManager.T("RibbonPanelEquipment") };
             panelEquipment.Items.Add(CreateLargeButton(
                 "P3DPYPAD_CMD_EQCREATE",
@@ -187,13 +192,6 @@ namespace P3dPyPad
                 EqCreateAccent,
                 "Icon.Geo.Plus",
                 "PYEQCREATE"));
-            panelEquipment.Items.Add(CreateLargeButton(
-                "P3DPYPAD_CMD_EQEDIT",
-                LocalizationManager.T("RibbonBtnEqEdit"),
-                LocalizationManager.T("RibbonBtnEqEditTip"),
-                EqEditAccent,
-                "Icon.Geo.Edit",
-                "PYEQEDIT"));
 
             // 面板三：设置（语言切换 / 关于）
             var panelSettings = new RibbonPanelSource { Title = LocalizationManager.T("RibbonPanelSettings") };
@@ -265,8 +263,13 @@ namespace P3dPyPad
             var brush = new SolidColorBrush(accent);
             brush.Freeze();
 
+            var borderBrush = new SolidColorBrush(UniformBlueBorder);
+            borderBrush.Freeze();
+            var borderPen = new Pen(borderBrush, Math.Max(0.75, size * 0.03));
+            borderPen.Freeze();
+
             var group = new DrawingGroup();
-            var background = new GeometryDrawing(brush, null, block);
+            var background = new GeometryDrawing(brush, borderPen, block);
             background.Freeze();
             group.Children.Add(background);
 

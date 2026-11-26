@@ -8,6 +8,22 @@
 
 在 Plant 3D 中，管件、阀门、支吊架和设备管嘴通过连接端口（Connection Ports）实现自动捕捕捉、同轴对齐与壁厚/等级匹配。
 
+### 2.0 等级库里的端口行（不要和 `s.setPoint` 的序号搞混）
+
+没有 `S0`。脚本第 1 个 `s.setPoint` 是几何端口 1，写进库时叫 `S1`，但 **S1 不占用 `PartPort` 行**。
+
+对照 Plant 3D 2026 原厂库（`CPak ASME\ASME Pipes and Fittings Catalog.pcat`、`CPak ASME\CS150.pspc`、`CPak DIN\10HC01.pspc`）：`PartPort.Name` 从 `S2` 开始，`S1` 的计数是 0。管帽、盲板（`ConnectionPortCount=1`）的 `PartPort` 行数是 0。`SUPPORTS Catalog metric.acat` 与 `PipeSupportsSpec.pspc` 可以根本没有 `Port` / `PartPort` 表；支吊架零件行仍是 `PortName='S1'`、`EndType='Undefined_ET'`、`PartCategory='Default'`。
+
+| 存在哪里 | 谁 | 写什么 |
+| :--- | :--- | :--- |
+| `EngineeringItems` | 每一个零件的主端口 S1 | `PortName='S1'`、`NominalDiameter`、`MatchingPipeOd`、`EndType`、`ConnectionPortCount` |
+| `Port` + `PartPort` | 仅第 2 口及以后 | `PartPort.Name` 为 `S2`、`S3`…；`PartPort` 行数 = `ConnectionPortCount - 1` |
+| 脚本 | 几何 | `s.setPoint` 次数 = `ConnectionPortCount`，与上面两行无关 |
+
+`plant3d_occ/catalog/store.py` 必须保持：`ports <= 1` 不写 `PartPort`；多端口从 `index=2` 写起。把 S1 补进 `PartPort` 会让双口弯头被 Plant 当成 3 口。
+
+配管等级（`.pspc`）本身仍要有 `Port` / `PartPort` **表**，否则规格编辑器的尺寸范围和下拉是空的。缺的是表，不是 S1 行。`.pspx` 的 `PlantSpecContent` 必须 `Target="<同名>.pspc"`，不能留着模板等级的文件名。
+
 ### 2.1 `s.setPoint` 精确语法
 ```python
 # 形式 1：指定端口坐标点 p 与外法向向量 v
@@ -37,6 +53,9 @@ s.setPoint((x, y, z), (vx, vy, vz), a)
 | **9. 三端口：正三通 / 斜三通 ($A^\circ$)** | 等径三通、异径三通、斜三通 | Port 1 (主管左)<br>Port 2 (主管右)<br>Port 3 (支管) | `(-L1, 0.0, 0.0)`<br>`(L2, 0.0, 0.0)`<br>`(L3*cos(A), L3*sin(A), 0.0)` | **`(-1.0, 0.0, 0.0)`**<br>**`(1.0, 0.0, 0.0)`**<br>**`(cos(A), sin(A), 0.0)`** | `CPTS`（当 `A=90°` 正三通时，Port 3 坐标为 `(0, L3, 0)`，外法向为 `(0, 1, 0)`） |
 | **10. 三端口：Y型对称分叉三通 ($A^\circ$)** | Y型裤衩三通（两支管夹角 $A$） | Port 1 (主管)<br>Port 2 (右支)<br>Port 3 (左支) | `(-L1, 0.0, 0.0)`<br>`(L2*cos(A/2), -L2*sin(A/2), 0)`<br>`(L3*cos(A/2), +L3*sin(A/2), 0)` | **`(-1.0, 0.0, 0.0)`**<br>**`(cos(A/2), -sin(A/2), 0)`**<br>**`(cos(A/2), +sin(A/2), 0)`** | `CPTY`（利用 `mTransform().rotateZ(asRadiants(±A/2))` 计算） |
 | **11. 四端口：正四通 / 斜四通** | 正四通、四通阀 | Port 1 (左)<br>Port 2 (右)<br>Port 3 (上支)<br>Port 4 (下支) | `(-L1, 0.0, 0.0)`<br>`(L2, 0.0, 0.0)`<br>`(0.0, L3, 0.0)`<br>`(0.0, -L4, 0.0)` | **`(-1.0, 0.0, 0.0)`**<br>**`(1.0, 0.0, 0.0)`**<br>**`(0.0, 1.0, 0.0)`**<br>**`(0.0, -1.0, 0.0)`** | `CPXT`, `CPXX`, `CPV4000000` |
+
+> **90° 角式阀门 / 安全阀拓扑放置铁律**：
+> 任何双端口夹角非 180° 的元件（如 90° 角式截止阀 `VALVE_ANGLE_GLOBE`、弹簧安全阀 `VALVE_SAFETY_PSV`、先导式安全阀 `VALVE_SAFETY_PILOT`），**不可**在 Plant 3D 中直接插入到连续直管中间（捕捉“最近点”），否则直管打断后两断口平行反向，无法同时对接 90° 端口，必然报错 **“无法连接不平行的端口”**。请在 `TooltipLong` 中明确提示用户：**需连接在管道开放端点（Endpoint）、设备管嘴（Nozzle）或移除弯头后的直角管端**。
 
 ---
 

@@ -1,0 +1,2 @@
+PartNumber,DN,L_TOTAL,W_PLATE,H_PLATE,L_PACK,Y_PORT,Z_PORT,Standard,ShortDesc,DataSource
+PHE_BR03_20m2,100,1350,520,1420,460,240,920,NB/T 47004,板式换热器 (NB/T 47004),非标设备默认外形模板(不含系列数据;按项目条件图输入)

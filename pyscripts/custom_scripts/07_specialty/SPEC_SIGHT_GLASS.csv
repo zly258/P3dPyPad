@@ -1,0 +1,5 @@
+PartNumber,DN,D,L_FACE,D_FL,C_FL,D_WIN,W_BODY,EndType,EndType2,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+SIGHT_GLASS_DN100_PN16,100,114.3,250,220,20,140,210,FL,FL,PN16,RF,,HG/T 21619,SPCL,直通法兰管道视镜 (HG/T 21619),直通法兰管道视镜 (HG/T 21619) DN100 PN16 HG/T 21619,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+SIGHT_GLASS_DN50_PN16,50,60.3,180,165,18,95,150,FL,FL,PN16,RF,,HG/T 21619,SPCL,直通法兰管道视镜 (HG/T 21619),直通法兰管道视镜 (HG/T 21619) DN50 PN16 HG/T 21619,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+SIGHT_GLASS_DN80_PN16,80,88.9,220,200,20,120,185,FL,FL,PN16,RF,,HG/T 21619,SPCL,直通法兰管道视镜 (HG/T 21619),直通法兰管道视镜 (HG/T 21619) DN80 PN16 HG/T 21619,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+SIGHT_GLASS_DN150_PN16,150,168.3,310,285,22,180,275,FL,FL,PN16,RF,,HG/T 21619,SPCL,直通法兰管道视镜 (HG/T 21619),直通法兰管道视镜 (HG/T 21619) DN150 PN16 HG/T 21619,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)

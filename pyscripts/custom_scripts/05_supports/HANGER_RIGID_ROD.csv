@@ -1,0 +1,6 @@
+PartNumber,DN,D,H_ROD,ROD_D,CLAMP_W,CLAMP_T,TOP_W,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+RIGID_DN100_H380,100,114.3,380,16,40,8,120,Undefined_ET,,,,HG/T 21629-2021,SKID,刚性单吊杆吊架 (HG/T 21629 H1),刚性单吊杆吊架 (HG/T 21629 H1) DN100 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+RIGID_DN50_H320,50,60.3,320,12,30,6,100,Undefined_ET,,,,HG/T 21629-2021,SKID,刚性单吊杆吊架 (HG/T 21629 H1),刚性单吊杆吊架 (HG/T 21629 H1) DN50 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+RIGID_DN80_H350,80,88.9,350,12,35,6,100,Undefined_ET,,,,HG/T 21629-2021,SKID,刚性单吊杆吊架 (HG/T 21629 H1),刚性单吊杆吊架 (HG/T 21629 H1) DN80 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+RIGID_DN150_H420,150,168.3,420,16,45,8,140,Undefined_ET,,,,HG/T 21629-2021,SKID,刚性单吊杆吊架 (HG/T 21629 H1),刚性单吊杆吊架 (HG/T 21629 H1) DN150 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+RIGID_DN200_H460,200,219.1,460,20,50,10,150,Undefined_ET,,,,HG/T 21629-2021,SKID,刚性单吊杆吊架 (HG/T 21629 H1),刚性单吊杆吊架 (HG/T 21629 H1) DN200 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)

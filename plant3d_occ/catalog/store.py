@@ -5,8 +5,15 @@
 例如项目里的 PipeSupports。原厂公制元件库的 Name 是 SUPPORTS Catalog metric，
 已有零件靠这个名字找库；新建元件库可以用别的 Name，只要等级行的 CatalogId 一致。
 原厂库只追加，不整库替换。
+
+端口行（Plant 3D 2026 原厂 ASME/DIN 已核对，不要改）：
+没有 S0。S1 只写在 EngineeringItems.PortName 及口径/端面/外径上。
+PartPort 从 S2 起，行数 = ConnectionPortCount - 1。单口零件（支吊架、管帽、
+盲板）没有 PartPort 行；支吊架 EndType 用 Undefined_ET。禁止把 S1 补进 PartPort。
+配管等级仍必须带有 Port/PartPort 表，否则规格编辑器尺寸列表为空。
 """
 import datetime
+import math
 import os
 import shutil
 import sqlite3
@@ -189,6 +196,37 @@ def donor_file(plant_root, parts, content_dir=None):
     return os.path.join(content_dir or plant_root or "", target_fn)
 
 
+def copy_family_previews(src_root, src_guid, dst_root, dst_guid, prefix):
+    """把元件库预览图复制到规格编辑器按零件族 GUID 查找的目录。
+
+    文件名是 ``{类名}_{guid}_{尺寸}.png``，尺寸目录为 32/64/200/640。
+    规格编辑器用等级里的 PartFamilyId，不是元件库的 CatalogPartFamilyId。
+    """
+    src_guid = str(src_guid).strip("{}")
+    dst_guid = str(dst_guid).strip("{}")
+    copied = 0
+    for size in (32, 64, 200, 640):
+        folder = os.path.join(src_root, str(size))
+        want = "%s_%s_%d.png" % (prefix, src_guid, size)
+        src = os.path.join(folder, want)
+        if not os.path.isfile(src) and os.path.isdir(folder):
+            want_l = want.lower()
+            for name in os.listdir(folder):
+                if name.lower() == want_l:
+                    src = os.path.join(folder, name)
+                    break
+        if not os.path.isfile(src):
+            continue
+        out_dir = os.path.join(dst_root, str(size))
+        if not os.path.isdir(out_dir):
+            os.makedirs(out_dir)
+        dst = os.path.join(out_dir, "%s_%s_%d.png" % (prefix, dst_guid, size))
+        if not os.path.isfile(dst):
+            shutil.copy2(src, dst)
+        copied += 1
+    return copied
+
+
 def preview_paths(content_dir, catalog_file, image_prefix, family_uuid):
     stem = os.path.splitext(catalog_file)[0]
     text = guid_text(family_uuid)
@@ -360,6 +398,9 @@ class LibrarySession(object):
                 "%s:%s:%s:%s" % ("specsize" if is_spec else "size", self.domain, job["stem"], size["preset"])
             )
             _insert_part(con, job, size, part_id, family_uuid, size_uuid, catalog_family, is_spec, self.info["catalog_name"])
+            # Plant 没有 S0。主端口 S1 写在 EngineeringItems（PortName/口径/端面），
+            # 不进 PartPort。PartPort 从 S2 起，和原厂 ASME/DIN 等级库一致。
+            # 单端口零件（支吊架、管帽、盲板）因此没有 PartPort 行，这是对的。
             if job["ports"] <= 1:
                 continue
             for index in range(2, job["ports"] + 1):
@@ -599,6 +640,32 @@ def _delete_orphan_ports(con):
     )
 
 
+def _face_length(call):
+    """端面到端面的长度。和原厂规格里 Valve/Reducer.Length 用的是同一个数。"""
+    if not isinstance(call, dict):
+        return None
+    for key in ("L", "L_FACE", "H_LEN", "L_LEN", "L_BODY", "L_TOT", "H_TOT"):
+        if key not in call:
+            continue
+        try:
+            value = float(call[key])
+        except (TypeError, ValueError):
+            continue
+        if value > 0.0:
+            return value
+    if "L_OUT" in call and "H_IN" in call:
+        try:
+            return math.hypot(float(call["L_OUT"]), float(call["H_IN"]))
+        except (TypeError, ValueError):
+            pass
+    if "C_LEN" in call:
+        try:
+            return 2.0 * float(call["C_LEN"])
+        except (TypeError, ValueError):
+            pass
+    return None
+
+
 def _insert_part(con, job, size, part_id, family_uuid, size_uuid, catalog_family, is_spec, catalog_name):
     now = _ticks()
     part_guid = stable_uuid("pnp:%s:%s" % (job["stem"], size["preset"] if not is_spec else "spec:" + size["preset"]))
@@ -645,7 +712,9 @@ def _insert_part(con, job, size, part_id, family_uuid, size_uuid, catalog_family
         values["CatalogId"] = catalog_name
     _insert(con, "EngineeringItems", values)
     subtype = size["subtype"] or ("Support" if job["pnp_class"] == "Support" else None)
-    length = size["call"].get("L")
+    # 原厂 CS150：Valve.Length / Reducer.Length 等于脚本端面距离（参数 L）。
+    # 空着时 Plant 按 0 缩放，阀门退回系统手轮，大小头被压成对尖双锥。
+    length = _face_length(size.get("call") or {})
     for table in job["chain"]:
         extra = {"PnPID": part_id}
         cols = _columns(con, table)

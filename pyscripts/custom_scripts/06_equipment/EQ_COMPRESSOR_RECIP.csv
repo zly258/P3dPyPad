@@ -1,0 +1,2 @@
+PartNumber,DN_SUC,DN_DIS,L_SKID,W_SKID,H_SKID,H_CL,D_CYL,D_MOTOR,L_MOTOR,Standard,ShortDesc,DataSource
+RECIP-COMP-DN150/100,150,100,3800,2400,260,920,460,680,1100,,往复式活塞压缩机撬块,非标设备默认外形模板(不含系列数据;按项目条件图输入)

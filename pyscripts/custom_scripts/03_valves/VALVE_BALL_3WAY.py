@@ -2,82 +2,135 @@
 import sys
 try:
     reload(sys)
-    sys.setdefaultencoding("utf-8")
+    sys.setdefaultencoding('utf-8')
 except (NameError, AttributeError):
     pass
+
+from aqa.math import *
 from varmain.primitiv import *
 from varmain.var_basic import *
 from varmain.custom import *
-from aqa.math import *
-import math
 
-@activate(Group="Valve", Ports=3, TooltipShort=u"气动活塞式三通法兰球阀 (Q644F / Q645F)", TooltipLong=u"化工标准 GB/T 12237 气动双缸齿轮齿条执行机构T形/L形三通法兰球阀 (Pneumatic Actuated 3-Way Flanged Ball Valve)，含三向法兰球体腔、ISO支架、双作用气动活塞缸与顶部开度指示球", LengthUnit="mm")
-@group("MainDimensions", TooltipLong=u"气动三通球阀主要结构尺寸：主管长、支管长与气动头尺寸")
-@param(D=LENGTH, TooltipShort=u"管道外径 D", Ask4Dist=True, TooltipLong=u"三端口连接管道公称外径 OD")
-@param(L=LENGTH, TooltipShort=u"主管结构长 L", Ask4Dist=True, TooltipLong=u"直通两端法兰密封面间距 L")
-@param(L_BR=LENGTH, TooltipShort=u"支管中心距", Ask4Dist=True, TooltipLong=u"阀中心至侧向第3端口法兰面距离")
-@param(H=LENGTH, TooltipShort=u"中心至顶高 H", Ask4Dist=True, TooltipLong=u"管道中心至气动头顶部指示器总高 H")
-@param(L_ACT=LENGTH, TooltipShort=u"气缸总长", TooltipLong=u"顶部齿轮齿条双活塞气动执行机构总长")
-@param(D_ACT=LENGTH, TooltipShort=u"气缸高度", TooltipLong=u"气动执行机构缸体外高/外径")
-@param(FL_OD=LENGTH, TooltipShort=u"法兰外径", TooltipLong=u"三端法兰盘外径")
-@param(FL_T=LENGTH, TooltipShort=u"法兰厚度", TooltipLong=u"三端法兰盘厚度")
-@param(NBOLTS=INT, TooltipShort=u"法兰螺栓数", TooltipLong=u"单端法兰螺栓孔数")
-@param(ID=STRING, TooltipShort=u"阀门位号", TooltipLong=u"安装位号，如 XV-301")
-def VALVE_BALL_3WAY(s, D=114.3, L=320.0, L_BR=160.0, H=380.0, L_ACT=290.0, D_ACT=135.0, FL_OD=220.0, FL_T=22.0, NBOLTS=8, ID=u"Q644F-16C-DN100", **kw):
+@activate(Group="Valve",
+          TooltipShort=u"三通法兰球阀 (T型)",
+          TooltipLong=u"T型三通法兰钢制球阀，含三端突面法兰(X- / X+ / Y-)、中心球腔、ISO 5211 顶台与长扳手柄",
+          LengthUnit="mm",
+          Ports="3",
+          FirstPortEndtypes="FL")
+@group("MainDimensions", TooltipLong=u"三通法兰球阀外形尺寸")
+@param(D=LENGTH, TooltipShort=u"公称管径外径", TooltipLong=u"连接管道外径 D (mm)")
+@param(L_FACE=LENGTH, TooltipShort=u"直通结构长度", TooltipLong=u"X向主通道两端法兰面距 L (mm)", Ask4Dist=True)
+@param(L_BRANCH=LENGTH, TooltipShort=u"支口中心距", TooltipLong=u"阀体中心至-Y侧支口法兰端面距离 (mm)", Ask4Dist=True)
+@param(D_FL=LENGTH, TooltipShort=u"法兰外径", TooltipLong=u"端法兰外径 (mm)")
+@param(C_FL=LENGTH, TooltipShort=u"法兰厚度", TooltipLong=u"端法兰总厚度含突面 (mm)")
+@param(H_LEVER=LENGTH, TooltipShort=u"手柄高度", TooltipLong=u"管道中心至手柄顶面高度 H (mm)", Ask4Dist=True)
+@param(L_LEVER=LENGTH, TooltipShort=u"手柄长度", TooltipLong=u"阀杆中心至手柄末端长度 (mm)")
+def VALVE_BALL_3WAY(
+    s,
+    D=88.9,
+    L_FACE=260.0,
+    L_BRANCH=130.0,
+    D_FL=200.0,
+    C_FL=20.0,
+    H_LEVER=205.0,
+    L_LEVER=310.0,
+    ID=u"VALVE_BALL_3WAY",
+    **kw
+):
     D = max(25.0, float(D))
-    L = max(180.0, float(L))
-    L_BR = max(L * 0.45, float(L_BR))
-    H = max(220.0, float(H))
-    L_ACT = max(180.0, float(L_ACT))
-    D_ACT = max(85.0, float(D_ACT))
-    FL_OD = max(D + 50.0, float(FL_OD))
-    FL_T = max(12.0, float(FL_T))
-    NBOLTS = max(4, int(NBOLTS))
+    L_FACE = float(L_FACE)
+    if L_FACE < 1.0:
+        L_FACE = 1.0
+    L_BRANCH = float(L_BRANCH)
+    if L_BRANCH < 1.0:
+        L_BRANCH = 1.0
+    D_FL = max(D + 40.0, float(D_FL))
+    C_FL = max(14.0, float(C_FL))
+    H_LEVER = float(H_LEVER)
+    if H_LEVER < 1.0:
+        H_LEVER = 1.0
+    L_LEVER = max(160.0, float(L_LEVER))
 
+    half_l = L_FACE / 2.0
     r_pipe = D / 2.0
-    r_bore = r_pipe * 0.85
-    r_fl = FL_OD / 2.0
+    r_fl = D_FL / 2.0
+    rf_t = 2.5
+    r_rf = max(r_pipe + 8.0, r_fl * 0.72)
+    fl_t = max(10.0, C_FL - rf_t)
 
-    # 1. 主管筒体 (沿 X [-L/2, L/2]) + 正交支管筒体 (沿 +Y [0, L_BR]) + 中心球体包容腔
-    o_v = CYLINDER(s, R=r_pipe * 1.12, H=L, O=0.0).rotateY(90.0).translate((-L * 0.5, 0.0, 0.0))
-    o_br = CYLINDER(s, R=r_pipe * 1.12, H=L_BR, O=0.0).rotateX(-90.0)
-    o_sph = SPHERE(s, R=r_pipe * 1.56)
-    o_v.uniteWith(o_br); o_br.erase()
-    o_v.uniteWith(o_sph); o_sph.erase()
+    # 1. X- 与 X+ 端突面法兰
+    o_main = CYLINDER(s, R=r_rf, H=rf_t + 2.0, O=0.0).rotateY(90.0).translate((-half_l, 0.0, 0.0))
+    o_fl1 = CYLINDER(s, R=r_fl, H=fl_t, O=0.0).rotateY(90.0).translate((-half_l + rf_t, 0.0, 0.0))
+    o_main.uniteWith(o_fl1)
+    o_fl1.erase()
 
-    # 三端连接法兰
-    fl_l = CYLINDER(s, R=r_fl, H=FL_T, O=0.0).rotateY(90.0).translate((-L * 0.5, 0.0, 0.0))
-    fl_r = CYLINDER(s, R=r_fl, H=FL_T, O=0.0).rotateY(90.0).translate((L * 0.5 - FL_T, 0.0, 0.0))
-    fl_b = CYLINDER(s, R=r_fl, H=FL_T, O=0.0).rotateX(-90.0).translate((0.0, L_BR - FL_T, 0.0))
-    for f in (fl_l, fl_r, fl_b):
-        o_v.uniteWith(f); f.erase()
+    o_rf2 = CYLINDER(s, R=r_rf, H=rf_t + 2.0, O=0.0).rotateY(90.0).translate((half_l - rf_t - 2.0, 0.0, 0.0))
+    o_main.uniteWith(o_rf2)
+    o_rf2.erase()
+    o_fl2 = CYLINDER(s, R=r_fl, H=fl_t, O=0.0).rotateY(90.0).translate((half_l - C_FL, 0.0, 0.0))
+    o_main.uniteWith(o_fl2)
+    o_fl2.erase()
 
-    # 2. ISO 5211 连接支架 + 顶部齿轮齿条双活塞气动执行机构缸体 + 端盖 + NAMUR电磁阀块 + 顶置黄蓝开度指示器
-    z_act_bot = H - D_ACT - 28.0
-    o_brk = CYLINDER(s, R=r_pipe * 0.48, H=z_act_bot, O=0.0)
-    o_v.uniteWith(o_brk); o_brk.erase()
+    # 2. Y- 支口突面法兰 (Port 3: 0, -L_BRANCH, 0)
+    o_rf3 = CYLINDER(s, R=r_rf, H=rf_t + 2.0, O=0.0).rotateX(-90.0).translate((0.0, -L_BRANCH, 0.0))
+    o_main.uniteWith(o_rf3)
+    o_rf3.erase()
+    o_fl3 = CYLINDER(s, R=r_fl, H=fl_t, O=0.0).rotateX(-90.0).translate((0.0, -L_BRANCH + rf_t, 0.0))
+    o_main.uniteWith(o_fl3)
+    o_fl3.erase()
 
-    o_act_box = BOX(s, L=D_ACT * 0.92, W=D_ACT, H=L_ACT * 0.82).translate((0.0, 0.0, z_act_bot + D_ACT * 0.5))
-    o_v.uniteWith(o_act_box); o_act_box.erase()
-    for sx in (-1.0, 1.0):
-        cap = CYLINDER(s, R=D_ACT * 0.48, H=L_ACT * 0.12, O=0.0).rotateY(90.0).translate((sx * L_ACT * 0.41 - (L_ACT * 0.12 if sx < 0 else 0.0), 0.0, z_act_bot + D_ACT * 0.5))
-        o_v.uniteWith(cap); cap.erase()
+    # 3. 主流道管、支口管与中心球腔
+    o_pipe_x = CYLINDER(s, R=r_pipe * 1.15, H=L_FACE - 2.0 * C_FL + 6.0, O=0.0).rotateY(90.0).translate((-(half_l - C_FL + 3.0), 0.0, 0.0))
+    o_main.uniteWith(o_pipe_x)
+    o_pipe_x.erase()
 
-    # 侧向 NAMUR 电磁阀盒与顶部球形开度指示器
-    o_sol = BOX(s, L=42.0, W=55.0, H=85.0).translate((0.0, -D_ACT * 0.55, z_act_bot + D_ACT * 0.5))
-    o_ind = CYLINDER(s, R=32.0, H=32.0, O=0.0).translate((0.0, 0.0, z_act_bot + D_ACT - 4.0))
-    o_v.uniteWith(o_sol); o_sol.erase()
-    o_v.uniteWith(o_ind); o_ind.erase()
+    o_pipe_y = CYLINDER(s, R=r_pipe * 1.15, H=L_BRANCH - C_FL + 6.0, O=0.0).rotateX(-90.0).translate((0.0, -(L_BRANCH - C_FL + 3.0), 0.0))
+    o_main.uniteWith(o_pipe_y)
+    o_pipe_y.erase()
 
-    # 3. 贯通 T 形流道
-    b1 = CYLINDER(s, R=r_bore, H=L + 10.0, O=0.0).rotateY(90.0).translate((-(L * 0.5 + 5.0), 0.0, 0.0))
-    b2 = CYLINDER(s, R=r_bore, H=L_BR + 5.0, O=0.0).rotateX(-90.0)
-    o_v.subtractFrom(b1); b1.erase()
-    o_v.subtractFrom(b2); b2.erase()
+    r_ball = min(r_fl * 0.85, r_pipe * 1.62)
+    o_sph = SPHERE(s, R=r_ball)
+    o_main.uniteWith(o_sph)
+    o_sph.erase()
 
-    s.setPoint((-L / 2.0, 0.0, 0.0), (-1.0, 0.0, 0.0))
-    s.setPoint((L / 2.0, 0.0, 0.0), (1.0, 0.0, 0.0))
-    s.setPoint((0.0, L_BR, 0.0), (0.0, 1.0, 0.0))
-    s.setLinearDimension("L", (-L / 2.0, 0.0, -r_fl), (L / 2.0, 0.0, -r_fl))
-    s.setLinearDimension("H", (-L / 2.0, 0.0, 0.0), (-L / 2.0, 0.0, H))
-    s.setLinearDimension("L_ACT", (-L_ACT / 2.0, 0.0, H), (L_ACT / 2.0, 0.0, H))
+    # 4. ISO 5211 顶台 + 阀杆 + 手柄
+    z_pad = r_ball + 16.0
+    o_neck = CYLINDER(s, R=max(22.0, r_pipe * 0.48), H=z_pad + 4.0, O=0.0)
+    o_main.uniteWith(o_neck)
+    o_neck.erase()
+
+    pad_w = max(62.0, r_pipe * 1.28)
+    o_pad = CORNERBOX(s, L=pad_w, W=pad_w, H=12.0).translate((-pad_w / 2.0, -pad_w / 2.0, z_pad - 2.0))
+    o_main.uniteWith(o_pad)
+    o_pad.erase()
+
+    z_stem_top = H_LEVER - 14.0
+    if z_stem_top < z_pad + 34.0:
+        z_stem_top = z_pad + 34.0
+    o_stem = CYLINDER(s, R=max(12.0, r_pipe * 0.24), H=z_stem_top - z_pad + 6.0, O=0.0).translate((0.0, 0.0, z_pad + 2.0))
+    o_main.uniteWith(o_stem)
+    o_stem.erase()
+
+    hub_r = max(18.0, r_pipe * 0.36)
+    o_hub = CYLINDER(s, R=hub_r, H=22.0, O=0.0).translate((0.0, 0.0, z_stem_top - 10.0))
+    o_main.uniteWith(o_hub)
+    o_hub.erase()
+
+    bar_w = max(16.0, r_pipe * 0.3)
+    bar_t = max(10.0, r_pipe * 0.17)
+    o_arm = CORNERBOX(s, L=L_LEVER * 0.65, W=bar_w, H=bar_t).translate((-hub_r * 0.6, -bar_w / 2.0, H_LEVER - bar_t))
+    o_main.uniteWith(o_arm)
+    o_arm.erase()
+
+    grip_l = L_LEVER * 0.42
+    grip_r = max(11.0, bar_w * 0.65)
+    o_grip = CYLINDER(s, R=grip_r, H=grip_l, O=0.0).rotateY(90.0).translate((L_LEVER - grip_l, 0.0, H_LEVER - bar_t / 2.0))
+    o_main.uniteWith(o_grip)
+    o_grip.erase()
+
+    s.setPoint((-half_l, 0.0, 0.0), (-1.0, 0.0, 0.0))
+    s.setPoint((half_l, 0.0, 0.0), (1.0, 0.0, 0.0))
+    s.setPoint((0.0, -L_BRANCH, 0.0), (0.0, -1.0, 0.0))
+    s.setLinearDimension('L_FACE', (-half_l, 0.0, 0.0), (half_l, 0.0, 0.0))
+    s.setLinearDimension('L_BRANCH', (0.0, 0.0, 0.0), (0.0, -L_BRANCH, 0.0))
+    s.setLinearDimension('H_LEVER', (0.0, 0.0, 0.0), (0.0, 0.0, H_LEVER))

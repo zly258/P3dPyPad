@@ -113,6 +113,15 @@ _GROUPS = {
         "iso": "TYPE=PIPE,SKEY=PIPL",
         "category": "Pipe",
     },
+    "Coupling": {
+        "domain": "piping",
+        "pnp_class": "Coupling",
+        "image": "Coupling",
+        "chain": ["PipeRunComponent", "Coupling"],
+        "end": "SW",
+        "iso": "TYPE=COUPLING,SKEY=COSW",
+        "category": "Fittings",
+    },
     "Instrument": {
         "domain": "instrumentation",
         "pnp_class": "Instrument",
@@ -258,6 +267,8 @@ def inspect_script(path, auto_generate_sizes=False):
     job["image"] = spec["image"]
     job["chain"] = list(spec["chain"])
     job["category"] = spec["category"]
+    if not job["first_port_endtypes"]:
+        job["first_port_endtypes"] = spec.get("end") or ""
 
     csv_path = os.path.splitext(path)[0] + ".csv"
     job["csv_path"] = csv_path

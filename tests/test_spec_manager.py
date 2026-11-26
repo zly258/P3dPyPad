@@ -155,6 +155,25 @@ class TestProjectSpecManager(unittest.TestCase):
             self.assertEqual(cnt, expected_count)
             self.assertTrue(bool(cat_id))
             self.assertTrue(bool(fam_id))
+
+            # Plant 端口约定：没有 S0；S1 在零件行上，PartPort 只存 S2 及以后。
+            cur_tgt.execute(
+                "SELECT PortName, ConnectionPortCount FROM EngineeringItems "
+                "WHERE UPPER(ContentGeometryTemplate)=UPPER(?)",
+                (sample_template,),
+            )
+            declared = cur_tgt.fetchall()
+            self.assertTrue(declared)
+            self.assertTrue(all((row[0] or "S1") == "S1" for row in declared))
+            cur_tgt.execute(
+                "SELECT pp.Name, COUNT(*) FROM PartPort pp "
+                "JOIN EngineeringItems e ON e.PnPID=pp.Part "
+                "WHERE UPPER(e.ContentGeometryTemplate)=UPPER(?) GROUP BY pp.Name",
+                (sample_template,),
+            )
+            names = {row[0]: row[1] for row in cur_tgt.fetchall()}
+            self.assertNotIn("S0", names)
+            self.assertNotIn("S1", names)
             con_tgt.close()
 
             # 4. 验证成员资格查询

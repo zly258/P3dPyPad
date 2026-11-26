@@ -1,0 +1,5 @@
+PartNumber,DN,D_CASE,T_CASE,H_TOTAL,W_PLATE,H_PLATE,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+GAS_EXD_STD,20,146,98,340,168,210,FL,PN16,RF,STD,GB/T 50493-2019,INST,防爆可燃/有毒气体探测器 (GB/T 50493),防爆可燃/有毒气体探测器 (GB/T 50493) DN20 PN16 STD GB/T 50493-2019,非工艺法兰仪表+表壳与支架为工程包络(需按仪表厂样本替换)
+GAS_EXD_COMPACT,20,126,86,300,148,185,FL,PN16,RF,,GB/T 50493-2019,INST,防爆可燃/有毒气体探测器 (GB/T 50493),防爆可燃/有毒气体探测器 (GB/T 50493) DN20 PN16 GB/T 50493-2019,非工艺法兰仪表+表壳与支架为工程包络(需按仪表厂样本替换)
+GAS_EXD_TOXIC,20,154,104,365,176,225,FL,PN16,RF,,GB/T 50493-2019,INST,防爆可燃/有毒气体探测器 (GB/T 50493),防爆可燃/有毒气体探测器 (GB/T 50493) DN20 PN16 GB/T 50493-2019,非工艺法兰仪表+表壳与支架为工程包络(需按仪表厂样本替换)
+GAS_EXD_IR,25,166,112,385,188,238,FL,PN16,RF,,GB/T 50493-2019,INST,防爆可燃/有毒气体探测器 (GB/T 50493),防爆可燃/有毒气体探测器 (GB/T 50493) DN25 PN16 GB/T 50493-2019,非工艺法兰仪表+表壳与支架为工程包络(需按仪表厂样本替换)

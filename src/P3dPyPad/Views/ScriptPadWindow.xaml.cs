@@ -498,8 +498,8 @@ namespace P3dPyPad
             {
                 ParamList.Children.Add(new TextBlock
                 {
-                    Style = (Style)FindResource("Text.Caption"),
                     Text = string.IsNullOrEmpty(_parsed.EntryName) ? "脚本需要包含 def 函数与 @param 装饰器。" : "这个函数没有定义参数。",
+                    Foreground = SystemColors.GrayTextBrush,
                     TextWrapping = TextWrapping.Wrap,
                     Margin = new Thickness(8, 12, 8, 12)
                 });
@@ -518,24 +518,21 @@ namespace P3dPyPad
 
                 var rowBorder = new Border
                 {
-                    BorderBrush = (Brush)FindResource("Brush.Border"),
+                    BorderBrush = SystemColors.ControlLightBrush,
                     BorderThickness = new Thickness(0, 0, 0, 1),
-                    MinHeight = (double)FindResource("Layout.RowHeight"),
+                    MinHeight = 28,
                     ClipToBounds = true
                 };
 
                 var rowGrid = new Grid();
-                rowGrid.ColumnDefinitions.Add(new ColumnDefinition
-                {
-                    Width = (GridLength)FindResource("Layout.PropertyGridNameColumn")
-                });
+                rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
                 rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1) });
                 rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
                 var description = string.IsNullOrEmpty(param.Tooltip) ? param.TooltipLong : param.Tooltip;
                 var leftPanel = new DockPanel
                 {
-                    Background = (Brush)FindResource("Brush.SurfaceAlt"),
+                    Background = SystemColors.ControlBrush,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     ClipToBounds = true,
@@ -548,8 +545,6 @@ namespace P3dPyPad
                 {
                     Text = param.Name,
                     FontWeight = FontWeights.SemiBold,
-                    FontSize = (double)FindResource("FontSize.Caption"),
-                    Foreground = (Brush)FindResource("Brush.Text.Primary"),
                     VerticalAlignment = VerticalAlignment.Center,
                     TextWrapping = TextWrapping.NoWrap,
                     TextTrimming = TextTrimming.CharacterEllipsis,
@@ -562,8 +557,7 @@ namespace P3dPyPad
                     var descText = new TextBlock
                     {
                         Text = description,
-                        FontSize = (double)FindResource("FontSize.Caption"),
-                        Foreground = (Brush)FindResource("Brush.Text.Secondary"),
+                        Foreground = SystemColors.GrayTextBrush,
                         VerticalAlignment = VerticalAlignment.Center,
                         TextWrapping = TextWrapping.NoWrap,
                         TextTrimming = TextTrimming.CharacterEllipsis,
@@ -577,7 +571,7 @@ namespace P3dPyPad
 
                 var splitBorder = new Border
                 {
-                    Background = (Brush)FindResource("Brush.Border")
+                    Background = SystemColors.ControlLightBrush
                 };
                 Grid.SetColumn(splitBorder, 1);
                 rowGrid.Children.Add(splitBorder);
@@ -585,14 +579,10 @@ namespace P3dPyPad
                 var box = new TextBox
                 {
                     Text = value,
-                    Height = (double)FindResource("Layout.ControlHeight"),
-                    MinHeight = 0,
-                    FontSize = (double)FindResource("FontSize.Body"),
+                    MinHeight = 24,
                     VerticalContentAlignment = VerticalAlignment.Center,
-                    Padding = (Thickness)FindResource("Layout.InputPadding"),
-                    Margin = new Thickness(4, 1, 4, 1),
-                    BorderThickness = new Thickness(1),
-                    BorderBrush = (Brush)FindResource("Brush.Border.Control"),
+                    Padding = new Thickness(4, 1, 4, 1),
+                    Margin = new Thickness(4, 2, 4, 2),
                     ToolTip = string.IsNullOrEmpty(param.TooltipLong) ? param.TypeName : param.TooltipLong
                 };
                 Grid.SetColumn(box, 2);
@@ -617,27 +607,33 @@ namespace P3dPyPad
 
         private void LoadState()
         {
-            var scriptDraft = Path.Combine(StateDir, "draft.py");
-            if (File.Exists(scriptDraft))
+            try
             {
-                var text = File.ReadAllText(scriptDraft, Encoding.UTF8);
-                if (!string.IsNullOrWhiteSpace(text))
+                var scriptDraft = Path.Combine(StateDir, "draft.py");
+                if (File.Exists(scriptDraft))
                 {
-                    CodeEditor.Text = text;
+                    var text = File.ReadAllText(scriptDraft, Encoding.UTF8);
+                    if (!string.IsNullOrWhiteSpace(text))
+                    {
+                        CodeEditor.Text = text;
+                    }
+                }
+
+                var lastScriptFile = Path.Combine(StateDir, "last_script.txt");
+                if (File.Exists(lastScriptFile))
+                {
+                    var savedPath = File.ReadAllText(lastScriptFile, Encoding.UTF8).Trim();
+                    if (File.Exists(savedPath))
+                    {
+                        _currentScriptPath = savedPath;
+                        ScriptPathText.Text = Path.GetFileName(savedPath);
+                        ScriptPathText.ToolTip = savedPath;
+                        LoadMatchingCsvForScript(savedPath);
+                    }
                 }
             }
-
-            var lastScriptFile = Path.Combine(StateDir, "last_script.txt");
-            if (File.Exists(lastScriptFile))
+            catch
             {
-                var savedPath = File.ReadAllText(lastScriptFile, Encoding.UTF8).Trim();
-                if (File.Exists(savedPath))
-                {
-                    _currentScriptPath = savedPath;
-                    ScriptPathText.Text = Path.GetFileName(savedPath);
-                    ScriptPathText.ToolTip = savedPath;
-                    LoadMatchingCsvForScript(savedPath);
-                }
             }
         }
 
@@ -653,16 +649,15 @@ namespace P3dPyPad
 
         private void ApplyEditor()
         {
-            CodeEditor.FontFamily = new FontFamily("Consolas, Cascadia Mono, Microsoft YaHei");
-            CodeEditor.Background = (Brush)FindResource("Brush.Surface");
-            CodeEditor.Foreground = (Brush)FindResource("Brush.Text.Primary");
-            CodeEditor.LineNumbersForeground = (Brush)FindResource("Brush.Text.Secondary");
+            // 仅使用 Windows 原生内置单一等宽字体 Consolas，避免复合字体列表
+            // (如 Cascadia Mono) 在 DirectWrite 枚举字体回退时抛出 UnauthorizedAccessException 导致窗口打不开。
+            CodeEditor.FontFamily = new FontFamily("Consolas");
+            CodeEditor.Background = SystemColors.WindowBrush;
+            CodeEditor.Foreground = SystemColors.WindowTextBrush;
+            CodeEditor.LineNumbersForeground = SystemColors.GrayTextBrush;
             CodeEditor.ShowLineNumbers = true;
             CodeEditor.Options.HighlightCurrentLine = true;
             CodeEditor.Options.IndentationSize = 4;
-            CodeEditor.TextArea.SelectionBrush = (Brush)FindResource("Brush.Selection");
-            CodeEditor.TextArea.SelectionForeground = (Brush)FindResource("Brush.Text.Primary");
-            CodeEditor.TextArea.TextView.CurrentLineBackground = (Brush)FindResource("Brush.SurfaceAlt");
             var highlighting = HighlightingManager.Instance.GetDefinition("Python");
             if (highlighting != null)
             {

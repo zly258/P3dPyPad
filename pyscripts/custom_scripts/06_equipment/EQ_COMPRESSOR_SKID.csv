@@ -1,0 +1,2 @@
+PartNumber,DN_SUC,DN_DIS,L_SKID,W_SKID,H_SKID,H_CL,D_VOLUTE,D_MOTOR,L_MOTOR,Standard,ShortDesc,DataSource
+COMP-SKID-DN300/200,300,200,3600,1600,280,1050,1050,720,1150,,离心压缩机/鼓风机撬块 (API 617),非标设备默认外形模板(不含系列数据;按项目条件图输入)

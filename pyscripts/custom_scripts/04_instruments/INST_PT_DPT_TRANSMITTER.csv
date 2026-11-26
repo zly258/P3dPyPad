@@ -1,0 +1,5 @@
+PartNumber,DN,D_FL,C_FL,W_MANIFOLD,D_HEAD,L_HEAD,H_TOTAL,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+PT_DPT_DN20_PN16,20,105,18,136,112,156,390,FL,PN16,RF,,IEC 61518,INST,压力/差压变送器含三阀组 (IEC 61518),压力/差压变送器含三阀组 (IEC 61518) DN20 PN16 IEC 61518,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+PT_DPT_DN15_PN40,15,95,16,130,108,148,375,FL,PN40,RF,,IEC 61518,INST,压力/差压变送器含三阀组 (IEC 61518),压力/差压变送器含三阀组 (IEC 61518) DN15 PN40 IEC 61518,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+PT_DPT_DN25_PN40,25,115,18,144,116,162,405,FL,PN40,RF,,IEC 61518,INST,压力/差压变送器含三阀组 (IEC 61518),压力/差压变送器含三阀组 (IEC 61518) DN25 PN40 IEC 61518,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+PT_DPT_DN50_PN16,50,165,18,150,120,168,425,FL,PN16,RF,,IEC 61518,INST,压力/差压变送器含三阀组 (IEC 61518),压力/差压变送器含三阀组 (IEC 61518) DN50 PN16 IEC 61518,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)

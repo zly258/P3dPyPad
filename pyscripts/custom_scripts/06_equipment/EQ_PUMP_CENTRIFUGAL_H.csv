@@ -1,0 +1,2 @@
+PartNumber,DN_SUC,DN_DIS,L_BASE,W_BASE,H_BASE,H_CL,D_VOLUTE,H_DIS,D_MOTOR,L_MOTOR,Standard,ShortDesc,DataSource
+IH80_65_160,80,65,1150,460,100,280,280,480,260,420,GB/T 5662 / ISO 2858,卧式单级离心泵总成 (GB/T 5662 / ISO 2858),非标设备默认外形模板(不含系列数据;按项目条件图输入)

@@ -1,0 +1,5 @@
+PartNumber,DN,D_FL,C_FL,L_IMM,D_PROBE,H_EXT,D_HEAD,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+ANA_PH_DN50_L600_PN16,50,165,18,600,32,320,118,FL,PN16,RF,,HG/T 20592 / JB/T 6858,INST,在线 pH/电导率过程分析仪总成 (HG/T 20592),在线 pH/电导率过程分析仪总成 (HG/T 20592) DN50 PN16 HG/T 20592 / JB/T 6858,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+ANA_PH_DN25_L400_PN16,25,115,18,400,26,290,112,FL,PN16,RF,,HG/T 20592 / JB/T 6858,INST,在线 pH/电导率过程分析仪总成 (HG/T 20592),在线 pH/电导率过程分析仪总成 (HG/T 20592) DN25 PN16 HG/T 20592 / JB/T 6858,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+ANA_COND_DN50_L800_PN16,50,165,18,800,34,340,118,FL,PN16,RF,,HG/T 20592 / JB/T 6858,INST,在线 pH/电导率过程分析仪总成 (HG/T 20592),在线 pH/电导率过程分析仪总成 (HG/T 20592) DN50 PN16 HG/T 20592 / JB/T 6858,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+ANA_PH_DN80_L1000_PN16,80,200,20,1000,38,360,124,FL,PN16,RF,,HG/T 20592 / JB/T 6858,INST,在线 pH/电导率过程分析仪总成 (HG/T 20592),在线 pH/电导率过程分析仪总成 (HG/T 20592) DN80 PN16 HG/T 20592 / JB/T 6858,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)

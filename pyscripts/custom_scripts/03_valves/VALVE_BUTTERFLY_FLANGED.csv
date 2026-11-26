@@ -1,0 +1,5 @@
+PartNumber,DN,D,L_FACE,D_FL,C_FL,H_NECK,D_HW,EndType,EndType2,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+BFLY_FL_DN200_PN16,200,219.1,152,340,24,265,280,FL,FL,PN16,RF,,GB/T 12238 / API 609,VVFL,双法兰偏心蝶阀 (蜗轮传动),双法兰偏心蝶阀 (蜗轮传动) DN200 PN16 GB/T 12238 / API 609,工程参考包络(需按采购样本校核)
+BFLY_FL_DN150_PN16,150,168.3,140,285,22,230,240,FL,FL,PN16,RF,,GB/T 12238 / API 609,VVFL,双法兰偏心蝶阀 (蜗轮传动),双法兰偏心蝶阀 (蜗轮传动) DN150 PN16 GB/T 12238 / API 609,工程参考包络(需按采购样本校核)
+BFLY_FL_DN250_PN16,250,273.0,165,405,26,310,320,FL,FL,PN16,RF,,GB/T 12238 / API 609,VVFL,双法兰偏心蝶阀 (蜗轮传动),双法兰偏心蝶阀 (蜗轮传动) DN250 PN16 GB/T 12238 / API 609,工程参考包络(需按采购样本校核)
+BFLY_FL_DN300_PN16,300,323.9,178,460,28,350,360,FL,FL,PN16,RF,,GB/T 12238 / API 609,VVFL,双法兰偏心蝶阀 (蜗轮传动),双法兰偏心蝶阀 (蜗轮传动) DN300 PN16 GB/T 12238 / API 609,工程参考包络(需按采购样本校核)

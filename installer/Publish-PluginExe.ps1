@@ -73,8 +73,8 @@ try {
         throw "打包成功但未在 $outputDir 找到 P3dPyPad-Plugin-Setup-*.exe。"
     }
 
-    # 同步生成通用别名 P3dPyPad-Setup-v1.0.0.exe
-    $aliasPath = Join-Path $outputDir 'P3dPyPad-Setup-v1.0.0.exe'
+    # 同步生成通用别名 P3dPyPad-Setup-v1.1.0.exe
+    $aliasPath = Join-Path $outputDir 'P3dPyPad-Setup-v1.1.0.exe'
     Copy-Item -LiteralPath $installer.FullName -Destination $aliasPath -Force
 
     $sizeMb = [math]::Round($installer.Length / 1MB, 2)

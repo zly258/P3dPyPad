@@ -120,12 +120,7 @@ def detect_specs_editor_path() -> str:
         except Exception:
             pass
 
-    # 2. 优先检查 2019 标准安装路径
-    target_2019 = r"C:\Program Files\Autodesk\AutoCAD 2019\PLNT3D\SpecsAndCatalogsEditor.exe"
-    if os.path.isfile(target_2019):
-        return target_2019
-
-    # 3. 按版本号从新到旧探测 (2026 -> 2018)
+    # 2. 按版本号从新到旧探测 (2026 -> 2018)，默认使用最新版本
     for year in ("2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018"):
         cand = rf"C:\Program Files\Autodesk\AutoCAD {year}\PLNT3D\SpecsAndCatalogsEditor.exe"
         if os.path.isfile(cand):
@@ -994,13 +989,29 @@ def create_project_spec(
     if donor_spec_path and os.path.isfile(donor_spec_path):
         donor = donor_spec_path
     else:
-        # 优先在当前项目目录找现有的任意 .pspc 作为模板 (如 CS150.pspc / 10HC01.pspc 等)
+        # 优先在当前项目目录找包含完整 Pipe + Port + PartPort 表的管道等级作为模板（跳过纯支吊架等级）
+        fallback_donor = None
         for cand_fn in sorted(os.listdir(spec_dir)):
-            if cand_fn.lower().endswith(".pspc"):
-                c_p = os.path.join(spec_dir, cand_fn)
-                if os.path.isfile(c_p) and os.path.getsize(c_p) > 0:
+            if not cand_fn.lower().endswith(".pspc"):
+                continue
+            c_p = os.path.join(spec_dir, cand_fn)
+            if not (os.path.isfile(c_p) and os.path.getsize(c_p) > 0):
+                continue
+            if fallback_donor is None:
+                fallback_donor = c_p
+            try:
+                chk = sqlite3.connect("file:%s?mode=ro" % c_p.replace("\\", "/"), uri=True)
+                try:
+                    tset = {r[0] for r in chk.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+                finally:
+                    chk.close()
+                if {"Pipe", "Port", "PartPort"}.issubset(tset):
                     donor = c_p
                     break
+            except Exception:
+                continue
+        if not donor:
+            donor = fallback_donor
         if not donor:
             # 其次在 CPak Common 找
             c_dir = detect_default_content_dir()
@@ -1090,6 +1101,20 @@ def _seed_metric_pipes(spec_path: str):
     rows = int(added.get("added_rows") or 0)
     if rows <= 0:
         return 0, "公制管子库里没有 CPP 直管"
+    # 清除 CustomParts 带来的 Custom 标记与 Universal_ET，确保 Plant 3D Ribbon 管径下拉正常显示
+    try:
+        con = sqlite3.connect(spec_path)
+        try:
+            con.execute(
+                "UPDATE EngineeringItems SET ComponentDesignation = NULL, "
+                "EndType = CASE WHEN EndType = 'Universal_ET' OR EndType IS NULL OR EndType = '' THEN 'PL' ELSE EndType END "
+                "WHERE ContentGeometryTemplate = 'CPP' AND PartCategory = 'Pipe'"
+            )
+            con.commit()
+        finally:
+            con.close()
+    except Exception:
+        pass
     return rows, "已写入 %d 条公制直管（CPP，mm）" % rows
 
 
@@ -1506,6 +1531,7 @@ def add_catalog_item_to_spec(
             # 同步多端口记录 (PartPort & Port)
             if _table_exists(cat_con, "PartPort") and _table_exists(cat_con, "Port") and _table_exists(spec_con, "PartPort") and _table_exists(spec_con, "Port"):
                 port_rels = cat_con.execute("SELECT Port, Name FROM PartPort WHERE Part=? ORDER BY PnPID", (cat_pid,)).fetchall()
+                # 源库里的附加端口本来就从 S2 起；Name 为空时才用 S2、S3… 补名，不要写成 S1。
                 for idx_p, prel in enumerate(port_rels, 2):
                     cat_port_id = prel["Port"]
                     p_name = prel["Name"] or f"S{idx_p}"

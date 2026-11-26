@@ -1,0 +1,5 @@
+PartNumber,DN,D_FL,C_FL,L_PROBE,L_EXT,D_HEAD,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+TFK_DN50_PN16,50,165,18,195,210,102,FL,PN16,RF,,GB/T 34041-2017,INST,侧装法兰音叉液位开关 (GB/T 34041),侧装法兰音叉液位开关 (GB/T 34041) DN50 PN16 GB/T 34041-2017,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+TFK_DN40_PN40,40,150,18,180,200,98,FL,PN40,RF,,GB/T 34041-2017,INST,侧装法兰音叉液位开关 (GB/T 34041),侧装法兰音叉液位开关 (GB/T 34041) DN40 PN40 GB/T 34041-2017,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+TFK_DN80_PN16,80,200,20,235,220,106,FL,PN16,RF,,GB/T 34041-2017,INST,侧装法兰音叉液位开关 (GB/T 34041),侧装法兰音叉液位开关 (GB/T 34041) DN80 PN16 GB/T 34041-2017,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+TFK_DN50_L300_PN40,50,165,20,300,220,104,FL,PN40,RF,,GB/T 34041-2017,INST,侧装法兰音叉液位开关 (GB/T 34041),侧装法兰音叉液位开关 (GB/T 34041) DN50 PN40 GB/T 34041-2017,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)

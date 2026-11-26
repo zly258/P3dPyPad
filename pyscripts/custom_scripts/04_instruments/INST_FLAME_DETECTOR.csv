@@ -1,0 +1,5 @@
+PartNumber,DN,D_CASE,L_CASE,L_HOOD,W_PLATE,H_PLATE,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+FLM_UVIR_EXD_STD,20,126,168,85,150,150,FL,PN16,RF,STD,GB/T 50493-2019,INST,防爆紫外/红外火焰探测器 (GB/T 50493),防爆紫外/红外火焰探测器 (GB/T 50493) DN20 PN16 STD GB/T 50493-2019,非工艺法兰仪表+表壳与支架为工程包络(需按仪表厂样本替换)
+FLM_IR3_EXD_STD,25,136,182,95,160,160,FL,PN16,RF,STD,GB/T 50493-2019,INST,防爆紫外/红外火焰探测器 (GB/T 50493),防爆紫外/红外火焰探测器 (GB/T 50493) DN25 PN16 STD GB/T 50493-2019,非工艺法兰仪表+表壳与支架为工程包络(需按仪表厂样本替换)
+FLM_UV_COMPACT,20,108,145,72,135,135,FL,PN16,RF,,GB/T 50493-2019,INST,防爆紫外/红外火焰探测器 (GB/T 50493),防爆紫外/红外火焰探测器 (GB/T 50493) DN20 PN16 GB/T 50493-2019,非工艺法兰仪表+表壳与支架为工程包络(需按仪表厂样本替换)
+FLM_IR3_HEAVY,25,148,198,105,175,175,FL,PN16,RF,,GB/T 50493-2019,INST,防爆紫外/红外火焰探测器 (GB/T 50493),防爆紫外/红外火焰探测器 (GB/T 50493) DN25 PN16 GB/T 50493-2019,非工艺法兰仪表+表壳与支架为工程包络(需按仪表厂样本替换)

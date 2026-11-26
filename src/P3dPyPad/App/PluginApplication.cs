@@ -27,9 +27,10 @@ namespace P3dPyPad
             AppDomain.CurrentDomain.AssemblyResolve += ResolvePluginAssembly;
 #if NET8_0_OR_GREATER
             // AutoCAD 2025/2026 (.NET 8.0) 下插件可能位于独立 AssemblyLoadContext，
-            // 同步注册当前加载上下文的 Resolving 事件以确保 WPF XAML 顺利加载 AvalonEdit。
+            // 同时注册 Default 与当前 ALC 的 Resolving 事件以确保 WPF BAML 顺利解析 AvalonEdit。
+            AssemblyLoadContext.Default.Resolving += ResolveInLoadContext;
             var alc = AssemblyLoadContext.GetLoadContext(typeof(PluginApplication).Assembly);
-            if (alc != null)
+            if (alc != null && alc != AssemblyLoadContext.Default)
             {
                 alc.Resolving += ResolveInLoadContext;
             }
@@ -102,7 +103,7 @@ namespace P3dPyPad
             {
                 doc.Editor.WriteMessage(
                     "\nP3dPyPad 已加载。命令: PYPAD 单个测试 | PYBATCH 批量测试 | " +
-                    "PYEQCREATE 创建设备 | PYEQEDIT 编辑设备 | " +
+                    "PYEQCREATE 创建设备 | " +
                     "PYBATCH_RUN 无人值守批量测试 | PYLANG 切换语言 | PYABOUT 关于\n");
                 _bannerPrinted = true;
                 return true;
@@ -159,13 +160,6 @@ namespace P3dPyPad
         {
             if (!EnsurePlant3D()) return;
             OpenEquipmentCreate();
-        }
-
-        [CommandMethod("PYEQEDIT", CommandFlags.Session | CommandFlags.UsePickSet)]
-        public void ShowEquipmentEdit()
-        {
-            if (!EnsurePlant3D()) return;
-            OpenEquipmentEdit();
         }
 
         /// <summary>
@@ -297,25 +291,82 @@ namespace P3dPyPad
         {
             if (!ProductGuard.EnsurePlant3D()) return;
 
-            if (_window == null)
+            try
             {
-                _window = new ScriptPadWindow();
-                _window.Closed += delegate { _window = null; };
-                AcadApp.ShowModelessWindow(_window);
-            }
-            else
-            {
-                if (_window.WindowState == System.Windows.WindowState.Minimized)
-                {
-                    _window.WindowState = System.Windows.WindowState.Normal;
-                }
-                _window.Activate();
-            }
+                EnsureAvalonEditLoaded();
 
-            if (!string.IsNullOrEmpty(scriptPath) && File.Exists(scriptPath))
-            {
-                _window.OpenScriptPath(scriptPath);
+                if (_window == null)
+                {
+                    _window = new ScriptPadWindow();
+                    _window.Closed += delegate { _window = null; };
+                    AcadApp.ShowModelessWindow(_window);
+                }
+                else
+                {
+                    if (_window.WindowState == System.Windows.WindowState.Minimized)
+                    {
+                        _window.WindowState = System.Windows.WindowState.Normal;
+                    }
+                    _window.Activate();
+                }
+
+                if (!string.IsNullOrEmpty(scriptPath) && File.Exists(scriptPath))
+                {
+                    _window.OpenScriptPath(scriptPath);
+                }
             }
+            catch (System.Exception ex)
+            {
+                ReportWindowError("脚本测试窗口打开失败", ex);
+            }
+        }
+
+        private static void EnsureAvalonEditLoaded()
+        {
+            try
+            {
+                var path = FindDependencyPath("ICSharpCode.AvalonEdit");
+                if (string.IsNullOrEmpty(path) || !File.Exists(path)) return;
+
+                foreach (var loaded in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    try
+                    {
+                        if (string.Equals(loaded.GetName().Name, "ICSharpCode.AvalonEdit", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return;
+                        }
+                    }
+                    catch { }
+                }
+
+#if NET8_0_OR_GREATER
+                var alc = AssemblyLoadContext.GetLoadContext(typeof(PluginApplication).Assembly) ?? AssemblyLoadContext.Default;
+                alc.LoadFromAssemblyPath(path);
+#else
+                Assembly.LoadFrom(path);
+#endif
+            }
+            catch
+            {
+            }
+        }
+
+        private static void ReportWindowError(string title, System.Exception ex)
+        {
+            var detail = ex?.InnerException != null ? (ex.Message + "\n" + ex.InnerException.Message) : (ex?.Message ?? "未知错误");
+            try
+            {
+                var doc = AcadApp.DocumentManager.MdiActiveDocument;
+                doc?.Editor?.WriteMessage("\n[P3dPyPad] " + title + ": " + detail + "\n");
+            }
+            catch { }
+
+            try
+            {
+                System.Windows.MessageBox.Show(detail, "P3dPyPad - " + title, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            catch { }
         }
 
         public static void OpenBatchTest(string folderPath)
@@ -347,53 +398,26 @@ namespace P3dPyPad
         {
             if (!ProductGuard.EnsurePlant3D()) return;
 
-            if (_equipmentWindow == null)
+            try
             {
-                _equipmentWindow = new EquipmentManagerWindow(EquipmentDialogMode.Create);
-                _equipmentWindow.Closed += delegate { _equipmentWindow = null; };
-                AcadApp.ShowModelessWindow(_equipmentWindow);
-            }
-            else
-            {
-                _equipmentWindow.SwitchToCreateMode();
-                if (_equipmentWindow.WindowState == System.Windows.WindowState.Minimized)
+                if (_equipmentWindow == null)
                 {
-                    _equipmentWindow.WindowState = System.Windows.WindowState.Normal;
+                    _equipmentWindow = new EquipmentManagerWindow();
+                    _equipmentWindow.Closed += delegate { _equipmentWindow = null; };
+                    AcadApp.ShowModelessWindow(_equipmentWindow);
                 }
-                _equipmentWindow.Activate();
-            }
-        }
-
-        public static void OpenEquipmentEdit()
-        {
-            if (!ProductGuard.EnsurePlant3D()) return;
-
-            var doc = AcadApp.DocumentManager.MdiActiveDocument;
-            if (doc == null) return;
-
-            if (!EquipmentBridge.TrySelectAndLoadEquipmentForEdit(doc, null, out var session, out var err))
-            {
-                if (!string.IsNullOrEmpty(err))
+                else
                 {
-                    doc.Editor.WriteMessage("\n[P3dPyPad] " + err + "\n");
+                    if (_equipmentWindow.WindowState == System.Windows.WindowState.Minimized)
+                    {
+                        _equipmentWindow.WindowState = System.Windows.WindowState.Normal;
+                    }
+                    _equipmentWindow.Activate();
                 }
-                return;
             }
-
-            if (_equipmentWindow == null)
+            catch (System.Exception ex)
             {
-                _equipmentWindow = new EquipmentManagerWindow(EquipmentDialogMode.Edit, session);
-                _equipmentWindow.Closed += delegate { _equipmentWindow = null; };
-                AcadApp.ShowModelessWindow(_equipmentWindow);
-            }
-            else
-            {
-                _equipmentWindow.SwitchToEditMode(session);
-                if (_equipmentWindow.WindowState == System.Windows.WindowState.Minimized)
-                {
-                    _equipmentWindow.WindowState = System.Windows.WindowState.Normal;
-                }
-                _equipmentWindow.Activate();
+                ReportWindowError("创建设备窗口打开失败", ex);
             }
         }
 

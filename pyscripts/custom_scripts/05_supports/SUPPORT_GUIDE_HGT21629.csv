@@ -1,0 +1,6 @@
+PartNumber,DN,D,H1,L1,B1,STOP_H,T_PLT,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+GUIDE_DN150_H100,150,168.3,100,300,140,45,10,Undefined_ET,,,,HG/T 21629-2021,SKID,导向管托 (HG/T 21629 B1),导向管托 (HG/T 21629 B1) DN150 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+GUIDE_DN80_H100,80,88.9,100,250,100,40,8,Undefined_ET,,,,HG/T 21629-2021,SKID,导向管托 (HG/T 21629 B1),导向管托 (HG/T 21629 B1) DN80 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+GUIDE_DN100_H100,100,114.3,100,250,120,40,8,Undefined_ET,,,,HG/T 21629-2021,SKID,导向管托 (HG/T 21629 B1),导向管托 (HG/T 21629 B1) DN100 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+GUIDE_DN200_H150,200,219.1,150,350,180,50,12,Undefined_ET,,,,HG/T 21629-2021,SKID,导向管托 (HG/T 21629 B1),导向管托 (HG/T 21629 B1) DN200 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+GUIDE_DN300_H150,300,323.9,150,400,240,55,12,Undefined_ET,,,,HG/T 21629-2021,SKID,导向管托 (HG/T 21629 B1),导向管托 (HG/T 21629 B1) DN300 HG/T 21629-2021,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)

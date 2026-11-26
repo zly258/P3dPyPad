@@ -1,0 +1,6 @@
+PartNumber,DN,D,L_PIN,D_BODY,D_ROD,CLAMP_W,T_PLT,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+SNUB_DN150_L480,150,168.3,480,86,36,50,14,Undefined_ET,,,,NB/T 47039-2013,SKID,刚性拉撑杆/液压阻尼器 (SNUBBER),刚性拉撑杆/液压阻尼器 (SNUBBER) DN150 NB/T 47039-2013,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+SNUB_DN100_L420,100,114.3,420,70,28,40,12,Undefined_ET,,,,NB/T 47039-2013,SKID,刚性拉撑杆/液压阻尼器 (SNUBBER),刚性拉撑杆/液压阻尼器 (SNUBBER) DN100 NB/T 47039-2013,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+SNUB_DN200_L540,200,219.1,540,100,42,55,16,Undefined_ET,,,,NB/T 47039-2013,SKID,刚性拉撑杆/液压阻尼器 (SNUBBER),刚性拉撑杆/液压阻尼器 (SNUBBER) DN200 NB/T 47039-2013,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+SNUB_DN300_L620,300,323.9,620,120,50,65,18,Undefined_ET,,,,NB/T 47039-2013,SKID,刚性拉撑杆/液压阻尼器 (SNUBBER),刚性拉撑杆/液压阻尼器 (SNUBBER) DN300 NB/T 47039-2013,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)
+SNUB_DN400_L700,400,406.4,700,140,56,75,20,Undefined_ET,,,,NB/T 47039-2013,SKID,刚性拉撑杆/液压阻尼器 (SNUBBER),刚性拉撑杆/液压阻尼器 (SNUBBER) DN400 NB/T 47039-2013,管径I系列已核实+管架型钢尺寸为工程参考值(需对照HG/T 21629-2021正版图集校核)

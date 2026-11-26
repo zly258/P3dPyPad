@@ -1,0 +1,6 @@
+PartNumber,DN,DN2,D1,D2,L_LEN,WT1,WT2,EndType,EndType2,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+SWAGE_CON_DN50x25_SCH80,50,25,60.3,33.4,165.0,5.5,4.5,BV,BV,,BW,SCH80,MSS SP-95,RCBW,同心异径短节 Swage Nipple (MSS SP-95),同心异径短节 Swage Nipple (MSS SP-95) DN50 SCH80 MSS SP-95,工程参考模板(需按项目图校核)
+SWAGE_CON_DN40x25_SCH80,40,25,48.3,33.4,114.0,5.1,4.5,BV,BV,,BW,SCH80,MSS SP-95,RCBW,同心异径短节 Swage Nipple (MSS SP-95),同心异径短节 Swage Nipple (MSS SP-95) DN40 SCH80 MSS SP-95,工程参考模板(需按项目图校核)
+SWAGE_CON_DN50x40_SCH80,50,40,60.3,48.3,165.0,5.5,5.1,BV,BV,,BW,SCH80,MSS SP-95,RCBW,同心异径短节 Swage Nipple (MSS SP-95),同心异径短节 Swage Nipple (MSS SP-95) DN50 SCH80 MSS SP-95,工程参考模板(需按项目图校核)
+SWAGE_CON_DN80x50_SCH80,80,50,88.9,60.3,203.0,7.6,5.5,BV,BV,,BW,SCH80,MSS SP-95,RCBW,同心异径短节 Swage Nipple (MSS SP-95),同心异径短节 Swage Nipple (MSS SP-95) DN80 SCH80 MSS SP-95,工程参考模板(需按项目图校核)
+SWAGE_CON_DN100x50_SCH80,100,50,114.3,60.3,229.0,8.6,5.5,BV,BV,,BW,SCH80,MSS SP-95,RCBW,同心异径短节 Swage Nipple (MSS SP-95),同心异径短节 Swage Nipple (MSS SP-95) DN100 SCH80 MSS SP-95,工程参考模板(需按项目图校核)

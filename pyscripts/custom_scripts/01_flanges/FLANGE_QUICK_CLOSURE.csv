@@ -1,0 +1,5 @@
+PartNumber,DN,D,B_ID,D_CLAMP,W_CLAMP,L_HUB,L_TOT,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+QOC-DN300-PN40,300,323.9,303.2,430.0,76.0,160.0,330.0,FL,PN40,RF,,,FLWN,快开盲板 (Quick Opening Closure),快开盲板 (Quick Opening Closure) DN300 PN40,工程参考模板(需按厂标校核)
+QOC-DN200-PN40,200,219.1,202.7,310.0,62.0,130.0,270.0,FL,PN40,RF,,,FLWN,快开盲板 (Quick Opening Closure),快开盲板 (Quick Opening Closure) DN200 PN40,工程参考模板(需按厂标校核)
+QOC-DN400-PN40,400,406.4,381.0,530.0,88.0,185.0,390.0,FL,PN40,RF,,,FLWN,快开盲板 (Quick Opening Closure),快开盲板 (Quick Opening Closure) DN400 PN40,工程参考模板(需按厂标校核)
+QOC-DN600-PN40,600,610.0,575.0,760.0,108.0,220.0,480.0,FL,PN40,RF,,,FLWN,快开盲板 (Quick Opening Closure),快开盲板 (Quick Opening Closure) DN600 PN40,工程参考模板(需按厂标校核)

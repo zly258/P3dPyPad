@@ -1,0 +1,5 @@
+PartNumber,DN,D_FL,C_FL,L_IMM,D_ROOT,D_TIP,H_EXT,D_HEAD,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+TW_DN25_L220_PN40,25,115,18,220,38,24,235,104,FL,PN40,RF,,ASME PTC 19.3,INST,法兰式热电偶/温度计含锥形套管 (ASME PTC 19.3),法兰式热电偶/温度计含锥形套管 (ASME PTC 19.3) DN25 PN40 ASME PTC 19.3,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+TW_DN40_L260_PN40,40,150,20,260,42,26,245,108,FL,PN40,RF,,ASME PTC 19.3,INST,法兰式热电偶/温度计含锥形套管 (ASME PTC 19.3),法兰式热电偶/温度计含锥形套管 (ASME PTC 19.3) DN40 PN40 ASME PTC 19.3,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+TW_DN50_L300_PN16,50,165,18,300,46,28,255,112,FL,PN16,RF,,ASME PTC 19.3,INST,法兰式热电偶/温度计含锥形套管 (ASME PTC 19.3),法兰式热电偶/温度计含锥形套管 (ASME PTC 19.3) DN50 PN16 ASME PTC 19.3,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+TW_DN50_L380_PN40,50,165,22,380,48,30,270,112,FL,PN40,RF,,ASME PTC 19.3,INST,法兰式热电偶/温度计含锥形套管 (ASME PTC 19.3),法兰式热电偶/温度计含锥形套管 (ASME PTC 19.3) DN50 PN40 ASME PTC 19.3,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)

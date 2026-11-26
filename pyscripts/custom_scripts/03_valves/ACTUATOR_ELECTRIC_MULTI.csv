@@ -1,0 +1,5 @@
+PartNumber,DN,D_BASE,L_TOTAL,H_BODY,H_STEM_TUBE,D_MOTOR,D_HW,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+ELEC_ACT_F14,100,175,520,245,460,155,280,Undefined_ET,,,,ISO 5210,ACTU,多回转电动执行机构 (ISO 5210),多回转电动执行机构 (ISO 5210) DN100 ISO 5210,工程参考包络(需按采购样本校核)
+ELEC_ACT_F10,100,125,420,200,380,125,220,Undefined_ET,,,,ISO 5210,ACTU,多回转电动执行机构 (ISO 5210),多回转电动执行机构 (ISO 5210) DN100 ISO 5210,工程参考包络(需按采购样本校核)
+ELEC_ACT_F16,100,210,600,285,540,180,320,Undefined_ET,,,,ISO 5210,ACTU,多回转电动执行机构 (ISO 5210),多回转电动执行机构 (ISO 5210) DN100 ISO 5210,工程参考包络(需按采购样本校核)
+ELEC_ACT_F25,100,300,720,340,660,220,400,Undefined_ET,,,,ISO 5210,ACTU,多回转电动执行机构 (ISO 5210),多回转电动执行机构 (ISO 5210) DN100 ISO 5210,工程参考包络(需按采购样本校核)

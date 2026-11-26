@@ -189,8 +189,8 @@ def parse_script(path):
     if ports:
         info["ports"] = max(1, int(ports.group(1)))
 
-    # 默认值从 def 签名里取（@param 通常不带 Value）
-    defaults = _signature_defaults(text)
+    # 默认值从主入口 def 签名里取（@param 通常不带 Value），避免误匹配顶部辅助函数
+    defaults = _signature_defaults(text, func_name=name)
 
     # 按出现顺序扫 @group / @param，把参数分配到所属分组
     events = []
@@ -217,9 +217,22 @@ def parse_script(path):
     return info
 
 
-def _signature_defaults(text):
-    """从 def 签名取默认值：覆盖多行签名。"""
-    match = re.search(r"def\s+[A-Za-z_]\w*\s*\((.*?)\)\s*:", text, re.S)
+def _signature_defaults(text, func_name=None):
+    """从主入口 def 签名取默认值：优先匹配与脚本同名或带 @activate 装饰器的函数，覆盖多行签名。"""
+    match = None
+    if func_name:
+        match = re.search(
+            r"def\s+" + re.escape(func_name) + r"\s*\((.*?)\)\s*:",
+            text,
+            re.S,
+        )
+    if not match:
+        # 其次匹配 @activate / @param 装饰器链后的第一个 def
+        act = re.search(r"@activate\s*\(", text)
+        if act:
+            match = re.search(r"def\s+[A-Za-z_]\w*\s*\((.*?)\)\s*:", text[act.start():], re.S)
+    if not match:
+        match = re.search(r"def\s+[A-Za-z_]\w*\s*\((.*?)\)\s*:", text, re.S)
     if not match:
         return {}
     defaults = {}

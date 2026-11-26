@@ -1,0 +1,6 @@
+PartNumber,DN,D_PIPE,B_ID,D_FL,L_FERRULE,T_GSK,D_CLAMP,W_CLAMP,EndType,EndType2,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+TRICLAMP-ISO2852-DN50,50,53.0,50.0,64.0,21.5,4.0,78.0,22.0,CL,CL,,TC,,ISO 2852,FLCL,卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852),卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852) DN50 ISO 2852,核实标准表:ISO 2852/DIN 32676(卡箍环外廓为工程参考)
+TRICLAMP-ISO2852-DN25,25,29.0,26.0,50.5,21.5,4.0,64.0,20.0,CL,CL,,TC,,ISO 2852,FLCL,卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852),卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852) DN25 ISO 2852,核实标准表:ISO 2852/DIN 32676(卡箍环外廓为工程参考)
+TRICLAMP-ISO2852-DN40,40,41.0,38.0,50.5,21.5,4.0,64.0,20.0,CL,CL,,TC,,ISO 2852,FLCL,卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852),卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852) DN40 ISO 2852,核实标准表:ISO 2852/DIN 32676(卡箍环外廓为工程参考)
+TRICLAMP-ISO2852-DN80,80,85.0,81.0,106.0,28.0,5.0,122.0,26.0,CL,CL,,TC,,ISO 2852,FLCL,卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852),卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852) DN80 ISO 2852,核实标准表:ISO 2852/DIN 32676(卡箍环外廓为工程参考)
+TRICLAMP-ISO2852-DN100,100,104.0,100.0,119.0,28.0,5.0,136.0,28.0,CL,CL,,TC,,ISO 2852,FLCL,卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852),卫生级 Tri-Clamp 快装卡箍法兰接头 (ISO 2852) DN100 ISO 2852,核实标准表:ISO 2852/DIN 32676(卡箍环外廓为工程参考)

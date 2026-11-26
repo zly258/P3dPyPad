@@ -1,0 +1,5 @@
+PartNumber,DN,D_FL,C_FL,D_DIAL,T_DIAL,H_TOTAL,W_VALVE,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+PG_DN15_D150_PN16,15,95,16,150,52,340,48,FL,PN16,RF,,GB/T 1226-2017,INST,压力表总成含根部阀 (GB/T 1226),压力表总成含根部阀 (GB/T 1226) DN15 PN16 GB/T 1226-2017,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+PG_DN20_D100_PN16,20,105,18,100,42,290,46,FL,PN16,RF,,GB/T 1226-2017,INST,压力表总成含根部阀 (GB/T 1226),压力表总成含根部阀 (GB/T 1226) DN20 PN16 GB/T 1226-2017,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+PG_DN20_D150_PN40,20,105,18,150,54,360,52,FL,PN40,RF,,GB/T 1226-2017,INST,压力表总成含根部阀 (GB/T 1226),压力表总成含根部阀 (GB/T 1226) DN20 PN40 GB/T 1226-2017,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+PG_DN25_D150_PN40,25,115,18,150,56,375,56,FL,PN40,RF,,GB/T 1226-2017,INST,压力表总成含根部阀 (GB/T 1226),压力表总成含根部阀 (GB/T 1226) DN25 PN40 GB/T 1226-2017,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)

@@ -340,7 +340,7 @@ namespace P3dPyPad
         }
 
         /// <summary>
-        /// 在图面上交互式定位并创建原生 Plant 3D 设备实体。
+        /// 在图面上带 3D 实时预览（平移 Jig + 旋转 Jig）交互式定位并创建原生 Plant 3D 设备实体。
         /// </summary>
         public static bool PlaceNewEquipment(Document doc, EquipmentEditSession session, out ObjectId createdId, out string errorMessage)
         {
@@ -359,36 +359,8 @@ namespace P3dPyPad
                 return false;
             }
 
-            // 1. 图面指定插入基点
-            var ppo = new PromptPointOptions("\n" + LocalizationManager.T("EqPromptBasePoint", "指定设备放置点: ", "Specify equipment insertion point: "));
-            var ppr = doc.Editor.GetPoint(ppo);
-            if (ppr.Status != PromptStatus.OK)
-            {
-                return false;
-            }
-
-            var insertPt = new Point3d(ppr.Value.X, ppr.Value.Y, ppr.Value.Z + session.Elevation);
-
-            // 2. 可选旋转角（直接回车使用界面设定角度）
-            var defaultRad = session.RotationDegrees * Math.PI / 180.0;
-            var pao = new PromptAngleOptions(
-                "\n" + string.Format(LocalizationManager.T("EqPromptAngle", "指定旋转角度 <{0:0.##}°>: ", "Specify rotation angle <{0:0.##}°>: "), session.RotationDegrees))
-            {
-                BasePoint = insertPt,
-                UseBasePoint = true,
-                AllowNone = true,
-                DefaultValue = defaultRad
-            };
-            var par = doc.Editor.GetAngle(pao);
-            if (par.Status == PromptStatus.Cancel)
-            {
-                return false;
-            }
-            var finalRad = par.Status == PromptStatus.OK ? par.Value : defaultRad;
-
             try
             {
-                // 回写 UI 修改到原生 EquipmentType
                 WriteSessionBackToNativeEquipment(session);
 
                 using (doc.LockDocument())
@@ -400,7 +372,6 @@ namespace P3dPyPad
                         return false;
                     }
 
-                    // 查找 6 参重载: CreateEquipmentEntity(EquipmentType eq, String dwgName, Double dwgScale, Database db, ref PartSizeProperties equipPart, ref PartSizePropertiesCollection nozzleParts)
                     var createMethod = _equipmentHelperType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                         .FirstOrDefault(m => m.Name == "CreateEquipmentEntity" && m.GetParameters().Length == 6);
                     if (createMethod == null)
@@ -431,10 +402,38 @@ namespace P3dPyPad
                     var equipPart = invokeArgs[4];
                     var nozzleParts = invokeArgs[5];
 
-                    // 应用平移与旋转
-                    var matrix = Matrix3d.Displacement(insertPt - Point3d.Origin)
-                        * Matrix3d.Rotation(finalRad, Vector3d.ZAxis, Point3d.Origin);
-                    eqEntity.TransformBy(matrix);
+                    // 预设初始旋转角与标高偏移
+                    var initRad = session.RotationDegrees * Math.PI / 180.0;
+                    if (Math.Abs(initRad) > 1e-6)
+                    {
+                        eqEntity.TransformBy(Matrix3d.Rotation(initRad, Vector3d.ZAxis, Point3d.Origin));
+                    }
+                    if (Math.Abs(session.Elevation) > 1e-6)
+                    {
+                        eqEntity.TransformBy(Matrix3d.Displacement(new Vector3d(0, 0, session.Elevation)));
+                    }
+
+                    // 阶段一：3D 实体跟随光标平移预览 Jig
+                    var movePrompt = "\n" + LocalizationManager.T("EqPromptBasePoint", "指定设备放置点: ", "Specify equipment insertion point: ");
+                    var moveJig = new EquipmentMoveJig(eqEntity, session.Elevation, movePrompt);
+                    var moveRes = doc.Editor.Drag(moveJig);
+                    if (moveRes.Status != PromptStatus.OK)
+                    {
+                        eqEntity.Dispose();
+                        return false;
+                    }
+
+                    // 阶段二：3D 实体实时旋转预览 Jig（支持直接回车保留当前角度）
+                    var rotPrompt = "\n" + string.Format(
+                        LocalizationManager.T("EqPromptAngle", "指定旋转角度 <回车保持 {0:0.##}°>: ", "Specify rotation angle <Enter to keep {0:0.##}°>: "),
+                        session.RotationDegrees);
+                    var rotJig = new EquipmentRotateJig(eqEntity, moveJig.CurrentPoint, rotPrompt);
+                    var rotRes = doc.Editor.Drag(rotJig);
+                    if (rotRes.Status == PromptStatus.Cancel && !rotJig.AcceptedDefault)
+                    {
+                        eqEntity.Dispose();
+                        return false;
+                    }
 
                     using (var tr = doc.Database.TransactionManager.StartTransaction())
                     {
@@ -445,9 +444,7 @@ namespace P3dPyPad
                         tr.Commit();
                     }
 
-                    // 关联 Plant 3D DataLinksManager（确保位号/特性/管嘴进入 DataManager 并支持原生修改）
                     TryLinkNewEquipmentToDataManager(helper, doc.Database, createdId, session.NativeEquipmentType, equipPart, nozzleParts);
-
                     doc.Editor.Regen();
                     return true;
                 }
@@ -461,6 +458,116 @@ namespace P3dPyPad
             {
                 errorMessage = ex.Message;
                 return false;
+            }
+        }
+
+        private sealed class EquipmentMoveJig : EntityJig
+        {
+            private readonly double _elevation;
+            private readonly string _prompt;
+            private Point3d _lastPoint;
+            private Point3d _currentPoint;
+
+            public Point3d CurrentPoint => _currentPoint;
+
+            public EquipmentMoveJig(Entity entity, double elevation, string prompt)
+                : base(entity)
+            {
+                _elevation = elevation;
+                _prompt = prompt;
+                _lastPoint = new Point3d(0, 0, elevation);
+                _currentPoint = _lastPoint;
+            }
+
+            protected override SamplerStatus Sampler(JigPrompts prompts)
+            {
+                var opts = new JigPromptPointOptions(_prompt)
+                {
+                    UserInputControls = UserInputControls.Accept3dCoordinates | UserInputControls.NoZeroResponseAccepted
+                };
+                var res = prompts.AcquirePoint(opts);
+                if (res.Status != PromptStatus.OK)
+                {
+                    return SamplerStatus.Cancel;
+                }
+
+                var next = new Point3d(res.Value.X, res.Value.Y, res.Value.Z + _elevation);
+                if (next.DistanceTo(_currentPoint) < 1e-4)
+                {
+                    return SamplerStatus.NoChange;
+                }
+
+                _currentPoint = next;
+                return SamplerStatus.OK;
+            }
+
+            protected override bool Update()
+            {
+                var delta = _currentPoint - _lastPoint;
+                if (delta.Length > 1e-6)
+                {
+                    Entity.TransformBy(Matrix3d.Displacement(delta));
+                    _lastPoint = _currentPoint;
+                }
+                return true;
+            }
+        }
+
+        private sealed class EquipmentRotateJig : EntityJig
+        {
+            private readonly Point3d _basePoint;
+            private readonly string _prompt;
+            private double _lastAngle;
+            private double _currentAngle;
+
+            public bool AcceptedDefault { get; private set; }
+
+            public EquipmentRotateJig(Entity entity, Point3d basePoint, string prompt)
+                : base(entity)
+            {
+                _basePoint = basePoint;
+                _prompt = prompt;
+                _lastAngle = 0.0;
+                _currentAngle = 0.0;
+            }
+
+            protected override SamplerStatus Sampler(JigPrompts prompts)
+            {
+                var opts = new JigPromptAngleOptions(_prompt)
+                {
+                    BasePoint = _basePoint,
+                    UseBasePoint = true,
+                    UserInputControls = UserInputControls.NullResponseAccepted | UserInputControls.Accept3dCoordinates
+                };
+                var res = prompts.AcquireAngle(opts);
+                if (res.Status == PromptStatus.None)
+                {
+                    AcceptedDefault = true;
+                    return SamplerStatus.Cancel;
+                }
+                if (res.Status != PromptStatus.OK)
+                {
+                    return SamplerStatus.Cancel;
+                }
+
+                if (Math.Abs(res.Value - _currentAngle) < 1e-4)
+                {
+                    return SamplerStatus.NoChange;
+                }
+
+                _currentAngle = res.Value;
+                return SamplerStatus.OK;
+            }
+
+            protected override bool Update()
+            {
+                var delta = _currentAngle - _lastAngle;
+                if (Math.Abs(delta) > 1e-6)
+                {
+                    Entity.TransformBy(Matrix3d.Rotation(delta, Vector3d.ZAxis, _basePoint));
+                    _lastAngle = _currentAngle;
+                }
+                return true;
             }
         }
 

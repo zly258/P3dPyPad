@@ -1,0 +1,2 @@
+PartNumber,DN_CHW,DN_CW,L_SKID,W_SKID,H_SKID,D_EVAP,D_COND,Standard,ShortDesc,DataSource
+CHILLER-SCREW-150,150,150,3600,1750,200,620,660,,螺杆式冷冻机组撬块,非标设备默认外形模板(不含系列数据;按项目条件图输入)

@@ -21,7 +21,7 @@ description: AutoCAD Plant 3D 参数化自定义构件（支吊架、管件、�
 | **`references/api/03_var_basic_and_math_api.md`** | 查询 `varmain/var_basic.py` 全部 33 个公共造型与马鞍口迭代裁切函数、型钢与紧固件子函数（`CSTE_*`, `CNUT6_001`, `CBOLT_001`）、`aqa.math` 数学库与独立脚本 Inline 内联改写源码 |
 | **`references/api/04_reusable_components_catalog.md`** | 查询 `variants.zip` 22 个子包 680+ 原厂可复用组件总表（支吊架 `CSG*`、弯头 `CPB*`、三通 `CPT*`、大小头 `CPJR*`、法兰 `CPF*`、阀门 `CPV*`、设备 `EQ*`）的功能说明、参数列表与物理含义 |
 | **`references/api/05_decorators_and_metadata.md`** | 查询 `@activate`/`@group`/`@param`/`@enum` 装饰器语法、`varmain/custom.py` 逆序栈修饰机理、合法 `Group` 枚举值、参数类型映射与解析器死线规则 |
-| **`references/api/06_ports_and_interactive_grips.md`** | 查询 `s.setPoint` 单/双/三端口坐标与外法向单位向量公式、`Ask4Dist=True` + `s.setLinearDimension` 交互式拉伸握点及管道外径 `D`/`PA` 自动吸附规范 |
+| **`references/api/06_ports_and_interactive_grips.md`** | 查询 `s.setPoint` 单/双/三端口坐标与外法向单位向量公式、`Ask4Dist=True` + `s.setLinearDimension` 交互式拉伸握点及管道外径 `D`/`PA` 自动吸附规范。**等级库端口行：没有 S0；S1 在 `EngineeringItems` 上，`PartPort` 从 S2 起，单口零件没有 `PartPort` 行，禁止补 S1** |
 | **`references/api/07_occ_offline_verification.md`** | 查询离线核验链路：`plant3d_occ` 沙箱（`run_script_in_sandbox`）、发布校验（`validate.validate_script` 的 5 条判定与"悬空/焊合"区分）、预览与 HLR 标注渲染、CSV 尺寸表与 `.acat`/`.peqx` 打包元数据。**所有外形、数据、可发布性都以本分册的判定口径为准** |
 
 ### 2. 20 个原厂典范源码母版分册（`references/templates/`）
@@ -227,6 +227,22 @@ AutoCAD Plant 3D 宿主内部运行内嵌的 **Python 2.7** 解释器，其系�
 
 5. **`CustomScripts/variants.map` 映射格式铁律**：
    - 映射条目严格保持 `STEM = STEM`（如 `EQUIPMENT_CENTRIFUGAL_PUMP = EQUIPMENT_CENTRIFUGAL_PUMP`），**严禁带有 `\CustomScripts\` 路径或 `.py` 后缀**！原厂 `dynloadVariant` 内部会自动执行 `p + '.py'` 拼接，若带 `.py` 会解析成 `...py.py` 导致脚本加载失败。
+
+### 铁律 18：等级库没有 S0；S1 不写进 `PartPort`（Plant 3D 2026 已核对，禁止“补端口”）
+脚本里的 `s.setPoint` 第 1 个点叫端口 1，但元件库 / 等级库（`.pcat` / `.acat` / `.pspc`）**不是**从 `S0` 或 `PartPort.Name='S1'` 起算。2026 原厂 ASME 元件库（42785 行）、`CS150.pspc`、DIN `10HC01.pspc` 的 `PartPort` 里 **S1 行数都是 0**。
+
+| 口数 | `EngineeringItems` | `PartPort` |
+| :--- | :--- | :--- |
+| 1（支吊架、管帽、盲板） | `PortName='S1'`，口径 / 端面 / 外径在零件行上 | **没有行**。原厂支吊架目录甚至没有 `Port` 表 |
+| 2（弯头、管子、阀门） | 同上，这就是 S1 | 只有 `Name='S2'` |
+| 3、4 | 零件行仍是 S1 | `S2`、`S3`、必要时 `S4` |
+
+- **禁止**把 S1 再插进 `PartPort`。弯头会变成 3 个口，Plant 2026 里插不进去。`plant3d_occ/catalog/store.py` 的 `_write_one` 从 `range(2, ports+1)` 写附加端口，就是这个结构。
+- 支吊架 `EndType='Undefined_ET'`、`PartCategory='Default'`、选项板上截断成 `Undefined_...`，与原厂 `CSGPRIM` 相同，不是符号丢失。
+- 规格编辑器尺寸列表是空的，只在**整张 `Port`/`PartPort` 表都不存在**时发生（例如用没有端口表的 `PipeSupportsSpec` 当配管等级模板，或 `.pspx` 的 `PlantSpecContent` 仍指向别的 `.pspc`）。这和“没有 S1 行”不是一回事。
+- 「使用给定的参数无法生成几何图元」是脚本没跑起来或跑崩了（旁边的资源串是「脚本 %s 未找到」）。「找不到表示指定的零件的符号」是几何失败后的块符号回退。都不是缺 S1。
+
+细则与对照表见 `references/api/06_ports_and_interactive_grips.md`。
 
 ---
 

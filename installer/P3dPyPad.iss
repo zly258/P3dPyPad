@@ -1,14 +1,14 @@
 ﻿; AutoCAD Plant 3D 参数化构件设计与发布工具集 (P3dPyPad) 统一安装配置脚本
 ; 支持三种发布模式 (通过 ISCC 命令行宏 /DPACKAGE_TYPE=plugin|occ|allinone 切换):
-; 1. plugin:   AutoCAD 宿主进程内插件独立安装包 -> P3dPyPad-Plugin-Setup-v1.0.0.exe
-; 2. occ:      PyOCC 独立脱机 3D 工作台独立安装包 -> Plant3dOcc-Setup-v1.0.0.exe
-; 3. allinone: 双端全功能二合一安装包 -> P3dPyPad-AllInOne-Setup-v1.0.0.exe
+; 1. plugin:   AutoCAD 宿主进程内插件独立安装包 -> P3dPyPad-Plugin-Setup-v1.1.0.exe
+; 2. occ:      PyOCC 独立脱机 3D 工作台独立安装包 -> Plant3dOcc-Setup-v1.1.0.exe
+; 3. allinone: 双端全功能二合一安装包 -> P3dPyPad-AllInOne-Setup-v1.1.0.exe
 
 #ifndef PACKAGE_TYPE
   #define PACKAGE_TYPE "plugin"
 #endif
 
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "zly258 (zhangly1403)"
 #define MyAppURL "https://github.com/zly258"
 #define ReleaseDir "..\build\bin\Release"

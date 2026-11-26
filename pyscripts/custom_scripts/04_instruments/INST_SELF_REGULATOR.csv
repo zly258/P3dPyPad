@@ -1,0 +1,5 @@
+PartNumber,DN,D,L_FACE,D_FL,C_FL,D_DIAPH,H_TOP,H_BOT,EndType,EndType2,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+SREG_DN50_PN16,50,60.3,254,165,18,310,270,240,FL,FL,PN16,RF,,GB/T 12244-2006,INST,自力式压力调节阀/氮封阀 (GB/T 12244),自力式压力调节阀/氮封阀 (GB/T 12244) DN50 PN16 GB/T 12244-2006,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+SREG_DN25_PN16,25,33.4,184,115,18,250,235,210,FL,FL,PN16,RF,,GB/T 12244-2006,INST,自力式压力调节阀/氮封阀 (GB/T 12244),自力式压力调节阀/氮封阀 (GB/T 12244) DN25 PN16 GB/T 12244-2006,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+SREG_DN80_PN16,80,88.9,310,200,20,350,305,270,FL,FL,PN16,RF,,GB/T 12244-2006,INST,自力式压力调节阀/氮封阀 (GB/T 12244),自力式压力调节阀/氮封阀 (GB/T 12244) DN80 PN16 GB/T 12244-2006,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)
+SREG_DN100_PN16,100,114.3,352,220,20,380,330,295,FL,FL,PN16,RF,,GB/T 12244-2006,INST,自力式压力调节阀/氮封阀 (GB/T 12244),自力式压力调节阀/氮封阀 (GB/T 12244) DN100 PN16 GB/T 12244-2006,接口核实(HG/T 20592)+表头外廓为工程包络(需按仪表厂样本替换)

@@ -1,0 +1,5 @@
+PartNumber,DN,D,D_FL,C_FL,H_TOTAL,D_COVER,H_COVER,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+BREATHER_MANHOLE_DN500,500,508,670,24,320,620,65,FL,PN6,RF,,SY/T 0511,SPCL,紧急泄压呼吸人孔 (SY/T 0511),紧急泄压呼吸人孔 (SY/T 0511) DN500 PN6 SY/T 0511,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+BREATHER_MANHOLE_DN400,400,406.4,565,22,290,520,58,FL,PN6,RF,,SY/T 0511,SPCL,紧急泄压呼吸人孔 (SY/T 0511),紧急泄压呼吸人孔 (SY/T 0511) DN400 PN6 SY/T 0511,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+BREATHER_MANHOLE_DN600,600,610,780,26,350,720,72,FL,PN6,RF,,SY/T 0511,SPCL,紧急泄压呼吸人孔 (SY/T 0511),紧急泄压呼吸人孔 (SY/T 0511) DN600 PN6 SY/T 0511,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+BREATHER_MANHOLE_DN800,800,813,1015,28,400,940,85,FL,PN6,RF,,SY/T 0511,SPCL,紧急泄压呼吸人孔 (SY/T 0511),紧急泄压呼吸人孔 (SY/T 0511) DN800 PN6 SY/T 0511,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)

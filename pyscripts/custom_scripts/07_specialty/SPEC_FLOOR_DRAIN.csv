@@ -1,0 +1,4 @@
+PartNumber,DN,D,W_TOP,H_TOTAL,D_TRAP,EndType,PressureClass,Facing,Schedule,Standard,SKEY,ShortDesc,LongDesc,DataSource
+FLOOR_DRAIN_DN100,100,114.3,250,280,180,FL,PN6,RF,,HG/T 20570,SPCL,防爆工业地漏 (HG/T 20570),防爆工业地漏 (HG/T 20570) DN100 PN6 HG/T 20570,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+FLOOR_DRAIN_DN80,80,88.9,220,250,150,FL,PN6,RF,,HG/T 20570,SPCL,防爆工业地漏 (HG/T 20570),防爆工业地漏 (HG/T 20570) DN80 PN6 HG/T 20570,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)
+FLOOR_DRAIN_DN150,150,168.3,320,340,240,FL,PN6,RF,,HG/T 20570,SPCL,防爆工业地漏 (HG/T 20570),防爆工业地漏 (HG/T 20570) DN150 PN6 HG/T 20570,接口法兰已核实(HG/T 20592)+附件外廓为工程包络(需按采购样本校核)

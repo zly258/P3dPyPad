@@ -1,81 +1,108 @@
 # -*- coding: utf-8 -*-
-import math
+import sys
+try:
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+except (NameError, AttributeError):
+    pass
+
+from aqa.math import *
 from varmain.primitiv import *
+from varmain.var_basic import *
 from varmain.custom import *
 
-
-@activate(
-    Group="Valve",
-    FirstPortEndtypes="FL",
-    Ports="2",
-    TooltipShort=u"倒吊桶浮球式蒸汽疏水阀",
-    TooltipLong=u"化工伴热与换热器凝结水回收用机械型浮球/倒吊桶式法兰蒸汽疏水阀 (FT43H / GB/T 22654，含水平同轴法兰进出口、下部大容量储水浮球罐、多螺栓法兰顶盖与底部排污丝堵)",
-    LengthUnit="mm",
-)
-@group("MainDimensions")
-@param(D=LENGTH, TooltipShort=u"管道外径", TooltipLong=u"疏水阀连接管道外径 (mm)")
-@param(L=LENGTH, TooltipShort=u"结构长度", TooltipLong=u"进出口法兰密封面间距 (mm)")
-@param(FL_OD=LENGTH, TooltipShort=u"法兰外径", TooltipLong=u"两端连接法兰外径 (mm)")
-@param(FL_T=LENGTH, TooltipShort=u"法兰厚度", TooltipLong=u"连接法兰厚度 (mm)")
-@param(D_POT=LENGTH, TooltipShort=u"阀体罐径", TooltipLong=u"下部倒吊桶/浮球腔圆筒外径 (mm)")
-@param(H_BOT=LENGTH, TooltipShort=u"中心至底深", TooltipLong=u"流道中心至储水罐底排污口的垂直深度 (mm)")
-@param(H_TOP=LENGTH, TooltipShort=u"中心至顶高", TooltipLong=u"流道中心至顶盖排气螺塞的总高度 (mm)")
-@param(NBOLTS=INT, TooltipShort=u"螺栓孔数", TooltipLong=u"单侧法兰螺栓孔数")
-@group(Name="meaningless enum")
-@param(ID=STRING, TooltipShort=u"型号编码", TooltipLong=u"蒸汽疏水阀图集型号编码")
-def VALVE_STEAM_TRAP(s, D=60.3, L=230.0, FL_OD=165.0, FL_T=20.0, D_POT=168.0, H_BOT=215.0, H_TOP=95.0, NBOLTS=4, ID=u"FT43H-DN50", **kw):
+@activate(Group="Valve",
+          TooltipShort=u"法兰蒸汽疏水阀 (倒吊桶/浮球式)",
+          TooltipLong=u"法兰连接机械式蒸汽疏水阀，含左右突面端法兰、顶部连接阀头、下沉式圆柱疏水储水桶、螺栓封盖法兰与底部排污螺塞",
+          LengthUnit="mm",
+          Ports="2",
+          FirstPortEndtypes="FL")
+@group("MainDimensions", TooltipLong=u"法兰蒸汽疏水阀外形尺寸")
+@param(D=LENGTH, TooltipShort=u"公称管径外径", TooltipLong=u"连接管道外径 D (mm)")
+@param(L_FACE=LENGTH, TooltipShort=u"结构长度", TooltipLong=u"法兰端面至端面结构长度 L (mm)", Ask4Dist=True)
+@param(D_FL=LENGTH, TooltipShort=u"法兰外径", TooltipLong=u"端法兰外径 (mm)")
+@param(C_FL=LENGTH, TooltipShort=u"法兰厚度", TooltipLong=u"端法兰总厚度含突面 (mm)")
+@param(D_POT=LENGTH, TooltipShort=u"疏水桶外径", TooltipLong=u"下沉式倒吊桶/浮球桶体外径 (mm)")
+@param(H_DROP=LENGTH, TooltipShort=u"下沉深度", TooltipLong=u"管道中心至疏水桶底面高度 (mm)", Ask4Dist=True)
+def VALVE_STEAM_TRAP(
+    s,
+    D=33.4,
+    L_FACE=210.0,
+    D_FL=115.0,
+    C_FL=16.0,
+    D_POT=138.0,
+    H_DROP=195.0,
+    ID=u"VALVE_STEAM_TRAP",
+    **kw
+):
     D = max(18.0, float(D))
-    L = max(140.0, float(L))
-    FL_OD = max(D + 55.0, float(FL_OD))
-    FL_T = max(12.0, float(FL_T))
-    D_POT = max(D * 1.85, float(D_POT))
-    H_BOT = max(120.0, float(H_BOT))
-    H_TOP = max(65.0, float(H_TOP))
-    NBOLTS = max(4, int(NBOLTS))
+    L_FACE = float(L_FACE)
+    if L_FACE < 1.0:
+        L_FACE = 1.0
+    D_FL = max(D + 35.0, float(D_FL))
+    C_FL = max(12.0, float(C_FL))
+    D_POT = max(D * 2.2, min(L_FACE - 2.0 * C_FL - 12.0, float(D_POT)))
+    H_DROP = float(H_DROP)
+    if H_DROP < 1.0:
+        H_DROP = 1.0
 
+    half_l = L_FACE / 2.0
     r_pipe = D / 2.0
-    r_bore = r_pipe * 0.80
-    r_fl = FL_OD / 2.0
-    r_pot = min(L * 0.36, D_POT / 2.0)
+    r_fl = D_FL / 2.0
+    rf_t = 2.0
+    r_rf = max(r_pipe + 6.0, r_fl * 0.7)
+    fl_t = max(10.0, C_FL - rf_t)
+    r_pot = D_POT / 2.0
 
-    # 1. 水平直通流道阀颈 + 左右连接法兰
-    o_m = CYLINDER(s, R=r_pipe * 1.15, H=L - 2.0 * FL_T, O=0.0).rotateY(90.0).translate((-(L * 0.5 - FL_T), 0.0, 0.0))
-    fl_l = CYLINDER(s, R=r_fl, H=FL_T, O=0.0).rotateY(90.0).translate((-L * 0.5, 0.0, 0.0))
-    fl_r = CYLINDER(s, R=r_fl, H=FL_T, O=0.0).rotateY(90.0).translate((L * 0.5 - FL_T, 0.0, 0.0))
-    o_m.uniteWith(fl_l); fl_l.erase()
-    o_m.uniteWith(fl_r); fl_r.erase()
+    # 1. 左右突面端法兰 + 水平通道头
+    o_main = CYLINDER(s, R=r_rf, H=rf_t + 2.0, O=0.0).rotateY(90.0).translate((-half_l, 0.0, 0.0))
+    o_fl1 = CYLINDER(s, R=r_fl, H=fl_t, O=0.0).rotateY(90.0).translate((-half_l + rf_t, 0.0, 0.0))
+    o_main.uniteWith(o_fl1)
+    o_fl1.erase()
 
-    # 2. 下部立式凝结水吊桶腔圆筒 + 底部椭球底 + 顶部 8 螺栓法兰盖
-    z_pot_bot = -H_BOT + r_pot * 0.42
-    z_cov_fl = H_TOP - 32.0
-    o_pot = CYLINDER(s, R=r_pot, H=z_cov_fl - z_pot_bot, O=0.0).translate((0.0, 0.0, z_pot_bot))
-    o_bot_dish = ELLIPSOIDHEAD(s, R=r_pot, H=r_pot * 0.38).rotateY(180.0).translate((0.0, 0.0, z_pot_bot))
-    o_cov_fl = CYLINDER(s, R=r_pot * 1.18, H=28.0, O=0.0).translate((0.0, 0.0, z_cov_fl - 14.0))
-    o_cov_dome = CONE(s, R1=r_pot * 0.92, R2=r_pot * 0.35, H=22.0, E=0.0).translate((0.0, 0.0, z_cov_fl + 14.0))
-    o_tplug = BOX(s, L=24.0, W=22.0, H=24.0).translate((0.0, 0.0, H_TOP - 11.0))
-    o_bplug = BOX(s, L=28.0, W=24.0, H=28.0).translate((0.0, 0.0, -H_BOT + 12.0))
-    for p in (o_pot, o_bot_dish, o_cov_fl, o_cov_dome, o_tplug, o_bplug):
-        o_m.uniteWith(p); p.erase()
+    o_rf2 = CYLINDER(s, R=r_rf, H=rf_t + 2.0, O=0.0).rotateY(90.0).translate((half_l - rf_t - 2.0, 0.0, 0.0))
+    o_main.uniteWith(o_rf2)
+    o_rf2.erase()
+    o_fl2 = CYLINDER(s, R=r_fl, H=fl_t, O=0.0).rotateY(90.0).translate((half_l - C_FL, 0.0, 0.0))
+    o_main.uniteWith(o_fl2)
+    o_fl2.erase()
 
-    for k in range(8):
-        ang = (2.0 * math.pi * k) / 8.0
-        bt = CYLINDER(s, R=6.0, H=36.0, O=0.0).translate((r_pot * 1.05 * math.cos(ang), r_pot * 1.05 * math.sin(ang), z_cov_fl - 18.0))
-        o_m.uniteWith(bt); bt.erase()
+    o_pipe = CYLINDER(s, R=r_pipe * 1.28, H=L_FACE - 2.0 * C_FL + 6.0, O=0.0).rotateY(90.0).translate((-(half_l - C_FL + 3.0), 0.0, 0.0))
+    o_main.uniteWith(o_pipe)
+    o_pipe.erase()
 
-    # 3. 法兰螺栓孔与内流道切除
-    r_bcd = (r_pipe + r_fl) * 0.54
-    r_hole = max(5.5, (r_fl - r_pipe) * 0.16)
-    for i in range(NBOLTS):
-        ang = (2.0 * math.pi * i) / NBOLTS + math.pi / NBOLTS
-        for x_pos in (-L * 0.5 - 2.0, L * 0.5 - FL_T - 2.0):
-            h_cyl = CYLINDER(s, R=r_hole, H=FL_T + 4.0, O=0.0).rotateY(90.0).translate((x_pos, r_bcd * math.cos(ang), r_bcd * math.sin(ang)))
-            o_m.subtractFrom(h_cyl); h_cyl.erase()
+    # 2. 上部阀头与螺栓盖法兰
+    z_top = r_pipe * 1.55 + 22.0
+    o_head = CYLINDER(s, R=r_pot * 0.88, H=z_top + r_pipe * 1.2, O=0.0).translate((0.0, 0.0, -r_pipe * 1.2))
+    o_main.uniteWith(o_head)
+    o_head.erase()
 
-    o_bore = CYLINDER(s, R=r_bore, H=L + 10.0, O=0.0).rotateY(90.0).translate((-(L * 0.5 + 5.0), 0.0, 0.0))
-    o_m.subtractFrom(o_bore); o_bore.erase()
+    z_pot_fl = -(r_pipe * 1.15)
+    o_pfl = CYLINDER(s, R=r_pot * 1.14, H=22.0, O=0.0).translate((0.0, 0.0, z_pot_fl - 22.0))
+    o_main.uniteWith(o_pfl)
+    o_pfl.erase()
 
-    s.setPoint((-L / 2.0, 0.0, 0.0), (-1.0, 0.0, 0.0))
-    s.setPoint((L / 2.0, 0.0, 0.0), (1.0, 0.0, 0.0))
-    s.setLinearDimension("L", (-L / 2.0, 0.0, -r_fl), (L / 2.0, 0.0, -r_fl))
-    s.setLinearDimension("H_BOT", (0.0, 0.0, -H_BOT), (0.0, 0.0, 0.0))
-    s.setLinearDimension("H_TOP", (0.0, 0.0, 0.0), (0.0, 0.0, H_TOP))
+    # 3. 标志性下沉圆柱形疏水储水桶 + 底部封头与排污螺塞
+    pot_bot_z = -H_DROP + 18.0
+    pot_h = (z_pot_fl - 18.0) - pot_bot_z
+    o_pot = CYLINDER(s, R=r_pot, H=pot_h, O=0.0).translate((0.0, 0.0, pot_bot_z))
+    o_main.uniteWith(o_pot)
+    o_pot.erase()
+
+    o_bot_cap = CONE(s, R1=r_pot * 0.65, R2=r_pot, H=16.0, E=0.0).translate((0.0, 0.0, pot_bot_z - 14.0))
+    o_main.uniteWith(o_bot_cap)
+    o_bot_cap.erase()
+
+    o_plug = CYLINDER(s, R=max(11.0, r_pot * 0.2), H=18.0, O=0.0).translate((0.0, 0.0, -H_DROP))
+    o_main.uniteWith(o_plug)
+    o_plug.erase()
+
+    # 顶部排气螺塞
+    o_vent = CYLINDER(s, R=max(10.0, r_pot * 0.18), H=16.0, O=0.0).translate((0.0, 0.0, z_top - 4.0))
+    o_main.uniteWith(o_vent)
+    o_vent.erase()
+
+    s.setPoint((-half_l, 0.0, 0.0), (-1.0, 0.0, 0.0))
+    s.setPoint((half_l, 0.0, 0.0), (1.0, 0.0, 0.0))
+    s.setLinearDimension('L_FACE', (-half_l, 0.0, 0.0), (half_l, 0.0, 0.0))
+    s.setLinearDimension('H_DROP', (0.0, 0.0, 0.0), (0.0, 0.0, -H_DROP))
